@@ -201,16 +201,17 @@ HTML_TEMPLATE = r"""<!doctype html>
     <div class="toolbar" id="toolbarRollup">
       <label>Roll-up:</label>
       <select id="rollupSel">
-        <option value="">none — one row per SKU</option>
-        <option value="family">by family</option>
-        <option value="chip">by chip</option>
-        <option value="memory_gb">by memory</option>
-        <option value="storage_gb">by storage</option>
-        <option value="family,chip">by family + chip</option>
-        <option value="family,memory_gb">by family + memory</option>
-        <option value="chip,memory_gb">by chip + memory</option>
-        <option value="chip,memory_gb,storage_gb">by chip + memory + storage</option>
+        <option value="">— off (show every SKU) —</option>
+        <option value="family">group by family</option>
+        <option value="chip">group by chip</option>
+        <option value="memory_gb">group by memory</option>
+        <option value="storage_gb">group by storage</option>
+        <option value="family,chip">group by family + chip</option>
+        <option value="family,memory_gb">group by family + memory</option>
+        <option value="chip,memory_gb">group by chip + memory</option>
+        <option value="chip,memory_gb,storage_gb">group by chip + memory + storage</option>
       </select>
+      <button class="chip" id="clearRollup" type="button" style="display:none">Clear roll-up</button>
     </div>
     <div class="panel-body" id="rightBody"></div>
   </section>
@@ -449,8 +450,9 @@ HTML_TEMPLATE = r"""<!doctype html>
     }
 
     if (state.rollup) {
-      $('rightTitle').textContent = 'Roll-up';
-      $('rightSubtitle').textContent = `${visibleSkus.length} models · ${stores.length} stores in ${regionDisplayName(state.region)}`;
+      const rollupLabel = state.rollup.replace(/,/g, ' + ').replace(/_gb/g, '');
+      $('rightTitle').textContent = `Roll-up: ${rollupLabel}`;
+      $('rightSubtitle').textContent = `${visibleSkus.length} models pooled across ${stores.length} stores in ${regionDisplayName(state.region)}`;
       renderRollup(body, visibleSkus, stores, state.rollup.split(','));
       return;
     }
@@ -551,7 +553,7 @@ HTML_TEMPLATE = r"""<!doctype html>
       <thead><tr>
         <th>Group</th>
         <th class="num">SKUs</th>
-        <th class="num">Available cells</th><th class="num">% of all observations</th>
+        <th class="num">Available</th><th class="num">% available</th>
         <th class="num">Ineligible</th><th class="num">Unavailable</th><th class="num">No data</th>
       </tr></thead><tbody></tbody>`;
     const tbody = tbl.querySelector('tbody');
@@ -678,7 +680,17 @@ HTML_TEMPLATE = r"""<!doctype html>
     Object.values(state.filters).forEach(s => s.clear());
     rebuildFacets(); renderModels();
   });
-  $('rollupSel').addEventListener('change', e => { state.rollup = e.target.value; renderRight(); });
+  $('rollupSel').addEventListener('change', e => {
+    state.rollup = e.target.value;
+    $('clearRollup').style.display = state.rollup ? '' : 'none';
+    renderRight();
+  });
+  $('clearRollup').addEventListener('click', () => {
+    state.rollup = '';
+    $('rollupSel').value = '';
+    $('clearRollup').style.display = 'none';
+    renderRight();
+  });
   onRegionChange();
 })();
 </script>
