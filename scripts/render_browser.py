@@ -168,7 +168,7 @@ HTML_TEMPLATE = r"""<!doctype html>
       <span class="legend-row"><span class="pill unavailable">unavailable</span> carried but currently out of stock</span>
       <span class="legend-row"><span class="pill nodata">no data</span> not observed in our last sweep</span>
     </div>
-    <div class="toolbar">
+    <div class="toolbar" id="toolbarRollup">
       <label>Roll-up:</label>
       <select id="rollupSel">
         <option value="">none — one row per SKU</option>
@@ -400,6 +400,8 @@ HTML_TEMPLATE = r"""<!doctype html>
     body.innerHTML = '';
     const stores = storesForRegion(state.region);
     const visibleSkus = applyFilters(regionalSkus()).filter(s => state.selectedSkus.has(s.part_number));
+    const toolbar = $('toolbarRollup');
+    toolbar.style.display = state.activeSku ? 'none' : '';
 
     if (state.activeSku) {
       $('rightTitle').textContent = 'Per-store availability';
