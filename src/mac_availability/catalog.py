@@ -118,6 +118,38 @@ class MacConfig(BaseModel):
     locale: str = "en_US"
     dimensions: dict = Field(default_factory=dict)
     product_configuration: dict = Field(default_factory=dict)
+    chip: Optional[str] = None
+    cpu_cores: Optional[int] = None
+    gpu_cores: Optional[int] = None
+    memory_gb: Optional[int] = None
+    storage_gb: Optional[int] = None
+    slug: Optional[str] = None
+
+
+_CORE_TUPLE_RE = re.compile(r"(?:([a-z0-9]+)-)?(\d+)-(\d+)$")
+
+
+def _parse_chip_and_cores(dimensions: dict) -> tuple[Optional[str], Optional[int], Optional[int]]:
+    """Pull out chip name + cpu/gpu core counts from the dimensions dict.
+
+    Apple encodes this as either ``processor-dimensionChip`` ("m5pro") plus
+    ``processor-dimensionChip-cpuCoreCount-gpuCoreCount`` ("m5pro-15-16"), or
+    just ``processor-cpuCoreCount-gpuCoreCount`` ("8-8") for entry-level Macs
+    that ship a single chip variant.
+    """
+    chip = dimensions.get("processor-dimensionChip")
+    combined = dimensions.get("processor-dimensionChip-cpuCoreCount-gpuCoreCount")
+    if combined:
+        match = _CORE_TUPLE_RE.match(combined)
+        if match:
+            chip_token, cpu, gpu = match.group(1), int(match.group(2)), int(match.group(3))
+            return chip or chip_token, cpu, gpu
+    plain = dimensions.get("processor-cpuCoreCount-gpuCoreCount")
+    if plain:
+        match = re.match(r"(\d+)-(\d+)$", plain)
+        if match:
+            return chip, int(match.group(1)), int(match.group(2))
+    return chip, None, None
 
 
 def _extract_balanced_brace(text: str, start_idx: int) -> str:
@@ -169,15 +201,12 @@ def parse_buy_mac_families(html: str) -> list[MacFamily]:
     return list(seen.values())
 
 
-def parse_family_configs(
-    family: str, html: str, *, locale: str = "en_US", currency: str = "USD"
-) -> list[MacConfig]:
-    """Extract every standard configuration for a Mac family from its buy page.
+def extract_bootstrap_data(html: str) -> Optional[dict]:
+    """Extract the ``window.PRODUCT_SELECTION_BOOTSTRAP.productSelectionData`` object.
 
-    Looks for the ``window.PRODUCT_SELECTION_BOOTSTRAP`` script and parses the
-    embedded ``productSelectionData`` JSON literal.
+    Returns ``None`` when the bootstrap script tag isn't present (e.g. for
+    Studio Display family pages, which don't ship a configurator).
     """
-    bootstrap_data: Optional[dict] = None
     for match in re.finditer(r"<script[^>]*>(.*?)</script>", html, re.DOTALL):
         body = match.group(1)
         if "PRODUCT_SELECTION_BOOTSTRAP" not in body or "productSelectionData" not in body:
@@ -188,9 +217,19 @@ def parse_family_configs(
         brace = body.find("{", marker)
         if brace == -1:
             continue
-        bootstrap_data = json.loads(_extract_balanced_brace(body, brace))
-        break
+        return json.loads(_extract_balanced_brace(body, brace))
+    return None
 
+
+def parse_family_configs(
+    family: str, html: str, *, locale: str = "en_US", currency: str = "USD"
+) -> list[MacConfig]:
+    """Extract every standard configuration for a Mac family from its buy page.
+
+    Looks for the ``window.PRODUCT_SELECTION_BOOTSTRAP`` script and parses the
+    embedded ``productSelectionData`` JSON literal.
+    """
+    bootstrap_data = extract_bootstrap_data(html)
     if bootstrap_data is None:
         log.warning("No PRODUCT_SELECTION_BOOTSTRAP found for family=%s", family)
         return []
@@ -216,6 +255,12 @@ def parse_family_configs(
             except (TypeError, ValueError):
                 raw_amount = None
             formatted = current.get("amount")
+        dims = product.get("dimensions") or {}
+        chip, cpu, gpu = _parse_chip_and_cores(dims)
+        # MacBook Neo carries storage in dimensions; everything else needs the
+        # per-config slug fetch (handled by enrich_with_per_sku_pages).
+        storage_dim = dims.get("storage-dimensionCapacity")
+        storage_gb = _capacity_label_to_gb(storage_dim) if storage_dim else None
         configs.append(
             MacConfig(
                 family=family,
@@ -227,11 +272,91 @@ def parse_family_configs(
                 formatted_amount=formatted,
                 currency=currency,
                 locale=locale,
-                dimensions=product.get("dimensions") or {},
+                dimensions=dims,
                 product_configuration=product.get("productConfiguration") or {},
+                chip=chip,
+                cpu_cores=cpu,
+                gpu_cores=gpu,
+                memory_gb=None,
+                storage_gb=storage_gb,
+                slug=None,
             )
         )
     return configs
+
+
+def _capacity_label_to_gb(label: Optional[str]) -> Optional[int]:
+    """Convert Apple's storage/memory capacity labels (\"1tb\", \"24gb\") to GB integers."""
+    if not label:
+        return None
+    text = label.strip().lower().replace(",", "")
+    match = re.match(r"(\d+(?:\.\d+)?)\s*(gb|tb)\b", text)
+    if not match:
+        return None
+    value = float(match.group(1))
+    return int(round(value * 1000)) if match.group(2) == "tb" else int(round(value))
+
+
+_SLUG_LINK_RE = re.compile(
+    r'href="\s*https?://www\.apple\.com(?:/[a-z][a-z0-9-]+)?/shop/buy-mac/'
+    r'([a-z0-9-]+)/([a-z0-9-]+(?:-\d+gb-memory-\d+(?:gb|tb)-storage)?)/?\s*"',
+    re.IGNORECASE,
+)
+_MEMORY_IN_SLUG_RE = re.compile(r"(\d+)gb-memory")
+_STORAGE_IN_SLUG_RE = re.compile(r"(\d+)(gb|tb)-storage")
+
+
+def extract_unique_slugs(html: str, family: str) -> list[str]:
+    """Find every per-config slug linked from the family page (deduped)."""
+    seen: list[str] = []
+    seen_set: set[str] = set()
+    for match in _SLUG_LINK_RE.finditer(html):
+        if match.group(1) != family:
+            continue
+        slug = match.group(2)
+        if "memory" not in slug or "storage" not in slug:
+            continue
+        if slug not in seen_set:
+            seen_set.add(slug)
+            seen.append(slug)
+    return seen
+
+
+def parse_specs_from_slug(slug: str) -> tuple[Optional[int], Optional[int]]:
+    """Pull memory_gb and storage_gb from a per-config URL slug."""
+    mem_match = _MEMORY_IN_SLUG_RE.search(slug)
+    sto_match = _STORAGE_IN_SLUG_RE.search(slug)
+    memory = int(mem_match.group(1)) if mem_match else None
+    storage = None
+    if sto_match:
+        value = int(sto_match.group(1))
+        storage = value * 1000 if sto_match.group(2) == "tb" else value
+    return memory, storage
+
+
+_SLUG_PART_NUMBER_RE = re.compile(r'"partNumber"\s*:\s*"([A-Z0-9]{4,}(?:LL|B|D|FN|VC|T|J|Y|YP|X|TH|TU|TA|N|FB|KH|AB|SM|FN|TM|KS|RU)/A)"')
+_FALLBACK_PART_RE = re.compile(r'"partNumber"\s*:\s*"([A-Z0-9]{4,}/A)"')
+
+
+async def fetch_slug_part_number(
+    client: AppleShopClient, *, region: str, slug: str, family: str
+) -> Optional[str]:
+    """Fetch the per-config page and return its primary partNumber (the BTR SKU)."""
+    region_path = REGION_TO_PATH.get(region, "")
+    url = f"https://www.apple.com{region_path}/shop/buy-mac/{family}/{slug}"
+    try:
+        response = await client.get(
+            url,
+            region=region,
+            accept="text/html",
+            referer=f"https://www.apple.com{region_path}/shop/buy-mac/{family}",
+        )
+    except Exception as exc:
+        log.warning("Failed to fetch per-config %s: %s", url, exc)
+        return None
+    text = response.text
+    match = _SLUG_PART_NUMBER_RE.search(text) or _FALLBACK_PART_RE.search(text)
+    return match.group(1) if match else None
 
 
 async def fetch_families(
@@ -268,8 +393,14 @@ async def fetch_full_catalog(
     region: str = "US",
     locale: str = "en_US",
     currency: str = "USD",
+    family_html_sink: Optional[dict[str, str]] = None,
 ) -> list[MacConfig]:
-    """Fetch every standard Mac configuration available in a region."""
+    """Fetch every standard Mac configuration available in a region.
+
+    If ``family_html_sink`` is supplied, the raw HTML for each family's page is
+    written into it keyed by family slug — used by the spec-enrichment pass to
+    discover per-config slugs without re-fetching the family pages.
+    """
     owns_client = client is None
     if client is None:
         client = AppleShopClient()
@@ -278,15 +409,84 @@ async def fetch_full_catalog(
         log.info("Discovered %d Mac families: %s", len(families), [f.slug for f in families])
         results: list[MacConfig] = []
         for family in families:
-            configs = await fetch_family_configs(
-                client, family, region=region, locale=locale, currency=currency
+            response = await client.get(
+                family.url,
+                region=region,
+                accept="text/html",
+                referer="https://www.apple.com/shop/buy-mac",
             )
+            if family_html_sink is not None:
+                family_html_sink[family.slug] = response.text
+            configs = parse_family_configs(family.slug, response.text, locale=locale, currency=currency)
             log.info("  %s: %d preconfigured SKUs", family.slug, len(configs))
             results.extend(configs)
         return results
     finally:
         if owns_client:
             await client.aclose()
+
+
+async def enrich_specs_from_slugs(
+    client: AppleShopClient,
+    *,
+    region: str,
+    locale: str,
+    family_html: dict[str, str],
+    target_part_numbers: set[str],
+) -> dict[str, dict]:
+    """Discover memory_gb / storage_gb / slug for every part number we want.
+
+    Walks each family's HTML to find every unique per-config slug that includes
+    a memory + storage suffix, fetches the slug's page, parses the page's
+    primary partNumber, and pairs it with memory/storage parsed from the slug
+    string itself. Stops fetching once every ``target_part_numbers`` entry has
+    been mapped.
+    """
+    out: dict[str, dict] = {}
+    pending = set(target_part_numbers)
+    for family_slug, html in family_html.items():
+        if not pending:
+            break
+        for slug in extract_unique_slugs(html, family_slug):
+            if not pending:
+                break
+            memory_gb, storage_gb = parse_specs_from_slug(slug)
+            if memory_gb is None and storage_gb is None:
+                continue
+            part_number = await fetch_slug_part_number(
+                client, region=region, slug=slug, family=family_slug
+            )
+            if part_number is None:
+                continue
+            if part_number not in pending:
+                # Apple may show alternate-config slugs whose primary part number
+                # isn't in our preconfigured set; record them anyway in case we
+                # add tracking for those SKUs later.
+                out.setdefault(
+                    part_number,
+                    {"memory_gb": memory_gb, "storage_gb": storage_gb, "slug": slug},
+                )
+                continue
+            out[part_number] = {"memory_gb": memory_gb, "storage_gb": storage_gb, "slug": slug}
+            pending.discard(part_number)
+            log.info(
+                "%s/%s/%s: %s → %dGB / %dGB",
+                locale,
+                family_slug,
+                slug,
+                part_number,
+                memory_gb or 0,
+                storage_gb or 0,
+            )
+    if pending:
+        log.warning(
+            "Could not match %d part numbers to slugs in %s/%s: %s",
+            len(pending),
+            locale,
+            region,
+            sorted(pending),
+        )
+    return out
 
 
 async def fetch_catalog_for_locales(

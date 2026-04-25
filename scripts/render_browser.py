@@ -47,28 +47,31 @@ HTML_TEMPLATE = r"""<!doctype html>
   }
   h1 { margin: 0 0 4px; font-size: 20px; font-weight: 600; }
   .meta { color: var(--muted); font-size: 12px; }
-  .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+  .controls { display: grid; grid-template-columns: minmax(240px, 320px) 1fr; gap: 16px; margin-top: 16px; }
   .controls fieldset {
     border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; margin: 0;
     background: #fff;
   }
   .controls legend { font-size: 12px; color: var(--muted); padding: 0 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .facet-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .facet h3 { margin: 0 0 6px; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
   .chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
   .chip {
     display: inline-flex; align-items: center; gap: 6px;
-    padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px;
-    background: #fff; cursor: pointer; user-select: none; font-size: 13px;
+    padding: 3px 8px; border: 1px solid var(--line); border-radius: 999px;
+    background: #fff; cursor: pointer; user-select: none; font-size: 12px;
   }
   .chip:hover { border-color: #b0b0b6; }
   .chip.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .chip.muted { color: var(--muted); }
   select { font: inherit; padding: 4px 6px; border-radius: 6px; border: 1px solid var(--line); background: #fff; }
 
   main { padding: 16px 24px 32px; display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 16px; }
   .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
-  .panel-header { padding: 10px 14px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .panel-header { padding: 10px 14px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
   .panel-header h2 { margin: 0; font-size: 14px; font-weight: 600; }
   .panel-header .small { font-size: 12px; color: var(--muted); }
-  .panel-body { max-height: calc(100vh - 280px); overflow: auto; }
+  .panel-body { max-height: calc(100vh - 320px); overflow: auto; }
 
   ul.sku-list { list-style: none; margin: 0; padding: 0; }
   ul.sku-list li {
@@ -79,11 +82,12 @@ HTML_TEMPLATE = r"""<!doctype html>
   ul.sku-list li.selected { background: #eff6ff; }
   ul.sku-list .sku-title { font-weight: 500; }
   ul.sku-list .sku-meta { font-size: 12px; color: var(--muted); }
-  ul.sku-list .sku-price { font-variant-numeric: tabular-nums; font-weight: 500; }
+  ul.sku-list .sku-price { font-variant-numeric: tabular-nums; font-weight: 500; text-align: right; }
 
   .agg-table, .store-table { width: 100%; border-collapse: collapse; }
   .agg-table th, .agg-table td, .store-table th, .store-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
   .agg-table th, .store-table th { background: #fafafb; font-weight: 600; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; position: sticky; top: 0; }
+  .agg-table th.num, .store-table th.num,
   .agg-table td.num, .store-table td.num { font-variant-numeric: tabular-nums; text-align: right; }
   .pct-bar { display: inline-block; height: 6px; background: var(--line); border-radius: 3px; vertical-align: middle; width: 80px; overflow: hidden; }
   .pct-bar > div { height: 100%; background: var(--avail); }
@@ -99,9 +103,18 @@ HTML_TEMPLATE = r"""<!doctype html>
   .specs dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 12px; margin: 0; font-size: 12px; }
   .specs dt { color: var(--muted); }
 
-  .empty { padding: 32px 14px; text-align: center; color: var(--muted); }
+  .legend {
+    display: flex; gap: 14px; flex-wrap: wrap;
+    padding: 8px 14px; background: #fafafb; border-bottom: 1px solid var(--line); font-size: 12px;
+  }
+  .legend .pill { font-size: 11px; }
+  .legend-row { display: inline-flex; align-items: center; gap: 6px; }
 
-  details summary { cursor: pointer; padding: 8px 14px; border-bottom: 1px solid var(--line); font-size: 13px; }
+  .toolbar { padding: 8px 14px; border-bottom: 1px solid var(--line); display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .toolbar label { font-size: 12px; color: var(--muted); }
+
+  .empty { padding: 32px 14px; text-align: center; color: var(--muted); }
+  code { background: #f0f0f3; padding: 1px 4px; border-radius: 3px; font-size: 12px; }
 </style>
 </head>
 <body>
@@ -111,12 +124,20 @@ HTML_TEMPLATE = r"""<!doctype html>
   <div class="controls">
     <fieldset>
       <legend>Region</legend>
-      <select id="regionSel"></select>
-      <span class="small" id="regionStats" style="margin-left: 12px; font-size:12px; color:var(--muted)"></span>
+      <select id="regionSel" style="width: 100%"></select>
+      <div class="small" id="regionStats" style="margin-top: 6px; font-size:12px; color:var(--muted)"></div>
     </fieldset>
     <fieldset>
-      <legend>Mac family</legend>
-      <div class="chip-row" id="familyChips"></div>
+      <legend>Filters</legend>
+      <div class="facet-grid">
+        <div class="facet"><h3>Family</h3><div class="chip-row" id="facetFamily"></div></div>
+        <div class="facet"><h3>Chip</h3><div class="chip-row" id="facetChip"></div></div>
+        <div class="facet"><h3>Memory (GB)</h3><div class="chip-row" id="facetMemory"></div></div>
+        <div class="facet"><h3>Storage</h3><div class="chip-row" id="facetStorage"></div></div>
+        <div class="facet"><h3>CPU cores</h3><div class="chip-row" id="facetCpu"></div></div>
+        <div class="facet"><h3>GPU cores</h3><div class="chip-row" id="facetGpu"></div></div>
+      </div>
+      <div style="margin-top: 8px"><button class="chip" id="resetFilters" type="button">Reset filters</button></div>
     </fieldset>
   </div>
 </header>
@@ -141,6 +162,26 @@ HTML_TEMPLATE = r"""<!doctype html>
       <h2 id="rightTitle">Availability summary</h2>
       <div class="small" id="rightSubtitle"></div>
     </div>
+    <div class="legend">
+      <span class="legend-row"><span class="pill available">available</span> in stock for pickup at this store</span>
+      <span class="legend-row"><span class="pill ineligible">ineligible</span> store doesn't carry this SKU</span>
+      <span class="legend-row"><span class="pill unavailable">unavailable</span> carried but currently out of stock</span>
+      <span class="legend-row"><span class="pill nodata">no data</span> not observed in our last sweep</span>
+    </div>
+    <div class="toolbar">
+      <label>Roll-up:</label>
+      <select id="rollupSel">
+        <option value="">none — one row per SKU</option>
+        <option value="family">by family</option>
+        <option value="chip">by chip</option>
+        <option value="memory_gb">by memory</option>
+        <option value="storage_gb">by storage</option>
+        <option value="family,chip">by family + chip</option>
+        <option value="family,memory_gb">by family + memory</option>
+        <option value="chip,memory_gb">by chip + memory</option>
+        <option value="chip,memory_gb,storage_gb">by chip + memory + storage</option>
+      </select>
+    </div>
     <div class="panel-body" id="rightBody"></div>
   </section>
 </main>
@@ -151,30 +192,24 @@ HTML_TEMPLATE = r"""<!doctype html>
   const DATA = JSON.parse(document.getElementById('data').textContent);
   const state = {
     region: 'US',
-    families: new Set(),
+    filters: {
+      family: new Set(),
+      chip: new Set(),
+      memory_gb: new Set(),
+      storage_gb: new Set(),
+      cpu_cores: new Set(),
+      gpu_cores: new Set(),
+    },
     selectedSkus: new Set(),
     expandedSpecsFor: null,
-    activeSku: null, // for store-detail view
+    activeSku: null,
+    rollup: '',
   };
 
   const $ = (id) => document.getElementById(id);
 
   // --- helpers ---------------------------------------------------------------
-  function skuLabel(sku) {
-    const d = sku.dimensions || {};
-    const parts = [
-      d['chassis-dimensionScreensize'],
-      d['chassis-dimensionColor'],
-      d['processor-dimensionChip'],
-      d['processor-dimensionChip-cpuCoreCount-gpuCoreCount'],
-      d['display-dimensionFinish'],
-    ].filter(Boolean);
-    if (parts.length) return parts.join(' · ');
-    if (d['chassis-dimensionScreensize']) return d['chassis-dimensionScreensize'];
-    return sku.part_number;
-  }
-
-  function skuFamilyLabel(family) {
+  function familyLabel(family) {
     return ({
       'macbook-pro': 'MacBook Pro',
       'macbook-air': 'MacBook Air',
@@ -186,18 +221,38 @@ HTML_TEMPLATE = r"""<!doctype html>
       'studio-display-xdr': 'Studio Display XDR',
     })[family] || family;
   }
-
-  // SKUs visible for a region: skus tagged with a locale that maps to the region
-  function skusForRegion(region) {
-    return DATA.skus.filter(s => DATA.localeToRegion[s.locale] === region);
+  function chipLabel(chip) {
+    if (!chip) return '—';
+    const map = {m4: 'M4', m4pro: 'M4 Pro', m4max: 'M4 Max',
+                 m5: 'M5', m5pro: 'M5 Pro', m5max: 'M5 Max',
+                 m3ultra: 'M3 Ultra', m2ultra: 'M2 Ultra'};
+    return map[chip] || chip;
   }
-  function storesForRegion(region) {
-    return DATA.stores.filter(s => DATA.localeToRegion[s.locale] === region);
+  function storageLabel(gb) {
+    if (gb == null) return '—';
+    if (gb >= 1000) return (gb / 1000) + 'TB';
+    return gb + 'GB';
+  }
+  function memoryLabel(gb) { return gb == null ? '—' : gb + 'GB'; }
+
+  function skuShortLabel(sku) {
+    const dims = sku.dimensions || {};
+    const parts = [];
+    if (dims['chassis-dimensionScreensize']) parts.push(dims['chassis-dimensionScreensize']);
+    if (dims['chassis-dimensionColor']) parts.push(dims['chassis-dimensionColor']);
+    if (sku.chip) parts.push(chipLabel(sku.chip));
+    if (sku.cpu_cores) parts.push(sku.cpu_cores + 'C/' + (sku.gpu_cores ?? '?') + 'G');
+    if (sku.memory_gb) parts.push(memoryLabel(sku.memory_gb));
+    if (sku.storage_gb) parts.push(storageLabel(sku.storage_gb));
+    if (parts.length === 0) parts.push(sku.part_number);
+    return parts.join(' · ');
   }
 
-  // availability key: part_number+''+store_id  (sorted keys for fast lookups)
+  function skusForRegion(region) { return DATA.skus.filter(s => DATA.localeToRegion[s.locale] === region); }
+  function storesForRegion(region) { return DATA.stores.filter(s => DATA.localeToRegion[s.locale] === region); }
+
   function availabilityFor(partNumber, storeId) {
-    return DATA.availabilityIndex[partNumber + '' + storeId] || null;
+    return DATA.availabilityIndex[partNumber + '\x01' + storeId] || null;
   }
 
   function pillClass(status) {
@@ -206,117 +261,121 @@ HTML_TEMPLATE = r"""<!doctype html>
     if (status === 'unavailable') return 'pill unavailable';
     return 'pill nodata';
   }
-  function statusLabel(status) {
-    return status || 'no data';
-  }
+  function statusLabel(status) { return status || 'no data'; }
 
-  // --- ui builders -----------------------------------------------------------
-  function buildRegionSelector() {
-    const select = $('regionSel');
-    const regions = Object.keys(DATA.regionStoreCounts).sort();
-    for (const r of regions) {
-      const opt = document.createElement('option');
-      opt.value = r;
-      opt.textContent = `${r} (${DATA.regionStoreCounts[r]} stores)`;
-      if (r === 'US') opt.selected = true;
-      select.appendChild(opt);
-    }
-    select.addEventListener('change', () => {
-      state.region = select.value;
-      onRegionChange();
+  // --- facet machinery -------------------------------------------------------
+  function regionalSkus() { return skusForRegion(state.region); }
+
+  function applyFilters(skus) {
+    const f = state.filters;
+    return skus.filter(s => {
+      if (f.family.size && !f.family.has(s.family)) return false;
+      if (f.chip.size && !f.chip.has(s.chip || '__none__')) return false;
+      if (f.memory_gb.size && !f.memory_gb.has(String(s.memory_gb || '__none__'))) return false;
+      if (f.storage_gb.size && !f.storage_gb.has(String(s.storage_gb || '__none__'))) return false;
+      if (f.cpu_cores.size && !f.cpu_cores.has(String(s.cpu_cores || '__none__'))) return false;
+      if (f.gpu_cores.size && !f.gpu_cores.has(String(s.gpu_cores || '__none__'))) return false;
+      return true;
     });
   }
 
-  function buildFamilyChips() {
-    const wrap = $('familyChips');
+  function buildFacet(elementId, key, getter, formatter) {
+    const wrap = $(elementId);
     wrap.innerHTML = '';
-    const families = Array.from(new Set(skusForRegion(state.region).map(s => s.family))).sort();
-    for (const family of families) {
-      state.families.add(family);
+    const skus = regionalSkus();
+    const counts = new Map();
+    for (const s of skus) {
+      const v = getter(s);
+      const k = (v == null || v === '') ? '__none__' : String(v);
+      counts.set(k, (counts.get(k) || 0) + 1);
+    }
+    const entries = Array.from(counts.entries());
+    // Sort: numeric where possible, otherwise alpha; "__none__" last
+    entries.sort((a, b) => {
+      if (a[0] === '__none__') return 1;
+      if (b[0] === '__none__') return -1;
+      const an = Number(a[0]), bn = Number(b[0]);
+      if (!Number.isNaN(an) && !Number.isNaN(bn)) return an - bn;
+      return a[0].localeCompare(b[0]);
+    });
+    for (const [val, count] of entries) {
       const chip = document.createElement('button');
       chip.type = 'button';
-      chip.className = 'chip active';
-      chip.dataset.family = family;
-      chip.textContent = `${skuFamilyLabel(family)} (${skusForRegion(state.region).filter(s => s.family === family).length})`;
+      const isActive = state.filters[key].has(val);
+      chip.className = 'chip' + (isActive ? ' active' : '') + (val === '__none__' ? ' muted' : '');
+      const label = val === '__none__' ? 'unknown' : formatter(val);
+      chip.textContent = `${label} (${count})`;
       chip.addEventListener('click', () => {
-        if (state.families.has(family)) state.families.delete(family);
-        else state.families.add(family);
-        chip.classList.toggle('active', state.families.has(family));
-        renderModels();
+        if (state.filters[key].has(val)) state.filters[key].delete(val);
+        else state.filters[key].add(val);
+        rebuildFacets(); renderModels();
       });
       wrap.appendChild(chip);
     }
   }
 
+  function rebuildFacets() {
+    buildFacet('facetFamily', 'family', s => s.family, v => familyLabel(v));
+    buildFacet('facetChip', 'chip', s => s.chip, v => chipLabel(v));
+    buildFacet('facetMemory', 'memory_gb', s => s.memory_gb, v => memoryLabel(Number(v)));
+    buildFacet('facetStorage', 'storage_gb', s => s.storage_gb, v => storageLabel(Number(v)));
+    buildFacet('facetCpu', 'cpu_cores', s => s.cpu_cores, v => v + ' core');
+    buildFacet('facetGpu', 'gpu_cores', s => s.gpu_cores, v => v + ' core');
+  }
+
+  // --- model list ------------------------------------------------------------
   function renderModels() {
     const ul = $('skuList');
     ul.innerHTML = '';
-    const visible = skusForRegion(state.region).filter(s => state.families.has(s.family));
+    const visible = applyFilters(regionalSkus());
     visible.sort((a, b) => {
       if (a.family !== b.family) return a.family.localeCompare(b.family);
       return (a.raw_amount || 0) - (b.raw_amount || 0);
     });
 
-    // Reconcile selected set: drop any not visible; default to all-on
     const visibleParts = new Set(visible.map(s => s.part_number));
-    if (state.selectedSkus.size === 0) {
-      visible.forEach(s => state.selectedSkus.add(s.part_number));
-    } else {
-      for (const p of Array.from(state.selectedSkus)) {
-        if (!visibleParts.has(p)) state.selectedSkus.delete(p);
-      }
-    }
+    if (state.selectedSkus.size === 0) visible.forEach(s => state.selectedSkus.add(s.part_number));
+    else for (const p of Array.from(state.selectedSkus)) if (!visibleParts.has(p)) state.selectedSkus.delete(p);
 
     for (const sku of visible) {
       const li = document.createElement('li');
       li.dataset.partNumber = sku.part_number;
-      const isSel = state.selectedSkus.has(sku.part_number);
       const isActive = state.activeSku === sku.part_number;
       if (isActive) li.classList.add('selected');
-
       const cb = document.createElement('input');
       cb.type = 'checkbox';
-      cb.checked = isSel;
+      cb.checked = state.selectedSkus.has(sku.part_number);
       cb.addEventListener('click', e => e.stopPropagation());
       cb.addEventListener('change', () => {
-        if (cb.checked) state.selectedSkus.add(sku.part_number);
-        else state.selectedSkus.delete(sku.part_number);
+        if (cb.checked) state.selectedSkus.add(sku.part_number); else state.selectedSkus.delete(sku.part_number);
         renderRight();
       });
-
       const mid = document.createElement('div');
-      const t = document.createElement('div');
-      t.className = 'sku-title';
-      t.textContent = skuLabel(sku);
-      const m = document.createElement('div');
-      m.className = 'sku-meta';
-      m.textContent = `${skuFamilyLabel(sku.family)} · ${sku.part_number}`;
-      mid.appendChild(t);
-      mid.appendChild(m);
-
-      const price = document.createElement('div');
-      price.className = 'sku-price';
+      const t = document.createElement('div'); t.className = 'sku-title';
+      t.textContent = skuShortLabel(sku);
+      const m = document.createElement('div'); m.className = 'sku-meta';
+      m.textContent = `${familyLabel(sku.family)} · ${sku.part_number}`;
+      mid.appendChild(t); mid.appendChild(m);
+      const price = document.createElement('div'); price.className = 'sku-price';
       price.textContent = sku.formatted_amount || '';
 
-      li.appendChild(cb);
-      li.appendChild(mid);
-      li.appendChild(price);
+      li.appendChild(cb); li.appendChild(mid); li.appendChild(price);
 
-      // specs row
-      const specs = document.createElement('div');
-      specs.className = 'specs';
+      const specs = document.createElement('div'); specs.className = 'specs';
       if (state.expandedSpecsFor === sku.part_number) specs.classList.add('visible');
       const dl = document.createElement('dl');
-      const dims = sku.dimensions || {};
       const rows = [
-        ['Family', skuFamilyLabel(sku.family)],
+        ['Family', familyLabel(sku.family)],
         ['Part number', sku.part_number],
-        ['Price', sku.formatted_amount + (sku.currency ? ' ' + sku.currency : '')],
+        ['Price', (sku.formatted_amount || '') + (sku.currency ? ' ' + sku.currency : '')],
+        ['Chip', chipLabel(sku.chip)],
+        ['CPU / GPU cores', (sku.cpu_cores ?? '?') + ' / ' + (sku.gpu_cores ?? '?')],
+        ['Memory', memoryLabel(sku.memory_gb)],
+        ['Storage', storageLabel(sku.storage_gb)],
         ['Locale', sku.locale],
       ];
-      for (const [k, v] of Object.entries(dims)) {
-        rows.push([k.replace(/-/g, ' '), v]);
-      }
+      const dims = sku.dimensions || {};
+      for (const [k, v] of Object.entries(dims)) rows.push(['dim/' + k, v]);
       for (const [k, v] of rows) {
         const dt = document.createElement('dt'); dt.textContent = k;
         const dd = document.createElement('dd'); dd.style.margin = 0; dd.textContent = v;
@@ -325,41 +384,45 @@ HTML_TEMPLATE = r"""<!doctype html>
       specs.appendChild(dl);
 
       li.addEventListener('click', () => {
-        // toggle drill-down + specs expanded
         state.activeSku = state.activeSku === sku.part_number ? null : sku.part_number;
         state.expandedSpecsFor = state.activeSku;
-        renderModels();
-        renderRight();
+        renderModels(); renderRight();
       });
-
-      ul.appendChild(li);
-      ul.appendChild(specs);
+      ul.appendChild(li); ul.appendChild(specs);
     }
     $('modelsCount').textContent = `${state.selectedSkus.size} of ${visible.length} selected`;
     renderRight();
   }
 
-  // --- right panel: aggregate or per-store -----------------------------------
+  // --- right panel -----------------------------------------------------------
   function renderRight() {
     const body = $('rightBody');
     body.innerHTML = '';
     const stores = storesForRegion(state.region);
-    const visibleSkus = skusForRegion(state.region).filter(s => state.families.has(s.family) && state.selectedSkus.has(s.part_number));
+    const visibleSkus = applyFilters(regionalSkus()).filter(s => state.selectedSkus.has(s.part_number));
 
     if (state.activeSku) {
       $('rightTitle').textContent = 'Per-store availability';
-      const sku = DATA.skus.find(s => s.part_number === state.activeSku);
-      $('rightSubtitle').textContent = sku ? `${skuFamilyLabel(sku.family)} · ${skuLabel(sku)} · ${sku.part_number}` : '';
+      const sku = DATA.skus.find(s => s.part_number === state.activeSku && DATA.localeToRegion[s.locale] === state.region) ||
+                  DATA.skus.find(s => s.part_number === state.activeSku);
+      $('rightSubtitle').textContent = sku ? `${familyLabel(sku.family)} · ${skuShortLabel(sku)} · ${sku.part_number}` : '';
       renderStoreView(body, sku, stores);
-    } else {
-      $('rightTitle').textContent = 'Availability summary';
-      $('rightSubtitle').textContent = `${visibleSkus.length} models · ${stores.length} stores in ${state.region}`;
-      renderAggregate(body, visibleSkus, stores);
+      return;
     }
+
+    if (state.rollup) {
+      $('rightTitle').textContent = 'Roll-up';
+      $('rightSubtitle').textContent = `${visibleSkus.length} models · ${stores.length} stores in ${state.region}`;
+      renderRollup(body, visibleSkus, stores, state.rollup.split(','));
+      return;
+    }
+    $('rightTitle').textContent = 'Availability summary';
+    $('rightSubtitle').textContent = `${visibleSkus.length} models · ${stores.length} stores in ${state.region}`;
+    renderAggregate(body, visibleSkus, stores);
   }
 
   function aggregateForSku(partNumber, stores) {
-    let avail = 0, inelig = 0, unavail = 0, nodata = 0;
+    let avail=0, inelig=0, unavail=0, nodata=0;
     for (const st of stores) {
       const a = availabilityFor(partNumber, st.id);
       if (!a) nodata++;
@@ -372,28 +435,26 @@ HTML_TEMPLATE = r"""<!doctype html>
   }
 
   function renderAggregate(body, skus, stores) {
-    if (!skus.length) {
-      body.innerHTML = '<div class="empty">Select at least one model on the left.</div>';
-      return;
-    }
+    if (!skus.length) { body.innerHTML = '<div class="empty">Select at least one model on the left.</div>'; return; }
     const tbl = document.createElement('table');
     tbl.className = 'agg-table';
     tbl.innerHTML = `
       <thead><tr>
-        <th>Model</th><th>Part</th><th class="num">Price</th>
+        <th>Model</th><th>Part</th>
+        <th class="num">Price</th>
         <th class="num">Available</th><th class="num">% of stores</th>
         <th class="num">Ineligible</th><th class="num">Unavailable</th><th class="num">No data</th>
       </tr></thead><tbody></tbody>`;
     const tbody = tbl.querySelector('tbody');
     const rows = skus.map(sku => ({ sku, agg: aggregateForSku(sku.part_number, stores) }));
-    rows.sort((a, b) => (b.agg.avail - a.agg.avail) || (a.sku.raw_amount - b.sku.raw_amount));
+    rows.sort((a, b) => (b.agg.avail - a.agg.avail) || ((a.sku.raw_amount || 0) - (b.sku.raw_amount || 0)));
     for (const { sku, agg } of rows) {
       const pct = agg.total ? (100 * agg.avail / agg.total) : 0;
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td>
-          <div>${skuFamilyLabel(sku.family)}</div>
-          <div style="font-size:12px;color:var(--muted)">${skuLabel(sku)}</div>
+          <div>${familyLabel(sku.family)}</div>
+          <div style="font-size:12px;color:var(--muted)">${skuShortLabel(sku)}</div>
         </td>
         <td><code>${sku.part_number}</code></td>
         <td class="num">${sku.formatted_amount || ''}</td>
@@ -405,13 +466,76 @@ HTML_TEMPLATE = r"""<!doctype html>
         <td class="num">${agg.unavail}</td>
         <td class="num">${agg.nodata}</td>
       `;
-      tr.addEventListener('click', () => {
-        state.activeSku = sku.part_number;
-        state.expandedSpecsFor = sku.part_number;
-        renderModels();
-        renderRight();
-      });
       tr.style.cursor = 'pointer';
+      tr.addEventListener('click', () => {
+        state.activeSku = sku.part_number; state.expandedSpecsFor = sku.part_number;
+        renderModels(); renderRight();
+      });
+      tbody.appendChild(tr);
+    }
+    body.appendChild(tbl);
+  }
+
+  function rollupKey(sku, dimensions) {
+    return dimensions.map(d => {
+      const v = sku[d];
+      return v == null || v === '' ? 'unknown' : String(v);
+    }).join(' · ');
+  }
+
+  function rollupKeyLabel(keyParts, dimensions) {
+    return keyParts.split(' · ').map((v, i) => {
+      const d = dimensions[i];
+      if (v === 'unknown') return d + ': unknown';
+      if (d === 'family') return familyLabel(v);
+      if (d === 'chip') return chipLabel(v);
+      if (d === 'memory_gb') return memoryLabel(Number(v));
+      if (d === 'storage_gb') return storageLabel(Number(v));
+      return v;
+    }).join(' · ');
+  }
+
+  function renderRollup(body, skus, stores, dimensions) {
+    if (!skus.length) { body.innerHTML = '<div class="empty">Select at least one model on the left.</div>'; return; }
+    const groups = new Map();
+    for (const sku of skus) {
+      const key = rollupKey(sku, dimensions);
+      if (!groups.has(key)) groups.set(key, { skus: [], avail: 0, inelig: 0, unavail: 0, nodata: 0 });
+      const g = groups.get(key);
+      g.skus.push(sku);
+      const agg = aggregateForSku(sku.part_number, stores);
+      g.avail += agg.avail; g.inelig += agg.inelig; g.unavail += agg.unavail; g.nodata += agg.nodata;
+    }
+    const tbl = document.createElement('table');
+    tbl.className = 'agg-table';
+    const dimHeaders = dimensions.map(d => `<th>${d}</th>`).join('');
+    tbl.innerHTML = `
+      <thead><tr>
+        <th>Group</th>
+        <th class="num">SKUs</th>
+        <th class="num">Available cells</th><th class="num">% of all observations</th>
+        <th class="num">Ineligible</th><th class="num">Unavailable</th><th class="num">No data</th>
+      </tr></thead><tbody></tbody>`;
+    const tbody = tbl.querySelector('tbody');
+    const rows = Array.from(groups.entries()).map(([key, g]) => {
+      const total = g.avail + g.inelig + g.unavail + g.nodata;
+      const pct = total ? (100 * g.avail / total) : 0;
+      return { key, g, total, pct };
+    });
+    rows.sort((a, b) => b.pct - a.pct);
+    for (const { key, g, total, pct } of rows) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${rollupKeyLabel(key, dimensions)}</td>
+        <td class="num">${g.skus.length}</td>
+        <td class="num">${g.avail}</td>
+        <td class="num">${pct.toFixed(1)}%
+          <span class="pct-bar"><div style="width:${Math.max(2, pct)}%"></div></span>
+        </td>
+        <td class="num">${g.inelig}</td>
+        <td class="num">${g.unavail}</td>
+        <td class="num">${g.nodata}</td>
+      `;
       tbody.appendChild(tr);
     }
     body.appendChild(tbl);
@@ -423,11 +547,9 @@ HTML_TEMPLATE = r"""<!doctype html>
     back.innerHTML = `<button class="chip" id="backToAgg" type="button">← Back to summary</button>`;
     body.appendChild(back);
     document.getElementById('backToAgg').addEventListener('click', () => {
-      state.activeSku = null;
-      renderModels();
-      renderRight();
+      state.activeSku = null; renderModels(); renderRight();
     });
-
+    if (!sku) { body.appendChild(Object.assign(document.createElement('div'), { className: 'empty', textContent: 'SKU not found in this region.' })); return; }
     const tbl = document.createElement('table');
     tbl.className = 'store-table';
     tbl.innerHTML = `
@@ -459,12 +581,24 @@ HTML_TEMPLATE = r"""<!doctype html>
     body.appendChild(tbl);
   }
 
+  function buildRegionSelector() {
+    const select = $('regionSel');
+    const regions = Object.keys(DATA.regionStoreCounts).sort();
+    for (const r of regions) {
+      const opt = document.createElement('option');
+      opt.value = r;
+      opt.textContent = `${r} (${DATA.regionStoreCounts[r]} stores)`;
+      if (r === 'US') opt.selected = true;
+      select.appendChild(opt);
+    }
+    select.addEventListener('change', () => { state.region = select.value; onRegionChange(); });
+  }
+
   function onRegionChange() {
-    state.activeSku = null;
-    state.expandedSpecsFor = null;
-    state.families = new Set();
+    state.activeSku = null; state.expandedSpecsFor = null;
+    Object.values(state.filters).forEach(s => s.clear());
     state.selectedSkus = new Set();
-    buildFamilyChips();
+    rebuildFacets();
     renderModels();
     updateMeta();
   }
@@ -477,14 +611,17 @@ HTML_TEMPLATE = r"""<!doctype html>
       `Snapshot generated ${DATA.generated_at} · ${DATA.totals.stores} stores worldwide · ${DATA.totals.skus} unique part numbers · ${DATA.totals.availability_observations} observations`;
   }
 
-  // --- wiring ---------------------------------------------------------------
   buildRegionSelector();
   $('selectAll').addEventListener('click', () => {
-    skusForRegion(state.region).filter(s => state.families.has(s.family)).forEach(s => state.selectedSkus.add(s.part_number));
+    applyFilters(regionalSkus()).forEach(s => state.selectedSkus.add(s.part_number));
     renderModels();
   });
   $('selectNone').addEventListener('click', () => { state.selectedSkus.clear(); renderModels(); });
-
+  $('resetFilters').addEventListener('click', () => {
+    Object.values(state.filters).forEach(s => s.clear());
+    rebuildFacets(); renderModels();
+  });
+  $('rollupSel').addEventListener('change', e => { state.rollup = e.target.value; renderRight(); });
   onRegionChange();
 })();
 </script>
@@ -524,6 +661,12 @@ def build_dataset(db_path: Path) -> dict:
                 "formatted_amount": row["formatted_amount"],
                 "currency": row["currency"],
                 "locale": row["locale"],
+                "chip": row["chip"],
+                "cpu_cores": row["cpu_cores"],
+                "gpu_cores": row["gpu_cores"],
+                "memory_gb": row["memory_gb"],
+                "storage_gb": row["storage_gb"],
+                "slug": row["slug"],
                 "dimensions": json.loads(row["dimensions_json"]) if row["dimensions_json"] else {},
             }
         )

@@ -41,8 +41,22 @@ CREATE TABLE IF NOT EXISTS skus (
     currency                TEXT NOT NULL,
     dimensions_json         TEXT NOT NULL,
     product_configuration_json TEXT NOT NULL,
+    chip                    TEXT,
+    cpu_cores               INTEGER,
+    gpu_cores               INTEGER,
+    memory_gb               INTEGER,
+    storage_gb              INTEGER,
+    slug                    TEXT,
     last_seen_at            TEXT NOT NULL,
     PRIMARY KEY (part_number, locale)
+);
+
+CREATE TABLE IF NOT EXISTS family_bootstraps (
+    family       TEXT NOT NULL,
+    locale       TEXT NOT NULL,
+    observed_at  TEXT NOT NULL,
+    raw_json     TEXT NOT NULL,
+    PRIMARY KEY (family, locale)
 );
 
 CREATE TABLE IF NOT EXISTS availability_snapshots (
@@ -76,14 +90,34 @@ _STORE_COLUMN_MIGRATIONS = (
     ("latitude", "REAL"),
     ("longitude", "REAL"),
 )
+_SKU_COLUMN_MIGRATIONS = (
+    ("chip", "TEXT"),
+    ("cpu_cores", "INTEGER"),
+    ("gpu_cores", "INTEGER"),
+    ("memory_gb", "INTEGER"),
+    ("storage_gb", "INTEGER"),
+    ("slug", "TEXT"),
+)
+
+
+def _migrate_table_columns(
+    conn: sqlite3.Connection, table: str, columns: tuple[tuple[str, str], ...]
+) -> None:
+    """Add the given columns to ``table`` if they don't already exist."""
+    existing = {row["name"] for row in conn.execute(f"PRAGMA table_info({table})")}
+    for name, sql_type in columns:
+        if name not in existing:
+            conn.execute(f"ALTER TABLE {table} ADD COLUMN {name} {sql_type}")
 
 
 def _migrate_stores_columns(conn: sqlite3.Connection) -> None:
     """Add columns to ``stores`` that may not exist on older databases."""
-    existing = {row["name"] for row in conn.execute("PRAGMA table_info(stores)")}
-    for name, sql_type in _STORE_COLUMN_MIGRATIONS:
-        if name not in existing:
-            conn.execute(f"ALTER TABLE stores ADD COLUMN {name} {sql_type}")
+    _migrate_table_columns(conn, "stores", _STORE_COLUMN_MIGRATIONS)
+
+
+def _migrate_skus_columns(conn: sqlite3.Connection) -> None:
+    """Add columns to ``skus`` that may not exist on older databases."""
+    _migrate_table_columns(conn, "skus", _SKU_COLUMN_MIGRATIONS)
 
 
 @contextmanager
@@ -96,6 +130,7 @@ def connect(db_path: str | Path) -> Iterator[sqlite3.Connection]:
     try:
         conn.executescript(_SCHEMA)
         _migrate_stores_columns(conn)
+        _migrate_skus_columns(conn)
         conn.commit()
         yield conn
     finally:
@@ -159,6 +194,47 @@ def update_store_coords(
     return cursor.rowcount
 
 
+def update_sku_specs(
+    conn: sqlite3.Connection,
+    specs: dict[str, dict],
+) -> int:
+    """Update enrichment fields (memory_gb, storage_gb, slug) for the given part numbers.
+
+    ``specs[part_number] = {"memory_gb": int|None, "storage_gb": int|None, "slug": str|None}``
+    """
+    rows = [
+        (s.get("memory_gb"), s.get("storage_gb"), s.get("slug"), part)
+        for part, s in specs.items()
+    ]
+    cursor = conn.executemany(
+        """UPDATE skus
+           SET memory_gb = COALESCE(?, memory_gb),
+               storage_gb = COALESCE(?, storage_gb),
+               slug = COALESCE(?, slug)
+           WHERE part_number = ?""",
+        rows,
+    )
+    conn.commit()
+    return cursor.rowcount
+
+
+def upsert_family_bootstrap(
+    conn: sqlite3.Connection,
+    *,
+    family: str,
+    locale: str,
+    observed_at: str,
+    raw_json: str,
+) -> None:
+    """Persist the raw PRODUCT_SELECTION_BOOTSTRAP JSON for a family + locale crawl."""
+    conn.execute(
+        """INSERT OR REPLACE INTO family_bootstraps
+           (family, locale, observed_at, raw_json) VALUES (?, ?, ?, ?)""",
+        (family, locale, observed_at, raw_json),
+    )
+    conn.commit()
+
+
 def upsert_skus(
     conn: sqlite3.Connection, configs: Iterable[MacConfig], *, observed_at: str
 ) -> int:
@@ -176,6 +252,12 @@ def upsert_skus(
             cfg.currency,
             json.dumps(cfg.dimensions, separators=(",", ":")),
             json.dumps(cfg.product_configuration, separators=(",", ":")),
+            cfg.chip,
+            cfg.cpu_cores,
+            cfg.gpu_cores,
+            cfg.memory_gb,
+            cfg.storage_gb,
+            cfg.slug,
             observed_at,
         )
         for cfg in configs
@@ -185,8 +267,10 @@ def upsert_skus(
         INSERT OR REPLACE INTO skus
             (part_number, locale, family, price_key, container_part_number, is_coming_soon,
              raw_amount, formatted_amount, currency,
-             dimensions_json, product_configuration_json, last_seen_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+             dimensions_json, product_configuration_json,
+             chip, cpu_cores, gpu_cores, memory_gb, storage_gb, slug,
+             last_seen_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         rows,
     )
