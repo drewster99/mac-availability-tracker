@@ -1,0 +1,28 @@
+{
+  "watchlist": [
+    {
+      "region": "US",
+      "location": "94103",
+      "parts": ["MGDR4LL/A", "MGDU4LL/A", "MGED4LL/A", "MDE14LL/A"],
+      "canary": "MDE14LL/A"
+    },
+    {
+      "region": "US",
+      "location": "10003",
+      "parts": ["MGDR4LL/A", "MGDU4LL/A", "MGED4LL/A", "MDE14LL/A"],
+      "canary": "MDE14LL/A"
+    },
+    {
+      "region": "US",
+      "location": "60611",
+      "parts": ["MGDR4LL/A", "MGDU4LL/A", "MGED4LL/A", "MDE14LL/A"],
+      "canary": "MDE14LL/A"
+    },
+    {
+      "region": "US",
+      "location": "98101",
+      "parts": ["MGDR4LL/A", "MGDU4LL/A", "MGED4LL/A", "MDE14LL/A"],
+      "canary": "MDE14LL/A"
+    }
+  ]
+}
