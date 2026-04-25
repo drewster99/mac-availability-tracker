@@ -14,7 +14,7 @@ import json as _json
 import logging
 from datetime import datetime, timezone
 
-from mac_availability import db, stores, catalog, store_coords
+from mac_availability import db, stores, catalog, store_coords, sku_fixups
 from mac_availability.client import AppleShopClient
 
 
@@ -199,6 +199,11 @@ async def _amain(argv: list[str]) -> None:
             "Propagated specs to %d SKU rows in non-canonical locales (matched on family + price_key)",
             n_propagated,
         )
+
+        rules = sku_fixups.load_rules()
+        if rules:
+            n_fixed = sku_fixups.apply_rules(conn, rules)
+            log.info("Applied %d hand-curated fixup rule updates across SKU rows", n_fixed)
 
 
 def main() -> None:

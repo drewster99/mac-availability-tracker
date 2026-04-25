@@ -1,0 +1,20 @@
+{
+  "_comment": "Manual overrides for SKU spec fields that Apple does not surface in any parseable form on the family or per-config pages. Each rule applies a small patch to every SKU row that matches the where-clause. Sourced from Apple's marketing pages (apple.com/<product>/) where the GB values are stated in human-readable text.",
+  "rules": [
+    {
+      "name": "MacBook Neo: A18 Pro chip across all variants",
+      "where": {"family": "macbook-neo"},
+      "set": {"chip": "a18pro"}
+    },
+    {
+      "name": "MacBook Neo 256GB SSD ships with 8GB memory",
+      "where": {"family": "macbook-neo", "storage_gb": 256},
+      "set": {"memory_gb": 8}
+    },
+    {
+      "name": "MacBook Neo 512GB SSD ships with 16GB memory",
+      "where": {"family": "macbook-neo", "storage_gb": 512},
+      "set": {"memory_gb": 16}
+    }
+  ]
+}
