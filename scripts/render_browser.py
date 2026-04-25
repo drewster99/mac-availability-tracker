@@ -256,7 +256,8 @@ HTML_TEMPLATE = r"""<!doctype html>
     if (!chip) return '—';
     const map = {m4: 'M4', m4pro: 'M4 Pro', m4max: 'M4 Max',
                  m5: 'M5', m5pro: 'M5 Pro', m5max: 'M5 Max',
-                 m3ultra: 'M3 Ultra', m2ultra: 'M2 Ultra'};
+                 m3ultra: 'M3 Ultra', m2ultra: 'M2 Ultra',
+                 a18pro: 'A18 Pro', a17pro: 'A17 Pro'};
     return map[chip] || chip;
   }
   function storageLabel(gb) {
