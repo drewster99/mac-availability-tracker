@@ -6,7 +6,7 @@ import asyncio
 import logging
 from datetime import datetime, timezone
 
-from mac_availability import db, stores, catalog
+from mac_availability import db, stores, catalog, store_coords
 from mac_availability.client import AppleShopClient
 
 
@@ -59,6 +59,16 @@ async def _amain(argv: list[str]) -> None:
         if store_records:
             n = db.upsert_stores(conn, store_records)
             log.info("Upserted %d store rows", n)
+            cache = store_coords.load_cache()
+            coord_map = {
+                sid: (entry["latitude"], entry["longitude"])
+                for sid, entry in cache.items()
+                if isinstance(entry.get("latitude"), (int, float))
+                and isinstance(entry.get("longitude"), (int, float))
+            }
+            if coord_map:
+                applied = db.update_store_coords(conn, coord_map)
+                log.info("Applied cached coordinates to %d store rows", applied)
         n = db.upsert_skus(conn, configs, observed_at=observed_at)
         log.info("Upserted %d SKU rows", n)
 

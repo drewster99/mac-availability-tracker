@@ -1,0 +1,3364 @@
+{
+  "stores": {
+    "R001": {
+      "latitude": 34.1453,
+      "longitude": -118.25855,
+      "locale": "en_US",
+      "slug": "glendalegalleria",
+      "name": "Glendale Galleria"
+    },
+    "R002": {
+      "latitude": 37.44642,
+      "longitude": -122.16086,
+      "locale": "en_US",
+      "slug": "paloalto",
+      "name": "Palo Alto"
+    },
+    "R003": {
+      "latitude": 47.616327,
+      "longitude": -122.2042,
+      "locale": "en_US",
+      "slug": "bellevuesquare",
+      "name": "Bellevue Square"
+    },
+    "R004": {
+      "latitude": 33.692656,
+      "longitude": -117.892935,
+      "locale": "en_US",
+      "slug": "southcoastplaza",
+      "name": "South Coast Plaza"
+    },
+    "R005": {
+      "latitude": 35.16555,
+      "longitude": 136.90716,
+      "locale": "ja_JP",
+      "slug": "nagoyasakae",
+      "name": "Nagoya Sakae"
+    },
+    "R006": {
+      "latitude": 33.847941,
+      "longitude": -84.363533,
+      "locale": "en_US",
+      "slug": "lenoxsquare",
+      "name": "Lenox Square"
+    },
+    "R007": {
+      "latitude": 44.8543,
+      "longitude": -93.244386,
+      "locale": "en_US",
+      "slug": "mallofamerica",
+      "name": "Mall of America"
+    },
+    "R009": {
+      "latitude": 40.054068,
+      "longitude": -82.914958,
+      "locale": "en_US",
+      "slug": "eastontowncenter",
+      "name": "Easton Town Center"
+    },
+    "R010": {
+      "latitude": 38.918185,
+      "longitude": -77.2209595,
+      "locale": "en_US",
+      "slug": "tysonscorner",
+      "name": "Tysons Corner"
+    },
+    "R011": {
+      "latitude": 42.515590675328,
+      "longitude": -71.034246957778,
+      "locale": "en_US",
+      "slug": "marketstreet",
+      "name": "MarketStreet"
+    },
+    "R012": {
+      "latitude": 25.643719563754,
+      "longitude": -80.33814594377,
+      "locale": "en_US",
+      "slug": "thefalls",
+      "name": "The Falls"
+    },
+    "R013": {
+      "latitude": 41.04183,
+      "longitude": -74.074864,
+      "locale": "en_US",
+      "slug": "ticescorner",
+      "name": "Tice's Corner"
+    },
+    "R014": {
+      "latitude": 37.896525,
+      "longitude": -122.059297,
+      "locale": "en_US",
+      "slug": "broadwayplaza",
+      "name": "Broadway Plaza"
+    },
+    "R015": {
+      "latitude": 33.61502,
+      "longitude": -117.87673,
+      "locale": "en_US",
+      "slug": "fashionisland",
+      "name": "Fashion Island"
+    },
+    "R016": {
+      "latitude": 42.914661,
+      "longitude": -78.762075,
+      "locale": "en_US",
+      "slug": "waldengalleria",
+      "name": "Walden Galleria"
+    },
+    "R017": {
+      "latitude": 42.68902,
+      "longitude": -73.849222,
+      "locale": "en_US",
+      "slug": "crossgates",
+      "name": "Crossgates"
+    },
+    "R018": {
+      "latitude": 42.0456619,
+      "longitude": -88.0388,
+      "locale": "en_US",
+      "slug": "woodfield",
+      "name": "Woodfield"
+    },
+    "R019": {
+      "latitude": 27.96408,
+      "longitude": -82.51952,
+      "locale": "en_US",
+      "slug": "internationalplaza",
+      "name": "International Plaza"
+    },
+    "R020": {
+      "latitude": 35.09344,
+      "longitude": -89.812433,
+      "locale": "en_US",
+      "slug": "saddlecreek",
+      "name": "Saddle Creek"
+    },
+    "R021": {
+      "latitude": 42.367932,
+      "longitude": -71.075913,
+      "locale": "en_US",
+      "slug": "cambridgeside",
+      "name": "CambridgeSide"
+    },
+    "R022": {
+      "latitude": 45.012576,
+      "longitude": -93.173237,
+      "locale": "en_US",
+      "slug": "rosedalecenter",
+      "name": "Rosedale Center"
+    },
+    "R023": {
+      "latitude": 34.239617605223,
+      "longitude": -118.556073088477,
+      "locale": "en_US",
+      "slug": "northridge",
+      "name": "Northridge"
+    },
+    "R024": {
+      "latitude": 26.647028,
+      "longitude": -80.208856,
+      "locale": "en_US",
+      "slug": "wellingtongreen",
+      "name": "Wellington Green"
+    },
+    "R025": {
+      "latitude": 41.722758026916,
+      "longitude": -72.764513057434,
+      "locale": "en_US",
+      "slug": "westfarms",
+      "name": "Westfarms"
+    },
+    "R026": {
+      "latitude": 33.302255,
+      "longitude": -111.89969,
+      "locale": "en_US",
+      "slug": "chandlerfashioncenter",
+      "name": "Chandler Fashion Center"
+    },
+    "R027": {
+      "latitude": 42.767197,
+      "longitude": -71.231989,
+      "locale": "en_US",
+      "slug": "rockinghampark",
+      "name": "Rockingham Park"
+    },
+    "R028": {
+      "latitude": 39.201632,
+      "longitude": -84.37789,
+      "locale": "en_US",
+      "slug": "kenwoodtownecentre",
+      "name": "Kenwood Towne Centre"
+    },
+    "R029": {
+      "latitude": 37.57827,
+      "longitude": -122.34708,
+      "locale": "en_US",
+      "slug": "burlingame",
+      "name": "Burlingame"
+    },
+    "R030": {
+      "latitude": 39.585168,
+      "longitude": -105.026,
+      "locale": "en_US",
+      "slug": "aspengrove",
+      "name": "Aspen Grove"
+    },
+    "R031": {
+      "latitude": 33.50367,
+      "longitude": -111.9266,
+      "locale": "en_US",
+      "slug": "scottsdalefashionsquare",
+      "name": "Scottsdale Fashion Square"
+    },
+    "R032": {
+      "latitude": 40.725058,
+      "longitude": -73.999037,
+      "locale": "en_US",
+      "slug": "soho",
+      "name": "SoHo"
+    },
+    "R033": {
+      "latitude": 37.72721492,
+      "longitude": -122.4769552,
+      "locale": "en_US",
+      "slug": "stonestown",
+      "name": "Stonestown"
+    },
+    "R034": {
+      "latitude": 34.145765883071,
+      "longitude": -118.15158605575,
+      "locale": "en_US",
+      "slug": "pasadena",
+      "name": "Pasadena"
+    },
+    "R035": {
+      "latitude": 41.88929,
+      "longitude": -87.6237,
+      "locale": "en_US",
+      "slug": "michiganavenue",
+      "name": "Michigan Avenue"
+    },
+    "R036": {
+      "latitude": 38.887929036182,
+      "longitude": -77.091042977517,
+      "locale": "en_US",
+      "slug": "clarendon",
+      "name": "Clarendon"
+    },
+    "R039": {
+      "latitude": 37.324585,
+      "longitude": -121.946497,
+      "locale": "en_US",
+      "slug": "valleyfair",
+      "name": "Valley Fair"
+    },
+    "R040": {
+      "latitude": 32.768465871641,
+      "longitude": -117.165832324545,
+      "locale": "en_US",
+      "slug": "fashionvalley",
+      "name": "Fashion Valley"
+    },
+    "R041": {
+      "latitude": 42.4924,
+      "longitude": -83.4704,
+      "locale": "en_US",
+      "slug": "twelveoaks",
+      "name": "Twelve Oaks"
+    },
+    "R042": {
+      "latitude": 32.82254,
+      "longitude": -96.78791,
+      "locale": "en_US",
+      "slug": "knoxstreet",
+      "name": "Knox Street"
+    },
+    "R043": {
+      "latitude": 40.740099,
+      "longitude": -74.36499,
+      "locale": "en_US",
+      "slug": "shorthills",
+      "name": "Short Hills"
+    },
+    "R044": {
+      "latitude": 38.443632,
+      "longitude": -122.686785,
+      "locale": "en_US",
+      "slug": "montgomeryvillage",
+      "name": "Montgomery Village"
+    },
+    "R045": {
+      "latitude": 48.13683,
+      "longitude": 11.57449,
+      "locale": "de_DE",
+      "slug": "rosenstrasse",
+      "name": "Rosenstrasse"
+    },
+    "R046": {
+      "latitude": 41.0956,
+      "longitude": -74.0162,
+      "locale": "en_US",
+      "slug": "nanuet",
+      "name": "Nanuet"
+    },
+    "R047": {
+      "latitude": 39.717437,
+      "longitude": -104.95492,
+      "locale": "en_US",
+      "slug": "cherrycreek",
+      "name": "Cherry Creek"
+    },
+    "R048": {
+      "latitude": 33.587908,
+      "longitude": 130.397033,
+      "locale": "ja_JP",
+      "slug": "fukuoka",
+      "name": "Fukuoka"
+    },
+    "R049": {
+      "latitude": 35.905106,
+      "longitude": -78.943003,
+      "locale": "en_US",
+      "slug": "southpoint",
+      "name": "Southpoint"
+    },
+    "R050": {
+      "latitude": 34.07143,
+      "longitude": -118.357469,
+      "locale": "en_US",
+      "slug": "thegrove",
+      "name": "The Grove"
+    },
+    "R051": {
+      "latitude": 34.01532813854,
+      "longitude": -118.495429158211,
+      "locale": "en_US",
+      "slug": "thirdstreetpromenade",
+      "name": "Third Street Promenade"
+    },
+    "R053": {
+      "latitude": 28.486,
+      "longitude": -81.43174,
+      "locale": "en_US",
+      "slug": "millenia",
+      "name": "Millenia"
+    },
+    "R054": {
+      "latitude": 44.880785,
+      "longitude": -93.324933,
+      "locale": "en_US",
+      "slug": "southdale",
+      "name": "Southdale"
+    },
+    "R055": {
+      "latitude": 42.563,
+      "longitude": -83.18337,
+      "locale": "en_US",
+      "slug": "somerset",
+      "name": "Somerset"
+    },
+    "R056": {
+      "latitude": 41.84972,
+      "longitude": -87.9537,
+      "locale": "en_US",
+      "slug": "oakbrook",
+      "name": "Oakbrook"
+    },
+    "R057": {
+      "latitude": 37.83475,
+      "longitude": -122.29224,
+      "locale": "en_US",
+      "slug": "baystreet",
+      "name": "Bay Street"
+    },
+    "R058": {
+      "latitude": 29.739061031416,
+      "longitude": -95.464409840804,
+      "locale": "en_US",
+      "slug": "houstongalleria",
+      "name": "Houston Galleria"
+    },
+    "R059": {
+      "latitude": 43.06355,
+      "longitude": -88.04479,
+      "locale": "en_US",
+      "slug": "mayfair",
+      "name": "Mayfair"
+    },
+    "R060": {
+      "latitude": 40.73796,
+      "longitude": -73.61236,
+      "locale": "en_US",
+      "slug": "rooseveltfield",
+      "name": "Roosevelt Field"
+    },
+    "R061": {
+      "latitude": 41.031788,
+      "longitude": -73.760351,
+      "locale": "en_US",
+      "slug": "thewestchester",
+      "name": "The Westchester"
+    },
+    "R062": {
+      "latitude": 38.601199,
+      "longitude": -90.447078,
+      "locale": "en_US",
+      "slug": "westcounty",
+      "name": "West County"
+    },
+    "R063": {
+      "latitude": 39.404576,
+      "longitude": -76.599685,
+      "locale": "en_US",
+      "slug": "towsontowncenter",
+      "name": "Towson Town Center"
+    },
+    "R064": {
+      "latitude": 36.127508,
+      "longitude": -115.173007,
+      "locale": "en_US",
+      "slug": "fashionshow",
+      "name": "Fashion Show"
+    },
+    "R065": {
+      "latitude": 40.088174,
+      "longitude": -75.391134,
+      "locale": "en_US",
+      "slug": "kingofprussia",
+      "name": "King of Prussia"
+    },
+    "R066": {
+      "latitude": 39.9141,
+      "longitude": -86.11181,
+      "locale": "en_US",
+      "slug": "thefashionmallatkeystone",
+      "name": "The Fashion Mall at Keystone"
+    },
+    "R067": {
+      "latitude": 40.549111,
+      "longitude": -74.335811,
+      "locale": "en_US",
+      "slug": "menlopark",
+      "name": "Menlo Park"
+    },
+    "R068": {
+      "latitude": 40.821498,
+      "longitude": -73.410436,
+      "locale": "en_US",
+      "slug": "waltwhitman",
+      "name": "Walt Whitman"
+    },
+    "R069": {
+      "latitude": 33.557258,
+      "longitude": -117.670118,
+      "locale": "en_US",
+      "slug": "missionviejo",
+      "name": "Mission Viejo"
+    },
+    "R070": {
+      "latitude": 38.601039,
+      "longitude": -121.426442,
+      "locale": "en_US",
+      "slug": "ardenfair",
+      "name": "Arden Fair"
+    },
+    "R071": {
+      "latitude": 37.928465,
+      "longitude": -122.514284,
+      "locale": "en_US",
+      "slug": "cortemadera",
+      "name": "Corte Madera"
+    },
+    "R072": {
+      "latitude": 47.6639,
+      "longitude": -122.2984,
+      "locale": "en_US",
+      "slug": "universityvillage",
+      "name": "University Village"
+    },
+    "R073": {
+      "latitude": 21.29023622211,
+      "longitude": -157.842305770593,
+      "locale": "en_US",
+      "slug": "alamoana",
+      "name": "Ala Moana"
+    },
+    "R074": {
+      "latitude": 26.36569,
+      "longitude": -80.13323,
+      "locale": "en_US",
+      "slug": "bocaraton",
+      "name": "Boca Raton"
+    },
+    "R075": {
+      "latitude": 37.7886,
+      "longitude": -122.407159,
+      "locale": "en_US",
+      "slug": "unionsquare",
+      "name": "Union Square"
+    },
+    "R076": {
+      "latitude": 42.321205,
+      "longitude": -71.17616,
+      "locale": "en_US",
+      "slug": "chestnuthill",
+      "name": "Chestnut Hill"
+    },
+    "R077": {
+      "latitude": 45.5178302,
+      "longitude": -122.6775182,
+      "locale": "en_US",
+      "slug": "pioneerplace",
+      "name": "Pioneer Place"
+    },
+    "R078": {
+      "latitude": 37.656044,
+      "longitude": -77.618722,
+      "locale": "en_US",
+      "slug": "shortpumptowncenter",
+      "name": "Short Pump Town Center"
+    },
+    "R079": {
+      "latitude": 35.6722345079264,
+      "longitude": 139.765874516619,
+      "locale": "ja_JP",
+      "slug": "ginza",
+      "name": "Ginza"
+    },
+    "R080": {
+      "latitude": 34.07062236953,
+      "longitude": -84.274814128876,
+      "locale": "en_US",
+      "slug": "avalon",
+      "name": "Avalon"
+    },
+    "R081": {
+      "latitude": 41.463332,
+      "longitude": -81.474623,
+      "locale": "en_US",
+      "slug": "eton",
+      "name": "Eton"
+    },
+    "R082": {
+      "latitude": 32.871867,
+      "longitude": -117.212674,
+      "locale": "en_US",
+      "slug": "utc",
+      "name": "UTC"
+    },
+    "R083": {
+      "latitude": 35.152573,
+      "longitude": -80.832012,
+      "locale": "en_US",
+      "slug": "southpark",
+      "name": "SouthPark"
+    },
+    "R084": {
+      "latitude": 39.024365,
+      "longitude": -77.146182,
+      "locale": "en_US",
+      "slug": "montgomerymall",
+      "name": "Montgomery Mall"
+    },
+    "R085": {
+      "latitude": 30.25806,
+      "longitude": -97.80722,
+      "locale": "en_US",
+      "slug": "bartoncreek",
+      "name": "Barton Creek"
+    },
+    "R086": {
+      "latitude": 32.325404,
+      "longitude": -110.929689,
+      "locale": "en_US",
+      "slug": "laencantada",
+      "name": "La Encantada"
+    },
+    "R087": {
+      "latitude": 25.95825,
+      "longitude": -80.141707,
+      "locale": "en_US",
+      "slug": "aventura",
+      "name": "Aventura"
+    },
+    "R088": {
+      "latitude": 39.87958,
+      "longitude": -74.91887,
+      "locale": "en_US",
+      "slug": "sagemore",
+      "name": "Sagemore"
+    },
+    "R089": {
+      "latitude": 42.057204,
+      "longitude": -87.749956,
+      "locale": "en_US",
+      "slug": "oldorchard",
+      "name": "Old Orchard"
+    },
+    "R090": {
+      "latitude": 45.450701,
+      "longitude": -122.780998,
+      "locale": "en_US",
+      "slug": "washingtonsquare",
+      "name": "Washington Square"
+    },
+    "R091": {
+      "latitude": 34.672,
+      "longitude": 135.50007,
+      "locale": "ja_JP",
+      "slug": "shinsaibashi",
+      "name": "Shinsaibashi"
+    },
+    "R092": {
+      "latitude": 51.51424,
+      "longitude": -0.14214,
+      "locale": "en_GB",
+      "slug": "regentstreet",
+      "name": "Regent Street"
+    },
+    "R093": {
+      "latitude": 41.3806,
+      "longitude": -73.48015,
+      "locale": "en_US",
+      "slug": "danburyfairmall",
+      "name": "Danbury Fair Mall"
+    },
+    "R094": {
+      "latitude": 34.11069,
+      "longitude": -117.5335,
+      "locale": "en_US",
+      "slug": "victoriagardens",
+      "name": "Victoria Gardens"
+    },
+    "R095": {
+      "latitude": 40.76383,
+      "longitude": -73.97296,
+      "locale": "en_US",
+      "slug": "fifthavenue",
+      "name": "Fifth Avenue"
+    },
+    "R096": {
+      "latitude": 40.450943,
+      "longitude": -79.934083,
+      "locale": "en_US",
+      "slug": "shadyside",
+      "name": "Shadyside"
+    },
+    "R097": {
+      "latitude": 39.0413,
+      "longitude": -94.590172,
+      "locale": "en_US",
+      "slug": "countryclubplaza",
+      "name": "Country Club Plaza"
+    },
+    "R099": {
+      "latitude": 37.44177,
+      "longitude": -122.172489,
+      "locale": "en_US",
+      "slug": "stanfordshoppingcenter",
+      "name": "Stanford Shopping Center"
+    },
+    "R100": {
+      "latitude": 47.830595,
+      "longitude": -122.27195,
+      "locale": "en_US",
+      "slug": "alderwood",
+      "name": "Alderwood"
+    },
+    "R101": {
+      "latitude": 37.69525,
+      "longitude": -121.92867,
+      "locale": "en_US",
+      "slug": "stoneridgemall",
+      "name": "Stoneridge Mall"
+    },
+    "R102": {
+      "latitude": 39.679231,
+      "longitude": -75.653211,
+      "locale": "en_US",
+      "slug": "christianamall",
+      "name": "Christiana Mall"
+    },
+    "R103": {
+      "latitude": 40.906615,
+      "longitude": -74.553704,
+      "locale": "en_US",
+      "slug": "rockaway",
+      "name": "Rockaway"
+    },
+    "R104": {
+      "latitude": 40.58638,
+      "longitude": -74.61979,
+      "locale": "en_US",
+      "slug": "bridgewater",
+      "name": "Bridgewater"
+    },
+    "R105": {
+      "latitude": 37.251599,
+      "longitude": -121.862899,
+      "locale": "en_US",
+      "slug": "oakridge",
+      "name": "Oakridge"
+    },
+    "R106": {
+      "latitude": 47.45935,
+      "longitude": -122.258,
+      "locale": "en_US",
+      "slug": "southcenter",
+      "name": "Southcenter"
+    },
+    "R107": {
+      "latitude": 43.069518399488,
+      "longitude": -76.172917443595,
+      "locale": "en_US",
+      "slug": "syracuse",
+      "name": "Syracuse"
+    },
+    "R108": {
+      "latitude": 34.05865,
+      "longitude": -118.41794,
+      "locale": "en_US",
+      "slug": "centurycity",
+      "name": "Century City"
+    },
+    "R109": {
+      "latitude": 41.570044,
+      "longitude": -93.803773,
+      "locale": "en_US",
+      "slug": "jordancreek",
+      "name": "Jordan Creek"
+    },
+    "R110": {
+      "latitude": 42.2221,
+      "longitude": -71.02337,
+      "locale": "en_US",
+      "slug": "southshore",
+      "name": "South Shore"
+    },
+    "R111": {
+      "latitude": 30.253253,
+      "longitude": -81.525252,
+      "locale": "en_US",
+      "slug": "stjohnstowncenter",
+      "name": "St. Johns Town Center"
+    },
+    "R112": {
+      "latitude": 38.980647104108,
+      "longitude": -77.09770810408,
+      "locale": "en_US",
+      "slug": "bethesdarow",
+      "name": "Bethesda Row"
+    },
+    "R113": {
+      "latitude": 51.43913,
+      "longitude": 0.26941,
+      "locale": "en_GB",
+      "slug": "bluewater",
+      "name": "Bluewater"
+    },
+    "R114": {
+      "latitude": 38.63527778,
+      "longitude": -90.3483753048663,
+      "locale": "en_US",
+      "slug": "saintlouisgalleria",
+      "name": "Saint Louis Galleria"
+    },
+    "R115": {
+      "latitude": 25.79102,
+      "longitude": -80.139364,
+      "locale": "en_US",
+      "slug": "lincolnroad",
+      "name": "Lincoln Road"
+    },
+    "R116": {
+      "latitude": 35.840118,
+      "longitude": -78.679187,
+      "locale": "en_US",
+      "slug": "crabtreevalleymall",
+      "name": "Crabtree Valley Mall"
+    },
+    "R117": {
+      "latitude": 40.918482082021,
+      "longitude": -74.075630100242,
+      "locale": "en_US",
+      "slug": "gardenstateplaza",
+      "name": "Garden State Plaza"
+    },
+    "R118": {
+      "latitude": 52.479041,
+      "longitude": -1.898282,
+      "locale": "en_GB",
+      "slug": "birmingham",
+      "name": "Birmingham"
+    },
+    "R119": {
+      "latitude": 35.66196,
+      "longitude": 139.69978,
+      "locale": "ja_JP",
+      "slug": "shibuya",
+      "name": "Shibuya"
+    },
+    "R120": {
+      "latitude": 43.724262,
+      "longitude": -79.4543,
+      "locale": "en_CA",
+      "slug": "yorkdale",
+      "name": "Yorkdale"
+    },
+    "R121": {
+      "latitude": 43.653,
+      "longitude": -79.3804,
+      "locale": "en_CA",
+      "slug": "eatoncentre",
+      "name": "Eaton Centre"
+    },
+    "R122": {
+      "latitude": 33.89909,
+      "longitude": -118.393209,
+      "locale": "en_US",
+      "slug": "manhattanvillage",
+      "name": "Manhattan Village"
+    },
+    "R123": {
+      "latitude": 36.10704,
+      "longitude": -86.816382,
+      "locale": "en_US",
+      "slug": "greenhills",
+      "name": "Green Hills"
+    },
+    "R124": {
+      "latitude": 34.0749,
+      "longitude": -118.3773,
+      "locale": "en_US",
+      "slug": "beverlycenter",
+      "name": "Beverly Center"
+    },
+    "R125": {
+      "latitude": 40.768413,
+      "longitude": -111.892042,
+      "locale": "en_US",
+      "slug": "citycreekcenter",
+      "name": "City Creek Center"
+    },
+    "R126": {
+      "latitude": 30.1645,
+      "longitude": -95.4555,
+      "locale": "en_US",
+      "slug": "thewoodlands",
+      "name": "The Woodlands"
+    },
+    "R127": {
+      "latitude": 26.84865,
+      "longitude": -80.0848,
+      "locale": "en_US",
+      "slug": "thegardensmall",
+      "name": "The Gardens Mall"
+    },
+    "R128": {
+      "latitude": 35.691,
+      "longitude": 139.7041,
+      "locale": "ja_JP",
+      "slug": "shinjuku",
+      "name": "Shinjuku"
+    },
+    "R129": {
+      "latitude": 38.86311,
+      "longitude": -77.06122,
+      "locale": "en_US",
+      "slug": "pentagoncity",
+      "name": "Pentagon City"
+    },
+    "R130": {
+      "latitude": 35.52485,
+      "longitude": -97.54551,
+      "locale": "en_US",
+      "slug": "pennsquare",
+      "name": "Penn Square"
+    },
+    "R131": {
+      "latitude": 29.59333,
+      "longitude": -98.61556,
+      "locale": "en_US",
+      "slug": "lacantera",
+      "name": "La Cantera"
+    },
+    "R132": {
+      "latitude": 42.9166,
+      "longitude": -85.5883,
+      "locale": "en_US",
+      "slug": "woodland",
+      "name": "Woodland"
+    },
+    "R133": {
+      "latitude": 36.16046,
+      "longitude": -86.7787,
+      "locale": "en_US",
+      "slug": "downtownnashville",
+      "name": "Downtown Nashville"
+    },
+    "R134": {
+      "latitude": 45.3966862,
+      "longitude": -122.7512255,
+      "locale": "en_US",
+      "slug": "bridgeportvillage",
+      "name": "Bridgeport Village"
+    },
+    "R135": {
+      "latitude": 55.86157,
+      "longitude": -4.2541,
+      "locale": "en_GB",
+      "slug": "glasgow",
+      "name": "Glasgow"
+    },
+    "R136": {
+      "latitude": 53.465385,
+      "longitude": -2.3463136,
+      "locale": "en_GB",
+      "slug": "traffordcentre",
+      "name": "Trafford Centre"
+    },
+    "R137": {
+      "latitude": 42.17605,
+      "longitude": -70.90996,
+      "locale": "en_US",
+      "slug": "derbystreet",
+      "name": "Derby Street"
+    },
+    "R138": {
+      "latitude": 40.253813,
+      "longitude": -74.30017,
+      "locale": "en_US",
+      "slug": "freeholdracewaymall",
+      "name": "Freehold Raceway Mall"
+    },
+    "R139": {
+      "latitude": 40.8649,
+      "longitude": -73.1311,
+      "locale": "en_US",
+      "slug": "smithhaven",
+      "name": "Smith Haven"
+    },
+    "R140": {
+      "latitude": 43.0297,
+      "longitude": -77.4428,
+      "locale": "en_US",
+      "slug": "eastview",
+      "name": "Eastview"
+    },
+    "R142": {
+      "latitude": 38.990536,
+      "longitude": -76.54414,
+      "locale": "en_US",
+      "slug": "annapolis",
+      "name": "Annapolis"
+    },
+    "R143": {
+      "latitude": 28.445141,
+      "longitude": -81.394177,
+      "locale": "en_US",
+      "slug": "floridamall",
+      "name": "Florida Mall"
+    },
+    "R144": {
+      "latitude": 32.86937,
+      "longitude": -96.77428,
+      "locale": "en_US",
+      "slug": "northparkcenter",
+      "name": "NorthPark Center"
+    },
+    "R146": {
+      "latitude": 33.6489,
+      "longitude": -117.7406,
+      "locale": "en_US",
+      "slug": "irvinespectrumcenter",
+      "name": "Irvine Spectrum Center"
+    },
+    "R147": {
+      "latitude": 40.3427,
+      "longitude": -80.05589,
+      "locale": "en_US",
+      "slug": "southhillsvillage",
+      "name": "South Hills Village"
+    },
+    "R148": {
+      "latitude": 34.157258,
+      "longitude": -118.438615,
+      "locale": "en_US",
+      "slug": "shermanoaks",
+      "name": "Sherman Oaks"
+    },
+    "R149": {
+      "latitude": 42.348986511488,
+      "longitude": -71.082484013793,
+      "locale": "en_US",
+      "slug": "boylstonstreet",
+      "name": "Boylston Street"
+    },
+    "R151": {
+      "latitude": 32.943821,
+      "longitude": -97.130591,
+      "locale": "en_US",
+      "slug": "southlaketownsquare",
+      "name": "Southlake Town Square"
+    },
+    "R152": {
+      "latitude": 40.582432,
+      "longitude": -74.165837,
+      "locale": "en_US",
+      "slug": "statenisland",
+      "name": "Staten Island"
+    },
+    "R153": {
+      "latitude": 53.41398,
+      "longitude": -1.41171,
+      "locale": "en_GB",
+      "slug": "meadowhall",
+      "name": "Meadowhall"
+    },
+    "R154": {
+      "latitude": 34.18405,
+      "longitude": -118.88763,
+      "locale": "en_US",
+      "slug": "theoaks",
+      "name": "The Oaks"
+    },
+    "R155": {
+      "latitude": 42.48275,
+      "longitude": -71.21398,
+      "locale": "en_US",
+      "slug": "burlington",
+      "name": "Burlington"
+    },
+    "R156": {
+      "latitude": 33.915871,
+      "longitude": -117.886592,
+      "locale": "en_US",
+      "slug": "breamall",
+      "name": "Brea Mall"
+    },
+    "R161": {
+      "latitude": 36.118786111111,
+      "longitude": -115.177691162857,
+      "locale": "en_US",
+      "slug": "theforumshops",
+      "name": "The Forum Shops"
+    },
+    "R162": {
+      "latitude": 39.950033333333,
+      "longitude": -75.167887789083,
+      "locale": "en_US",
+      "slug": "walnutstreet",
+      "name": "Walnut Street"
+    },
+    "R163": {
+      "latitude": 51.576232751094,
+      "longitude": -0.2249193191528,
+      "locale": "en_GB",
+      "slug": "brentcross",
+      "name": "Brent Cross"
+    },
+    "R164": {
+      "latitude": 29.78102,
+      "longitude": -95.53893,
+      "locale": "en_US",
+      "slug": "memorialcity",
+      "name": "Memorial City"
+    },
+    "R166": {
+      "latitude": 40.00884,
+      "longitude": -75.28786,
+      "locale": "en_US",
+      "slug": "suburbansquare",
+      "name": "Suburban Square"
+    },
+    "R167": {
+      "latitude": 41.8269,
+      "longitude": -71.4163,
+      "locale": "en_US",
+      "slug": "providenceplace",
+      "name": "Providence Place"
+    },
+    "R168": {
+      "latitude": 39.216,
+      "longitude": -76.85995,
+      "locale": "en_US",
+      "slug": "columbia",
+      "name": "Columbia"
+    },
+    "R169": {
+      "latitude": 26.2132,
+      "longitude": -81.8017,
+      "locale": "en_US",
+      "slug": "watersideshops",
+      "name": "Waterside Shops"
+    },
+    "R172": {
+      "latitude": 40.01754,
+      "longitude": -105.25649,
+      "locale": "en_US",
+      "slug": "twentyninthstreet",
+      "name": "Twenty Ninth Street"
+    },
+    "R174": {
+      "latitude": 50.90393,
+      "longitude": -1.40536,
+      "locale": "en_GB",
+      "slug": "southampton",
+      "name": "Southampton"
+    },
+    "R176": {
+      "latitude": 51.453639,
+      "longitude": -0.971324,
+      "locale": "en_GB",
+      "slug": "theoracle",
+      "name": "The Oracle"
+    },
+    "R177": {
+      "latitude": 35.10299,
+      "longitude": -106.56682,
+      "locale": "en_US",
+      "slug": "abquptown",
+      "name": "ABQ Uptown"
+    },
+    "R178": {
+      "latitude": 48.89095,
+      "longitude": 2.2381,
+      "locale": "fr_FR",
+      "slug": "lesquatretemps",
+      "name": "Les Quatre Temps"
+    },
+    "R180": {
+      "latitude": -37.885829,
+      "longitude": 145.082502,
+      "locale": "en_AU",
+      "slug": "chadstone",
+      "name": "Chadstone"
+    },
+    "R182": {
+      "latitude": 39.933409903017,
+      "longitude": -105.1329389226,
+      "locale": "en_US",
+      "slug": "flatironcrossing",
+      "name": "FlatIron Crossing"
+    },
+    "R183": {
+      "latitude": 44.9685555,
+      "longitude": -93.436633377,
+      "locale": "en_US",
+      "slug": "ridgedale",
+      "name": "Ridgedale"
+    },
+    "R184": {
+      "latitude": 33.92409,
+      "longitude": -84.34062,
+      "locale": "en_US",
+      "slug": "perimeter",
+      "name": "Perimeter"
+    },
+    "R185": {
+      "latitude": 26.402100590821,
+      "longitude": -81.806635698069,
+      "locale": "en_US",
+      "slug": "coconutpoint",
+      "name": "Coconut Point"
+    },
+    "R186": {
+      "latitude": 39.4031,
+      "longitude": -119.7516,
+      "locale": "en_US",
+      "slug": "shaydensummit",
+      "name": "Shayden Summit"
+    },
+    "R189": {
+      "latitude": 34.190237371111,
+      "longitude": -118.603103308888,
+      "locale": "en_US",
+      "slug": "topanga",
+      "name": "Topanga"
+    },
+    "R190": {
+      "latitude": 41.261188,
+      "longitude": -96.183078,
+      "locale": "en_US",
+      "slug": "villagepointe",
+      "name": "Village Pointe"
+    },
+    "R191": {
+      "latitude": 42.168361193943,
+      "longitude": -72.641229866407,
+      "locale": "en_US",
+      "slug": "holyoke",
+      "name": "Holyoke"
+    },
+    "R192": {
+      "latitude": 41.459877,
+      "longitude": -81.951328,
+      "locale": "en_US",
+      "slug": "crockerpark",
+      "name": "Crocker Park"
+    },
+    "R199": {
+      "latitude": 35.280617510041,
+      "longitude": -120.66187958447,
+      "locale": "en_US",
+      "slug": "higuerastreet",
+      "name": "Higuera Street"
+    },
+    "R202": {
+      "latitude": 41.1058,
+      "longitude": -73.4185,
+      "locale": "en_US",
+      "slug": "sonocollection",
+      "name": "SoNo Collection"
+    },
+    "R203": {
+      "latitude": 35.924375,
+      "longitude": -84.03725,
+      "locale": "en_US",
+      "slug": "westtownmall",
+      "name": "West Town Mall"
+    },
+    "R204": {
+      "latitude": 29.5415,
+      "longitude": -95.1479,
+      "locale": "en_US",
+      "slug": "baybrook",
+      "name": "Baybrook"
+    },
+    "R205": {
+      "latitude": 29.59141,
+      "longitude": -95.625,
+      "locale": "en_US",
+      "slug": "firstcolonymall",
+      "name": "First Colony Mall"
+    },
+    "R206": {
+      "latitude": 39.941067,
+      "longitude": -75.023797,
+      "locale": "en_US",
+      "slug": "cherryhill",
+      "name": "Cherry Hill"
+    },
+    "R207": {
+      "latitude": 45.571402,
+      "longitude": -73.75204,
+      "locale": "en_CA",
+      "slug": "carrefourlaval",
+      "name": "Carrefour Laval"
+    },
+    "R208": {
+      "latitude": 43.612406,
+      "longitude": -79.556325,
+      "locale": "en_CA",
+      "slug": "sherwaygardens",
+      "name": "Sherway Gardens"
+    },
+    "R209": {
+      "latitude": 50.999372,
+      "longitude": -114.072981,
+      "locale": "en_CA",
+      "slug": "chinookcentre",
+      "name": "Chinook Centre"
+    },
+    "R210": {
+      "latitude": 21.277081111189,
+      "longitude": -157.78698547723,
+      "locale": "en_US",
+      "slug": "kahala",
+      "name": "Kahala"
+    },
+    "R213": {
+      "latitude": 32.624013452564,
+      "longitude": -116.966609291354,
+      "locale": "en_US",
+      "slug": "otayranch",
+      "name": "Otay Ranch"
+    },
+    "R214": {
+      "latitude": 26.1366746197973,
+      "longitude": -80.1143955043863,
+      "locale": "en_US",
+      "slug": "thegalleria",
+      "name": "The Galleria"
+    },
+    "R215": {
+      "latitude": 53.48384,
+      "longitude": -2.24067,
+      "locale": "en_GB",
+      "slug": "manchesterarndale",
+      "name": "Manchester Arndale"
+    },
+    "R216": {
+      "latitude": 30.402708,
+      "longitude": -97.721954,
+      "locale": "en_US",
+      "slug": "domainnorthside",
+      "name": "Domain NORTHSIDE"
+    },
+    "R217": {
+      "latitude": 37.800415,
+      "longitude": -122.438363,
+      "locale": "en_US",
+      "slug": "chestnutstreet",
+      "name": "Chestnut Street"
+    },
+    "R219": {
+      "latitude": 36.06767,
+      "longitude": -115.17607,
+      "locale": "en_US",
+      "slug": "townsquare",
+      "name": "Town Square"
+    },
+    "R221": {
+      "latitude": 38.85797,
+      "longitude": -77.35578,
+      "locale": "en_US",
+      "slug": "fairfaxcorner",
+      "name": "Fairfax Corner"
+    },
+    "R224": {
+      "latitude": 35.666129,
+      "longitude": 139.710932,
+      "locale": "ja_JP",
+      "slug": "omotesando",
+      "name": "Omotesando"
+    },
+    "R225": {
+      "latitude": 33.44726,
+      "longitude": -86.7285,
+      "locale": "en_US",
+      "slug": "thesummit",
+      "name": "The Summit"
+    },
+    "R226": {
+      "latitude": 51.5074,
+      "longitude": -0.22094,
+      "locale": "en_GB",
+      "slug": "whitecity",
+      "name": "White City"
+    },
+    "R227": {
+      "latitude": 51.41154,
+      "longitude": -0.30475,
+      "locale": "en_GB",
+      "slug": "bentallcentre",
+      "name": "Bentall Centre"
+    },
+    "R228": {
+      "latitude": 39.562176,
+      "longitude": -104.875562,
+      "locale": "en_US",
+      "slug": "parkmeadows",
+      "name": "Park Meadows"
+    },
+    "R229": {
+      "latitude": 43.072144281456,
+      "longitude": -89.452947378159,
+      "locale": "en_US",
+      "slug": "hilldale",
+      "name": "Hilldale"
+    },
+    "R230": {
+      "latitude": 42.240454559898,
+      "longitude": -83.746988527251,
+      "locale": "en_US",
+      "slug": "briarwood",
+      "name": "Briarwood"
+    },
+    "R231": {
+      "latitude": 37.5389,
+      "longitude": -122.3018,
+      "locale": "en_US",
+      "slug": "hillsdale",
+      "name": "Hillsdale"
+    },
+    "R232": {
+      "latitude": 42.301522,
+      "longitude": -71.383724,
+      "locale": "en_US",
+      "slug": "natick",
+      "name": "Natick"
+    },
+    "R233": {
+      "latitude": 36.06342,
+      "longitude": -95.88056,
+      "locale": "en_US",
+      "slug": "woodlandhills",
+      "name": "Woodland Hills"
+    },
+    "R234": {
+      "latitude": 40.140456,
+      "longitude": -75.12356,
+      "locale": "en_US",
+      "slug": "willowgrovepark",
+      "name": "Willow Grove Park"
+    },
+    "R235": {
+      "latitude": 30.004561,
+      "longitude": -90.157228,
+      "locale": "en_US",
+      "slug": "lakesideshoppingcenter",
+      "name": "Lakeside Shopping Center"
+    },
+    "R236": {
+      "latitude": 36.80674,
+      "longitude": -119.77553,
+      "locale": "en_US",
+      "slug": "fashionfair",
+      "name": "Fashion Fair"
+    },
+    "R237": {
+      "latitude": 41.6193,
+      "longitude": -87.8479,
+      "locale": "en_US",
+      "slug": "orlandsquaremall",
+      "name": "Orland Square Mall"
+    },
+    "R238": {
+      "latitude": -33.86889,
+      "longitude": 151.20678,
+      "locale": "en_AU",
+      "slug": "sydney",
+      "name": "Sydney"
+    },
+    "R239": {
+      "latitude": 53.4034,
+      "longitude": -2.9872,
+      "locale": "en_GB",
+      "slug": "liverpool",
+      "name": "Liverpool"
+    },
+    "R240": {
+      "latitude": 37.223389725861,
+      "longitude": -121.983768164813,
+      "locale": "en_US",
+      "slug": "losgatos",
+      "name": "Los Gatos"
+    },
+    "R242": {
+      "latitude": 51.48862,
+      "longitude": 0.28351,
+      "locale": "en_GB",
+      "slug": "lakeside",
+      "name": "Lakeside"
+    },
+    "R244": {
+      "latitude": 50.822306,
+      "longitude": -0.145871,
+      "locale": "en_GB",
+      "slug": "churchillsquare",
+      "name": "Churchill Square"
+    },
+    "R245": {
+      "latitude": 51.51217,
+      "longitude": -0.12352,
+      "locale": "en_GB",
+      "slug": "coventgarden",
+      "name": "Covent Garden"
+    },
+    "R247": {
+      "latitude": 33.6422,
+      "longitude": -112.2256,
+      "locale": "en_US",
+      "slug": "arrowhead",
+      "name": "Arrowhead"
+    },
+    "R248": {
+      "latitude": 45.498091,
+      "longitude": -73.575256,
+      "locale": "en_CA",
+      "slug": "saintecatherine",
+      "name": "Sainte-Catherine"
+    },
+    "R250": {
+      "latitude": 40.7412,
+      "longitude": -74.00542,
+      "locale": "en_US",
+      "slug": "west14thstreet",
+      "name": "West 14th Street"
+    },
+    "R251": {
+      "latitude": 40.775072222222,
+      "longitude": -73.982595290736,
+      "locale": "en_US",
+      "slug": "upperwestside",
+      "name": "Upper West Side"
+    },
+    "R253": {
+      "latitude": -33.79499,
+      "longitude": 151.18613,
+      "locale": "en_AU",
+      "slug": "chatswoodchase",
+      "name": "Chatswood Chase"
+    },
+    "R254": {
+      "latitude": -33.89228,
+      "longitude": 151.2503,
+      "locale": "en_AU",
+      "slug": "bondi",
+      "name": "Bondi"
+    },
+    "R255": {
+      "latitude": 52.4125,
+      "longitude": -1.77888888888889,
+      "locale": "en_GB",
+      "slug": "touchwoodcentre",
+      "name": "Touchwood Centre"
+    },
+    "R257": {
+      "latitude": 43.121566,
+      "longitude": -87.915186,
+      "locale": "en_US",
+      "slug": "bayshore",
+      "name": "Bayshore"
+    },
+    "R258": {
+      "latitude": 42.1605,
+      "longitude": -88.0554,
+      "locale": "en_US",
+      "slug": "deerpark",
+      "name": "Deer Park"
+    },
+    "R259": {
+      "latitude": 34.06593,
+      "longitude": -83.98376,
+      "locale": "en_US",
+      "slug": "mallofgeorgia",
+      "name": "Mall of Georgia"
+    },
+    "R261": {
+      "latitude": 40.96373,
+      "longitude": -73.85643,
+      "locale": "en_US",
+      "slug": "ridgehill",
+      "name": "Ridge Hill"
+    },
+    "R262": {
+      "latitude": 61.216734,
+      "longitude": -149.888387,
+      "locale": "en_US",
+      "slug": "anchorage5thavenuemall",
+      "name": "Anchorage 5th Avenue Mall"
+    },
+    "R263": {
+      "latitude": 30.38801,
+      "longitude": -91.08676,
+      "locale": "en_US",
+      "slug": "malloflouisiana",
+      "name": "Mall of Louisiana"
+    },
+    "R264": {
+      "latitude": 38.247278,
+      "longitude": -85.609467,
+      "locale": "en_US",
+      "slug": "oxmoor",
+      "name": "Oxmoor"
+    },
+    "R266": {
+      "latitude": 34.71577,
+      "longitude": -86.67308,
+      "locale": "en_US",
+      "slug": "bridgestreet",
+      "name": "Bridge Street"
+    },
+    "R267": {
+      "latitude": 33.30879,
+      "longitude": -111.74271,
+      "locale": "en_US",
+      "slug": "santanvillage",
+      "name": "SanTan Village"
+    },
+    "R269": {
+      "latitude": 52.04049,
+      "longitude": -0.75733,
+      "locale": "en_GB",
+      "slug": "miltonkeynes",
+      "name": "Milton Keynes"
+    },
+    "R270": {
+      "latitude": 52.20396,
+      "longitude": 0.12068,
+      "locale": "en_GB",
+      "slug": "grandarcade",
+      "name": "Grand Arcade"
+    },
+    "R271": {
+      "latitude": 38.9585,
+      "longitude": -77.3581,
+      "locale": "en_US",
+      "slug": "reston",
+      "name": "Reston"
+    },
+    "R273": {
+      "latitude": 53.52232,
+      "longitude": -113.6209,
+      "locale": "en_CA",
+      "slug": "westedmonton",
+      "name": "West Edmonton"
+    },
+    "R277": {
+      "latitude": 48.872244,
+      "longitude": 2.333126,
+      "locale": "fr_FR",
+      "slug": "opera",
+      "name": "Opéra"
+    },
+    "R278": {
+      "latitude": 45.0556,
+      "longitude": 7.61299,
+      "locale": "it_IT",
+      "slug": "legru",
+      "name": "Le Gru"
+    },
+    "R279": {
+      "latitude": 50.72457,
+      "longitude": -3.52786,
+      "locale": "en_GB",
+      "slug": "princesshay",
+      "name": "Princesshay"
+    },
+    "R280": {
+      "latitude": 49.28312,
+      "longitude": -123.11866,
+      "locale": "en_CA",
+      "slug": "pacificcentre",
+      "name": "Pacific Centre"
+    },
+    "R281": {
+      "latitude": 40.62926,
+      "longitude": -75.48147,
+      "locale": "en_US",
+      "slug": "lehighvalley",
+      "name": "Lehigh Valley"
+    },
+    "R282": {
+      "latitude": 41.023298255128,
+      "longitude": -73.62529602612,
+      "locale": "en_US",
+      "slug": "greenwichavenue",
+      "name": "Greenwich Avenue"
+    },
+    "R283": {
+      "latitude": 38.91131,
+      "longitude": -94.6378,
+      "locale": "en_US",
+      "slug": "leawood",
+      "name": "Leawood"
+    },
+    "R284": {
+      "latitude": 41.91062,
+      "longitude": -87.64856,
+      "locale": "en_US",
+      "slug": "lincolnpark",
+      "name": "Lincoln Park"
+    },
+    "R285": {
+      "latitude": 33.07109,
+      "longitude": -117.06626,
+      "locale": "en_US",
+      "slug": "northcounty",
+      "name": "North County"
+    },
+    "R286": {
+      "latitude": 34.76635,
+      "longitude": -92.45902,
+      "locale": "en_US",
+      "slug": "thepromenadeatchenal",
+      "name": "The Promenade at Chenal"
+    },
+    "R287": {
+      "latitude": 38.905922540478,
+      "longitude": -77.062310166353,
+      "locale": "en_US",
+      "slug": "georgetown",
+      "name": "Georgetown"
+    },
+    "R288": {
+      "latitude": 37.977139,
+      "longitude": -84.528169,
+      "locale": "en_US",
+      "slug": "fritzfarm",
+      "name": "Fritz Farm"
+    },
+    "R289": {
+      "latitude": 27.9328,
+      "longitude": -82.3264,
+      "locale": "en_US",
+      "slug": "brandon",
+      "name": "Brandon"
+    },
+    "R290": {
+      "latitude": 29.518172084308,
+      "longitude": -98.496084987277,
+      "locale": "en_US",
+      "slug": "northstar",
+      "name": "North Star"
+    },
+    "R291": {
+      "latitude": 28.66665,
+      "longitude": -81.37696,
+      "locale": "en_US",
+      "slug": "altamonte",
+      "name": "Altamonte"
+    },
+    "R292": {
+      "latitude": 33.62411,
+      "longitude": -111.92514,
+      "locale": "en_US",
+      "slug": "scottsdalequarter",
+      "name": "Scottsdale Quarter"
+    },
+    "R293": {
+      "latitude": 36.08601,
+      "longitude": -79.83615,
+      "locale": "en_US",
+      "slug": "friendlycenter",
+      "name": "Friendly Center"
+    },
+    "R294": {
+      "latitude": 33.0721,
+      "longitude": -117.265,
+      "locale": "en_US",
+      "slug": "carlsbad",
+      "name": "Carlsbad"
+    },
+    "R297": {
+      "latitude": 33.719631,
+      "longitude": -116.383301,
+      "locale": "en_US",
+      "slug": "elpaseovillage",
+      "name": "El Paseo Village"
+    },
+    "R298": {
+      "latitude": 38.773042110625,
+      "longitude": -121.26993510375,
+      "locale": "en_US",
+      "slug": "roseville",
+      "name": "Roseville"
+    },
+    "R299": {
+      "latitude": 41.694016,
+      "longitude": -83.640205,
+      "locale": "en_US",
+      "slug": "franklinparkmall",
+      "name": "Franklin Park Mall"
+    },
+    "R300": {
+      "latitude": 33.862423,
+      "longitude": -118.093942,
+      "locale": "en_US",
+      "slug": "loscerritos",
+      "name": "Los Cerritos"
+    },
+    "R301": {
+      "latitude": 51.08307,
+      "longitude": -114.15449,
+      "locale": "en_CA",
+      "slug": "marketmall",
+      "name": "Market Mall"
+    },
+    "R303": {
+      "latitude": 43.60841,
+      "longitude": -116.2782,
+      "locale": "en_US",
+      "slug": "boisetownesquare",
+      "name": "Boise Towne Square"
+    },
+    "R304": {
+      "latitude": 40.066621516531,
+      "longitude": -76.339304237834,
+      "locale": "en_US",
+      "slug": "parkcity",
+      "name": "Park City"
+    },
+    "R305": {
+      "latitude": 36.584103459981,
+      "longitude": -121.897348157823,
+      "locale": "en_US",
+      "slug": "delmonte",
+      "name": "Del Monte"
+    },
+    "R307": {
+      "latitude": 43.633574,
+      "longitude": -70.334645,
+      "locale": "en_US",
+      "slug": "mainemall",
+      "name": "Maine Mall"
+    },
+    "R308": {
+      "latitude": 52.637029,
+      "longitude": -1.137136,
+      "locale": "en_GB",
+      "slug": "highcross",
+      "name": "Highcross"
+    },
+    "R312": {
+      "latitude": 25.689879,
+      "longitude": -80.313707,
+      "locale": "en_US",
+      "slug": "dadeland",
+      "name": "Dadeland"
+    },
+    "R313": {
+      "latitude": 54.59907,
+      "longitude": -5.92852,
+      "locale": "en_GB",
+      "slug": "belfast",
+      "name": "Belfast"
+    },
+    "R315": {
+      "latitude": 48.780381,
+      "longitude": 2.220057,
+      "locale": "fr_FR",
+      "slug": "velizy2",
+      "name": "Vélizy 2"
+    },
+    "R316": {
+      "latitude": 32.7296,
+      "longitude": -97.36187,
+      "locale": "en_US",
+      "slug": "universityparkvillage",
+      "name": "University Park Village"
+    },
+    "R317": {
+      "latitude": 34.421328623322,
+      "longitude": -119.701544216385,
+      "locale": "en_US",
+      "slug": "statestreet",
+      "name": "State Street"
+    },
+    "R318": {
+      "latitude": 32.783361441121,
+      "longitude": -79.934934815863,
+      "locale": "en_US",
+      "slug": "charleston",
+      "name": "Charleston"
+    },
+    "R321": {
+      "latitude": 29.960546845453,
+      "longitude": -95.539229502601,
+      "locale": "en_US",
+      "slug": "willowbrookmall",
+      "name": "Willowbrook Mall"
+    },
+    "R322": {
+      "latitude": 37.687749808908,
+      "longitude": -121.053261792864,
+      "locale": "en_US",
+      "slug": "vintagefaire",
+      "name": "Vintage Faire"
+    },
+    "R324": {
+      "latitude": 32.434193909776,
+      "longitude": -90.146924361481,
+      "locale": "en_US",
+      "slug": "renaissanceatcolonypark",
+      "name": "Renaissance at Colony Park"
+    },
+    "R325": {
+      "latitude": 40.88944,
+      "longitude": -74.25861,
+      "locale": "en_US",
+      "slug": "willowbrook",
+      "name": "Willowbrook"
+    },
+    "R327": {
+      "latitude": 40.795021215557,
+      "longitude": -73.676486243195,
+      "locale": "en_US",
+      "slug": "manhasset",
+      "name": "Manhasset"
+    },
+    "R328": {
+      "latitude": 55.953255,
+      "longitude": -3.189934,
+      "locale": "en_GB",
+      "slug": "edinburgh",
+      "name": "Edinburgh"
+    },
+    "R329": {
+      "latitude": 51.50129,
+      "longitude": -0.16096,
+      "locale": "en_GB",
+      "slug": "bromptonroad",
+      "name": "Brompton Road"
+    },
+    "R331": {
+      "latitude": 51.22675,
+      "longitude": 6.77995,
+      "locale": "de_DE",
+      "slug": "duesseldorf",
+      "name": "Düsseldorf"
+    },
+    "R332": {
+      "latitude": 45.42509,
+      "longitude": -75.69101,
+      "locale": "en_CA",
+      "slug": "rideau",
+      "name": "Rideau"
+    },
+    "R333": {
+      "latitude": 43.778,
+      "longitude": -79.3442,
+      "locale": "en_CA",
+      "slug": "fairview",
+      "name": "Fairview"
+    },
+    "R334": {
+      "latitude": 51.47896,
+      "longitude": -3.17517,
+      "locale": "en_GB",
+      "slug": "cardiff",
+      "name": "Cardiff"
+    },
+    "R335": {
+      "latitude": 51.3788290897083,
+      "longitude": -2.35888078808784,
+      "locale": "en_GB",
+      "slug": "southgate",
+      "name": "SouthGate"
+    },
+    "R338": {
+      "latitude": 38.962692,
+      "longitude": -104.79529,
+      "locale": "en_US",
+      "slug": "thepromenadeshopsatbriargate",
+      "name": "The Promenade Shops at Briargate"
+    },
+    "R339": {
+      "latitude": 47.215559,
+      "longitude": -122.4696,
+      "locale": "en_US",
+      "slug": "tacomamall",
+      "name": "Tacoma Mall"
+    },
+    "R340": {
+      "latitude": 55.876122,
+      "longitude": -4.364658,
+      "locale": "en_GB",
+      "slug": "braehead",
+      "name": "Braehead"
+    },
+    "R341": {
+      "latitude": 54.97296,
+      "longitude": -1.61683,
+      "locale": "en_GB",
+      "slug": "eldonsquare",
+      "name": "Eldon Square"
+    },
+    "R342": {
+      "latitude": -37.78442,
+      "longitude": 145.1261,
+      "locale": "en_AU",
+      "slug": "doncaster",
+      "name": "Doncaster"
+    },
+    "R343": {
+      "latitude": -37.958244,
+      "longitude": 145.052434,
+      "locale": "en_AU",
+      "slug": "southland",
+      "name": "Southland"
+    },
+    "R344": {
+      "latitude": -33.730556,
+      "longitude": 151.006111,
+      "locale": "en_AU",
+      "slug": "castletowers",
+      "name": "Castle Towers"
+    },
+    "R345": {
+      "latitude": 33.52375718689,
+      "longitude": -117.153113410091,
+      "locale": "en_US",
+      "slug": "promenadetemecula",
+      "name": "Promenade Temecula"
+    },
+    "R346": {
+      "latitude": 42.230872743618,
+      "longitude": -71.178393320255,
+      "locale": "en_US",
+      "slug": "legacyplace",
+      "name": "Legacy Place"
+    },
+    "R348": {
+      "latitude": 41.7728,
+      "longitude": -88.15037,
+      "locale": "en_US",
+      "slug": "mainplace",
+      "name": "Main Place"
+    },
+    "R350": {
+      "latitude": 43.593096,
+      "longitude": -79.642159,
+      "locale": "en_CA",
+      "slug": "squareone",
+      "name": "Square One"
+    },
+    "R351": {
+      "latitude": -28.077575,
+      "longitude": 153.385213,
+      "locale": "en_AU",
+      "slug": "robina",
+      "name": "Robina"
+    },
+    "R352": {
+      "latitude": 50.11468,
+      "longitude": 8.67505,
+      "locale": "de_DE",
+      "slug": "grossebockenheimerstrasse",
+      "name": "Grosse Bockenheimer Strasse"
+    },
+    "R353": {
+      "latitude": 41.13441,
+      "longitude": -81.61738,
+      "locale": "en_US",
+      "slug": "summitmall",
+      "name": "Summit Mall"
+    },
+    "R354": {
+      "latitude": 42.701675,
+      "longitude": -71.437373674391,
+      "locale": "en_US",
+      "slug": "pheasantlane",
+      "name": "Pheasant Lane"
+    },
+    "R355": {
+      "latitude": 34.849384788464,
+      "longitude": -82.333932409004,
+      "locale": "en_US",
+      "slug": "haywoodmall",
+      "name": "Haywood Mall"
+    },
+    "R357": {
+      "latitude": 43.306274,
+      "longitude": 5.363277,
+      "locale": "fr_FR",
+      "slug": "marseille",
+      "name": "Marseille"
+    },
+    "R358": {
+      "latitude": 52.50363,
+      "longitude": 13.32865,
+      "locale": "de_DE",
+      "slug": "kurfuerstendamm",
+      "name": "Kurfürstendamm"
+    },
+    "R360": {
+      "latitude": 41.71847,
+      "longitude": -86.19101,
+      "locale": "en_US",
+      "slug": "universityparkmall",
+      "name": "University Park Mall"
+    },
+    "R363": {
+      "latitude": 57.143454,
+      "longitude": -2.096898,
+      "locale": "en_GB",
+      "slug": "unionsquare",
+      "name": "Union Square"
+    },
+    "R364": {
+      "latitude": 33.46575,
+      "longitude": -82.08065,
+      "locale": "en_US",
+      "slug": "augusta",
+      "name": "Augusta"
+    },
+    "R365": {
+      "latitude": 45.5455,
+      "longitude": 9.32783,
+      "locale": "it_IT",
+      "slug": "carosello",
+      "name": "Carosello"
+    },
+    "R366": {
+      "latitude": 53.65432,
+      "longitude": 10.09203,
+      "locale": "de_DE",
+      "slug": "alstertal",
+      "name": "Alstertal"
+    },
+    "R367": {
+      "latitude": 43.603751,
+      "longitude": 3.920996,
+      "locale": "fr_FR",
+      "slug": "odysseum",
+      "name": "Odysseum"
+    },
+    "R368": {
+      "latitude": 41.387937,
+      "longitude": 2.16988,
+      "locale": "es_ES",
+      "slug": "passeigdegracia",
+      "name": "Passeig de Gràcia"
+    },
+    "R369": {
+      "latitude": 49.882966,
+      "longitude": -97.198652,
+      "locale": "en_CA",
+      "slug": "polopark",
+      "name": "Polo Park"
+    },
+    "R372": {
+      "latitude": 53.79655,
+      "longitude": -1.54379,
+      "locale": "en_GB",
+      "slug": "trinityleeds",
+      "name": "Trinity Leeds"
+    },
+    "R373": {
+      "latitude": 45.76153,
+      "longitude": 4.8557,
+      "locale": "fr_FR",
+      "slug": "part-dieu",
+      "name": "Part-Dieu"
+    },
+    "R374": {
+      "latitude": 48.8277778,
+      "longitude": 2.11722222222222,
+      "locale": "fr_FR",
+      "slug": "parly2",
+      "name": "Parly 2"
+    },
+    "R376": {
+      "latitude": 50.6373639671188,
+      "longitude": 3.06567303482582,
+      "locale": "fr_FR",
+      "slug": "lille",
+      "name": "Lille"
+    },
+    "R377": {
+      "latitude": 41.60951,
+      "longitude": -0.88623,
+      "locale": "es_ES",
+      "slug": "puertovenecia",
+      "name": "Puerto Venecia"
+    },
+    "R381": {
+      "latitude": 41.9715,
+      "longitude": 12.53983,
+      "locale": "it_IT",
+      "slug": "portadiroma",
+      "name": "Porta di Roma"
+    },
+    "R382": {
+      "latitude": 41.9022,
+      "longitude": 12.4802,
+      "locale": "it_IT",
+      "slug": "viadelcorso",
+      "name": "Via del Corso"
+    },
+    "R384": {
+      "latitude": -27.3811,
+      "longitude": 153.032944,
+      "locale": "en_AU",
+      "slug": "chermside",
+      "name": "Chermside"
+    },
+    "R385": {
+      "latitude": -32.96363,
+      "longitude": 151.69406,
+      "locale": "en_AU",
+      "slug": "charlestown",
+      "name": "Charlestown"
+    },
+    "R386": {
+      "latitude": -31.952658,
+      "longitude": 115.858728,
+      "locale": "en_AU",
+      "slug": "perthcity",
+      "name": "Perth City"
+    },
+    "R391": {
+      "latitude": 52.6259,
+      "longitude": 1.28956,
+      "locale": "en_GB",
+      "slug": "norwich",
+      "name": "Norwich"
+    },
+    "R392": {
+      "latitude": 45.46333,
+      "longitude": -73.83166,
+      "locale": "en_CA",
+      "slug": "fairviewpointeclaire",
+      "name": "Fairview Pointe-Claire"
+    },
+    "R393": {
+      "latitude": 51.52542,
+      "longitude": -2.59556,
+      "locale": "en_GB",
+      "slug": "cribbscauseway",
+      "name": "Cribbs Causeway"
+    },
+    "R394": {
+      "latitude": 48.58385,
+      "longitude": 7.74548,
+      "locale": "fr_FR",
+      "slug": "strasbourg",
+      "name": "Strasbourg"
+    },
+    "R395": {
+      "latitude": 43.65882,
+      "longitude": 7.19705,
+      "locale": "fr_FR",
+      "slug": "cap3000",
+      "name": "CAP 3000"
+    },
+    "R396": {
+      "latitude": 53.552862,
+      "longitude": 9.99288,
+      "locale": "de_DE",
+      "slug": "jungfernstieg",
+      "name": "Jungfernstieg"
+    },
+    "R397": {
+      "latitude": 40.29903,
+      "longitude": -3.92671,
+      "locale": "es_ES",
+      "slug": "xanadu",
+      "name": "Xanadú"
+    },
+    "R403": {
+      "latitude": 51.489596,
+      "longitude": 6.876976,
+      "locale": "de_DE",
+      "slug": "centro",
+      "name": "CentrO"
+    },
+    "R405": {
+      "latitude": -34.922821,
+      "longitude": 138.602631,
+      "locale": "en_AU",
+      "slug": "rundleplace",
+      "name": "Rundle Place"
+    },
+    "R406": {
+      "latitude": 41.43967,
+      "longitude": 2.19834,
+      "locale": "es_ES",
+      "slug": "lamaquinista",
+      "name": "La Maquinista"
+    },
+    "R408": {
+      "latitude": 52.36331,
+      "longitude": 4.8824,
+      "locale": "nl_NL",
+      "slug": "amsterdam",
+      "name": "Amsterdam"
+    },
+    "R409": {
+      "latitude": 22.279526,
+      "longitude": 114.183666,
+      "locale": "en_HK",
+      "slug": "causewaybay",
+      "name": "Causeway Bay"
+    },
+    "R410": {
+      "latitude": 51.543998,
+      "longitude": -0.006824,
+      "locale": "en_GB",
+      "slug": "stratfordcity",
+      "name": "Stratford City"
+    },
+    "R411": {
+      "latitude": 53.48623,
+      "longitude": -113.51454,
+      "locale": "en_CA",
+      "slug": "southgatecentre",
+      "name": "Southgate Centre"
+    },
+    "R412": {
+      "latitude": 46.77431,
+      "longitude": -71.27958,
+      "locale": "en_CA",
+      "slug": "placestefoy",
+      "name": "Place Ste-Foy"
+    },
+    "R413": {
+      "latitude": 40.54369,
+      "longitude": -80.00782,
+      "locale": "en_US",
+      "slug": "rosspark",
+      "name": "Ross Park"
+    },
+    "R414": {
+      "latitude": 37.869346,
+      "longitude": -122.300122,
+      "locale": "en_US",
+      "slug": "4thstreet",
+      "name": "4th Street"
+    },
+    "R415": {
+      "latitude": 40.752733,
+      "longitude": -73.976907,
+      "locale": "en_US",
+      "slug": "grandcentral",
+      "name": "Grand Central"
+    },
+    "R417": {
+      "latitude": 40.14572,
+      "longitude": -82.98037,
+      "locale": "en_US",
+      "slug": "polarisfashionplace",
+      "name": "Polaris Fashion Place"
+    },
+    "R418": {
+      "latitude": 45.66451,
+      "longitude": 9.69326,
+      "locale": "it_IT",
+      "slug": "oriocenter",
+      "name": "Oriocenter"
+    },
+    "R419": {
+      "latitude": 39.46903,
+      "longitude": -0.372431,
+      "locale": "es_ES",
+      "slug": "valencia",
+      "name": "Valencia"
+    },
+    "R420": {
+      "latitude": 47.658889,
+      "longitude": -117.4225,
+      "locale": "en_US",
+      "slug": "riverparksquare",
+      "name": "River Park Square"
+    },
+    "R421": {
+      "latitude": 49.16567,
+      "longitude": -123.13837,
+      "locale": "en_CA",
+      "slug": "richmondcentre",
+      "name": "Richmond Centre"
+    },
+    "R423": {
+      "latitude": 54.95713,
+      "longitude": -1.671959,
+      "locale": "en_GB",
+      "slug": "metrocentre",
+      "name": "Metrocentre"
+    },
+    "R424": {
+      "latitude": 44.84201,
+      "longitude": -0.57443,
+      "locale": "fr_FR",
+      "slug": "sainte-catherine",
+      "name": "Sainte-Catherine"
+    },
+    "R425": {
+      "latitude": 48.85577,
+      "longitude": 2.78292,
+      "locale": "fr_FR",
+      "slug": "valdeurope",
+      "name": "Val d’Europe"
+    },
+    "R427": {
+      "latitude": 44.49493,
+      "longitude": 11.34344,
+      "locale": "it_IT",
+      "slug": "viarizzoli",
+      "name": "Via Rizzoli"
+    },
+    "R428": {
+      "latitude": 22.28463,
+      "longitude": 114.159172,
+      "locale": "en_HK",
+      "slug": "ifcmall",
+      "name": "ifc mall"
+    },
+    "R429": {
+      "latitude": 44.0558,
+      "longitude": -79.48516,
+      "locale": "en_CA",
+      "slug": "uppercanadamall",
+      "name": "Upper Canada Mall"
+    },
+    "R430": {
+      "latitude": 51.04997,
+      "longitude": 13.73573,
+      "locale": "de_DE",
+      "slug": "altmarkt-galerie",
+      "name": "Altmarkt-Galerie"
+    },
+    "R431": {
+      "latitude": 48.36541,
+      "longitude": 10.90726,
+      "locale": "de_DE",
+      "slug": "city-galerie",
+      "name": "City-Galerie"
+    },
+    "R434": {
+      "latitude": 50.11933,
+      "longitude": 8.52679,
+      "locale": "de_DE",
+      "slug": "mtz",
+      "name": "MTZ"
+    },
+    "R435": {
+      "latitude": 40.49109,
+      "longitude": -3.89898,
+      "locale": "es_ES",
+      "slug": "granplaza2",
+      "name": "Gran Plaza 2"
+    },
+    "R436": {
+      "latitude": 40.34015,
+      "longitude": -3.73163,
+      "locale": "es_ES",
+      "slug": "parquesur",
+      "name": "Parquesur"
+    },
+    "R437": {
+      "latitude": 29.74197,
+      "longitude": -95.44574,
+      "locale": "en_US",
+      "slug": "highlandvillage",
+      "name": "Highland Village"
+    },
+    "R438": {
+      "latitude": 48.61461,
+      "longitude": 2.54731,
+      "locale": "fr_FR",
+      "slug": "carresenart",
+      "name": "Carré Sénart"
+    },
+    "R440": {
+      "latitude": -33.751287,
+      "longitude": 150.694699,
+      "locale": "en_AU",
+      "slug": "penrith",
+      "name": "Penrith"
+    },
+    "R441": {
+      "latitude": 45.39217,
+      "longitude": 9.17534,
+      "locale": "it_IT",
+      "slug": "fiordaliso",
+      "name": "Fiordaliso"
+    },
+    "R442": {
+      "latitude": 45.069164,
+      "longitude": 7.683394,
+      "locale": "it_IT",
+      "slug": "viaroma",
+      "name": "Via Roma"
+    },
+    "R443": {
+      "latitude": 52.52404,
+      "longitude": 13.40315,
+      "locale": "de_DE",
+      "slug": "rosenthalerstrasse",
+      "name": "Rosenthaler Strasse"
+    },
+    "R446": {
+      "latitude": 41.3119,
+      "longitude": -72.93093,
+      "locale": "en_US",
+      "slug": "newhaven",
+      "name": "New Haven"
+    },
+    "R447": {
+      "latitude": 43.32525,
+      "longitude": -79.81967,
+      "locale": "en_CA",
+      "slug": "mapleviewcentre",
+      "name": "Mapleview Centre"
+    },
+    "R449": {
+      "latitude": 43.84578,
+      "longitude": 11.1421,
+      "locale": "it_IT",
+      "slug": "igigli",
+      "name": "I Gigli"
+    },
+    "R450": {
+      "latitude": 40.41690030328,
+      "longitude": -3.702156543732,
+      "locale": "es_ES",
+      "slug": "puertadelsol",
+      "name": "Puerta del Sol"
+    },
+    "R451": {
+      "latitude": 34.14443,
+      "longitude": -118.25695,
+      "locale": "en_US",
+      "slug": "theamericanaatbrand",
+      "name": "The Americana at Brand"
+    },
+    "R453": {
+      "latitude": 41.00357,
+      "longitude": 14.32853,
+      "locale": "it_IT",
+      "slug": "campania",
+      "name": "Campania"
+    },
+    "R454": {
+      "latitude": 37.47774,
+      "longitude": 15.00844,
+      "locale": "it_IT",
+      "slug": "centrosicilia",
+      "name": "Centro Sicilia"
+    },
+    "R455": {
+      "latitude": 52.375092,
+      "longitude": 9.73943,
+      "locale": "de_DE",
+      "slug": "hannover",
+      "name": "Hannover"
+    },
+    "R458": {
+      "latitude": -25.047943115234375,
+      "longitude": 134.0033416748047,
+      "locale": "en_AU",
+      "slug": "hornsby",
+      "name": "Hornsby"
+    },
+    "R460": {
+      "latitude": 49.22606,
+      "longitude": -122.99922,
+      "locale": "en_CA",
+      "slug": "metrotown",
+      "name": "Metrotown"
+    },
+    "R461": {
+      "latitude": 40.636147,
+      "longitude": -111.8876,
+      "locale": "en_US",
+      "slug": "fashionplace",
+      "name": "Fashion Place"
+    },
+    "R462": {
+      "latitude": 34.41515,
+      "longitude": -118.55813,
+      "locale": "en_US",
+      "slug": "valenciatowncenter",
+      "name": "Valencia Town Center"
+    },
+    "R464": {
+      "latitude": 43.49773,
+      "longitude": -80.5273,
+      "locale": "en_CA",
+      "slug": "conestoga",
+      "name": "Conestoga"
+    },
+    "R466": {
+      "latitude": -27.46835,
+      "longitude": 153.027261,
+      "locale": "en_AU",
+      "slug": "brisbane",
+      "name": "Brisbane"
+    },
+    "R468": {
+      "latitude": 36.52166667,
+      "longitude": -4.87416667,
+      "locale": "es_ES",
+      "slug": "lacanada",
+      "name": "La Cañada"
+    },
+    "R469": {
+      "latitude": 45.74128,
+      "longitude": 4.81666,
+      "locale": "fr_FR",
+      "slug": "confluence",
+      "name": "Confluence"
+    },
+    "R470": {
+      "latitude": 47.225393,
+      "longitude": -1.630539,
+      "locale": "fr_FR",
+      "slug": "atlantis",
+      "name": "Atlantis"
+    },
+    "R477": {
+      "latitude": 43.525496,
+      "longitude": 5.445182,
+      "locale": "fr_FR",
+      "slug": "aix-en-provence",
+      "name": "Aix-en-Provence"
+    },
+    "R482": {
+      "latitude": 51.26526,
+      "longitude": -1.08538,
+      "locale": "en_GB",
+      "slug": "festivalplace",
+      "name": "Festival Place"
+    },
+    "R483": {
+      "latitude": -35.28026,
+      "longitude": 149.13371,
+      "locale": "en_AU",
+      "slug": "canberra",
+      "name": "Canberra"
+    },
+    "R485": {
+      "latitude": 22.33719,
+      "longitude": 114.17464,
+      "locale": "en_HK",
+      "slug": "festivalwalk",
+      "name": "Festival Walk"
+    },
+    "R488": {
+      "latitude": 49.279558,
+      "longitude": -122.798712,
+      "locale": "en_CA",
+      "slug": "coquitlamcentre",
+      "name": "Coquitlam Centre"
+    },
+    "R489": {
+      "latitude": 43.025556,
+      "longitude": -81.277778,
+      "locale": "en_CA",
+      "slug": "masonville",
+      "name": "Masonville"
+    },
+    "R490": {
+      "latitude": 45.34706,
+      "longitude": -75.80758,
+      "locale": "en_CA",
+      "slug": "bayshoreshoppingcentre",
+      "name": "Bayshore Shopping Centre"
+    },
+    "R492": {
+      "latitude": 31.77508,
+      "longitude": -106.3794,
+      "locale": "en_US",
+      "slug": "cielovistamall",
+      "name": "Cielo Vista Mall"
+    },
+    "R496": {
+      "latitude": 51.40263,
+      "longitude": 0.01568,
+      "locale": "en_GB",
+      "slug": "bromley",
+      "name": "Bromley"
+    },
+    "R499": {
+      "latitude": 22.299287,
+      "longitude": 114.168796,
+      "locale": "en_HK",
+      "slug": "cantonroad",
+      "name": "Canton Road"
+    },
+    "R503": {
+      "latitude": 55.563466,
+      "longitude": 12.973509,
+      "locale": "sv_SE",
+      "slug": "emporia",
+      "name": "Emporia"
+    },
+    "R504": {
+      "latitude": -37.77238,
+      "longitude": 144.89015,
+      "locale": "en_AU",
+      "slug": "highpoint",
+      "name": "Highpoint"
+    },
+    "R505": {
+      "latitude": 59.44498,
+      "longitude": 18.07128,
+      "locale": "sv_SE",
+      "slug": "tabycentrum",
+      "name": "Täby Centrum"
+    },
+    "R507": {
+      "latitude": 38.03928,
+      "longitude": -1.14871,
+      "locale": "es_ES",
+      "slug": "nuevacondomina",
+      "name": "Nueva Condomina"
+    },
+    "R508": {
+      "latitude": -32.03422,
+      "longitude": 115.83735,
+      "locale": "en_AU",
+      "slug": "booragoon",
+      "name": "Booragoon"
+    },
+    "R509": {
+      "latitude": -27.50227,
+      "longitude": 153.10189,
+      "locale": "en_AU",
+      "slug": "carindale",
+      "name": "Carindale"
+    },
+    "R512": {
+      "latitude": 45.446364,
+      "longitude": -73.438306,
+      "locale": "en_CA",
+      "slug": "dix30",
+      "name": "DIX30"
+    },
+    "R513": {
+      "latitude": 35.95814,
+      "longitude": -86.81336,
+      "locale": "en_US",
+      "slug": "coolspringsgalleria",
+      "name": "CoolSprings Galleria"
+    },
+    "R514": {
+      "latitude": 44.648933,
+      "longitude": -63.619234,
+      "locale": "en_CA",
+      "slug": "halifaxshoppingcentre",
+      "name": "Halifax Shopping Centre"
+    },
+    "R515": {
+      "latitude": 43.868241,
+      "longitude": -79.287983,
+      "locale": "en_CA",
+      "slug": "markvilleshoppingcentre",
+      "name": "Markville Shopping Centre"
+    },
+    "R516": {
+      "latitude": 38.902601,
+      "longitude": -77.022989,
+      "locale": "en_US",
+      "slug": "carnegielibrary",
+      "name": "Carnegie Library"
+    },
+    "R518": {
+      "latitude": 39.694173,
+      "longitude": -84.101912,
+      "locale": "en_US",
+      "slug": "thegreene",
+      "name": "The Greene"
+    },
+    "R519": {
+      "latitude": 48.704167,
+      "longitude": 9.032222,
+      "locale": "de_DE",
+      "slug": "sindelfingen",
+      "name": "Sindelfingen"
+    },
+    "R520": {
+      "latitude": 50.93729,
+      "longitude": 6.83437,
+      "locale": "de_DE",
+      "slug": "rheincenter",
+      "name": "Rhein Center"
+    },
+    "R521": {
+      "latitude": 48.18306,
+      "longitude": 11.53302,
+      "locale": "de_DE",
+      "slug": "oez",
+      "name": "OEZ"
+    },
+    "R522": {
+      "latitude": 47.35699,
+      "longitude": 5.05129,
+      "locale": "fr_FR",
+      "slug": "latoisondor",
+      "name": "La Toison d’Or"
+    },
+    "R523": {
+      "latitude": -33.88367,
+      "longitude": 151.19421,
+      "locale": "en_AU",
+      "slug": "broadway",
+      "name": "Broadway"
+    },
+    "R527": {
+      "latitude": 51.655216,
+      "longitude": -0.39291,
+      "locale": "en_GB",
+      "slug": "watford",
+      "name": "Watford"
+    },
+    "R530": {
+      "latitude": -38.01799,
+      "longitude": 145.30466,
+      "locale": "en_AU",
+      "slug": "fountaingate",
+      "name": "Fountain Gate"
+    },
+    "R536": {
+      "latitude": 48.883503,
+      "longitude": 2.477519,
+      "locale": "fr_FR",
+      "slug": "rosny2",
+      "name": "Rosny 2"
+    },
+    "R538": {
+      "latitude": 41.627828,
+      "longitude": -4.78512,
+      "locale": "es_ES",
+      "slug": "rioshopping",
+      "name": "Río Shopping"
+    },
+    "R539": {
+      "latitude": 52.378447,
+      "longitude": 4.632961,
+      "locale": "nl_NL",
+      "slug": "haarlem",
+      "name": "Haarlem"
+    },
+    "R540": {
+      "latitude": 52.0779495,
+      "longitude": 4.3113198,
+      "locale": "nl_NL",
+      "slug": "denhaag",
+      "name": "Den Haag"
+    },
+    "R545": {
+      "latitude": 50.372101,
+      "longitude": -4.138771,
+      "locale": "en_GB",
+      "slug": "plymouth",
+      "name": "Plymouth"
+    },
+    "R547": {
+      "latitude": 45.4301758982515,
+      "longitude": 10.5134117603302,
+      "locale": "it_IT",
+      "slug": "illeone",
+      "name": "il Leone"
+    },
+    "R549": {
+      "latitude": 40.291824,
+      "longitude": -74.681344,
+      "locale": "en_US",
+      "slug": "quakerbridge",
+      "name": "Quaker Bridge"
+    },
+    "R550": {
+      "latitude": 35.33795,
+      "longitude": -119.03271,
+      "locale": "en_US",
+      "slug": "valleyplaza",
+      "name": "Valley Plaza"
+    },
+    "R559": {
+      "latitude": 50.9365,
+      "longitude": 6.9557,
+      "locale": "de_DE",
+      "slug": "schildergasse",
+      "name": "Schildergasse"
+    },
+    "R562": {
+      "latitude": 41.816509,
+      "longitude": 12.459608,
+      "locale": "it_IT",
+      "slug": "euroma2",
+      "name": "Euroma2"
+    },
+    "R564": {
+      "latitude": 44.03863,
+      "longitude": 12.58765,
+      "locale": "it_IT",
+      "slug": "lebefane",
+      "name": "Le Befane"
+    },
+    "R566": {
+      "latitude": 48.8521,
+      "longitude": 2.3359,
+      "locale": "fr_FR",
+      "slug": "marchesaintgermain",
+      "name": "Marché Saint-Germain"
+    },
+    "R567": {
+      "latitude": -22.998067,
+      "longitude": -43.35127,
+      "locale": "pt_BR",
+      "slug": "villagemall",
+      "name": "VillageMall"
+    },
+    "R582": {
+      "latitude": 40.773584,
+      "longitude": -73.964542,
+      "locale": "en_US",
+      "slug": "uppereastside",
+      "name": "Upper East Side"
+    },
+    "R583": {
+      "latitude": 41.066336,
+      "longitude": 29.017109,
+      "locale": "tr_TR",
+      "slug": "zorlucenter",
+      "name": "Zorlu Center"
+    },
+    "R588": {
+      "latitude": 41.001,
+      "longitude": 29.05479,
+      "locale": "tr_TR",
+      "slug": "akasya",
+      "name": "Akasya"
+    },
+    "R591": {
+      "latitude": 33.88024,
+      "longitude": -84.46835,
+      "locale": "en_US",
+      "slug": "cumberlandmall",
+      "name": "Cumberland Mall"
+    },
+    "R594": {
+      "latitude": 40.71557,
+      "longitude": -73.95988,
+      "locale": "en_US",
+      "slug": "williamsburg",
+      "name": "Williamsburg"
+    },
+    "R595": {
+      "latitude": 24.4886111,
+      "longitude": 54.6097222222222,
+      "locale": "en_AE",
+      "slug": "yasmall",
+      "name": "Yas Mall"
+    },
+    "R596": {
+      "latitude": 25.11842,
+      "longitude": 55.200543,
+      "locale": "en_AE",
+      "slug": "malloftheemirates",
+      "name": "Mall of the Emirates"
+    },
+    "R597": {
+      "latitude": 25.195613989,
+      "longitude": 55.277543085,
+      "locale": "en_AE",
+      "slug": "dubaimall",
+      "name": "Dubai Mall"
+    },
+    "R598": {
+      "latitude": 38.6282157,
+      "longitude": -77.2877284,
+      "locale": "en_US",
+      "slug": "stonebridgepotomactowncenter",
+      "name": "Stonebridge Potomac Town Center"
+    },
+    "R599": {
+      "latitude": 40.983221,
+      "longitude": -111.906456,
+      "locale": "en_US",
+      "slug": "stationpark",
+      "name": "Station Park"
+    },
+    "R601": {
+      "latitude": 49.189363,
+      "longitude": -122.803625,
+      "locale": "en_CA",
+      "slug": "guildfordtowncentre",
+      "name": "Guildford Town Centre"
+    },
+    "R602": {
+      "latitude": 43.771301,
+      "longitude": 11.25345,
+      "locale": "it_IT",
+      "slug": "firenze",
+      "name": "Firenze"
+    },
+    "R606": {
+      "latitude": -34.03492,
+      "longitude": 151.10088,
+      "locale": "en_AU",
+      "slug": "miranda",
+      "name": "Miranda"
+    },
+    "R608": {
+      "latitude": -23.622892,
+      "longitude": -46.697962,
+      "locale": "pt_BR",
+      "slug": "morumbi",
+      "name": "Morumbi"
+    },
+    "R610": {
+      "latitude": 22.38185,
+      "longitude": 114.18881,
+      "locale": "en_HK",
+      "slug": "newtownplaza",
+      "name": "New Town Plaza"
+    },
+    "R612": {
+      "latitude": 40.734751,
+      "longitude": -73.869029,
+      "locale": "en_US",
+      "slug": "queenscenter",
+      "name": "Queens Center"
+    },
+    "R613": {
+      "latitude": 41.812848,
+      "longitude": -72.556558,
+      "locale": "en_US",
+      "slug": "evergreenwalk",
+      "name": "Evergreen Walk"
+    },
+    "R614": {
+      "latitude": 36.816619,
+      "longitude": -76.071055,
+      "locale": "en_US",
+      "slug": "lynnhavenmall",
+      "name": "Lynnhaven Mall"
+    },
+    "R615": {
+      "latitude": 27.38493,
+      "longitude": -82.45268,
+      "locale": "en_US",
+      "slug": "universitytowncenter",
+      "name": "University Town Center"
+    },
+    "R616": {
+      "latitude": 42.764347,
+      "longitude": -84.514723,
+      "locale": "en_US",
+      "slug": "eastwoodtownecenter",
+      "name": "Eastwood Towne Center"
+    },
+    "R622": {
+      "latitude": 42.19863,
+      "longitude": -71.77672,
+      "locale": "en_US",
+      "slug": "theshopsatblackstonevalley",
+      "name": "The Shops at Blackstone Valley"
+    },
+    "R623": {
+      "latitude": 25.7667,
+      "longitude": -80.1935,
+      "locale": "en_US",
+      "slug": "brickellcitycentre",
+      "name": "Brickell City Centre"
+    },
+    "R624": {
+      "latitude": 40.4797222,
+      "longitude": -3.7075,
+      "locale": "es_ES",
+      "slug": "lavaguada",
+      "name": "La Vaguada"
+    },
+    "R625": {
+      "latitude": 45.458953,
+      "longitude": 12.213355,
+      "locale": "it_IT",
+      "slug": "navedevero",
+      "name": "Nave de Vero"
+    },
+    "R626": {
+      "latitude": 59.37027,
+      "longitude": 18.00255,
+      "locale": "sv_SE",
+      "slug": "mallofscandinavia",
+      "name": "Mall of Scandinavia"
+    },
+    "R629": {
+      "latitude": 41.229466,
+      "longitude": -73.225779,
+      "locale": "en_US",
+      "slug": "trumbull",
+      "name": "Trumbull"
+    },
+    "R631": {
+      "latitude": 42.9562362,
+      "longitude": -71.4324994,
+      "locale": "en_US",
+      "slug": "themallofnewhampshire",
+      "name": "The Mall of New Hampshire"
+    },
+    "R650": {
+      "latitude": 36.15009,
+      "longitude": -115.3334,
+      "locale": "en_US",
+      "slug": "summerlin",
+      "name": "Summerlin"
+    },
+    "R654": {
+      "latitude": 40.711721,
+      "longitude": -74.011154,
+      "locale": "en_US",
+      "slug": "worldtradecenter",
+      "name": "World Trade Center"
+    },
+    "R667": {
+      "latitude": 45.465638,
+      "longitude": 9.194489,
+      "locale": "it_IT",
+      "slug": "piazzaliberty",
+      "name": "Piazza Liberty"
+    },
+    "R673": {
+      "latitude": 22.31198,
+      "longitude": 114.224912,
+      "locale": "en_HK",
+      "slug": "apmhongkong",
+      "name": "apm Hong Kong"
+    },
+    "R675": {
+      "latitude": 48.872216692829,
+      "longitude": 2.301233410835,
+      "locale": "fr_FR",
+      "slug": "champs-elysees",
+      "name": "Champs-Élysées"
+    },
+    "R687": {
+      "latitude": 48.206908,
+      "longitude": 16.371731,
+      "locale": "de_AT",
+      "slug": "kaerntnerstrasse",
+      "name": "Kärntner Straße"
+    },
+    "R691": {
+      "latitude": 37.503775,
+      "longitude": 127.02522,
+      "locale": "ko_KR",
+      "slug": "gangnam",
+      "name": "Gangnam"
+    },
+    "R692": {
+      "latitude": 37.5209,
+      "longitude": 127.0228,
+      "locale": "ko_KR",
+      "slug": "garosugil",
+      "name": "Garosugil"
+    },
+    "R694": {
+      "latitude": 25.036067,
+      "longitude": 121.567972,
+      "locale": "zh_TW",
+      "slug": "xinyia13",
+      "name": "Xinyi A13"
+    },
+    "R706": {
+      "latitude": 24.501327,
+      "longitude": 54.388378,
+      "locale": "en_AE",
+      "slug": "almaryahisland",
+      "name": "Al Maryah Island"
+    },
+    "R708": {
+      "latitude": 19.36157,
+      "longitude": -99.2758,
+      "locale": "es_MX",
+      "slug": "viasantafe",
+      "name": "Vía Santa Fe"
+    },
+    "R710": {
+      "latitude": 35.532695,
+      "longitude": 139.695856,
+      "locale": "ja_JP",
+      "slug": "kawasaki",
+      "name": "Kawasaki"
+    },
+    "R711": {
+      "latitude": 35.003825,
+      "longitude": 135.762675,
+      "locale": "ja_JP",
+      "slug": "kyoto",
+      "name": "Kyoto"
+    },
+    "R713": {
+      "latitude": 25.033626,
+      "longitude": 121.564215,
+      "locale": "zh_TW",
+      "slug": "taipei101",
+      "name": "Taipei 101"
+    },
+    "R715": {
+      "latitude": 40.685612,
+      "longitude": -73.978247,
+      "locale": "en_US",
+      "slug": "downtownbrooklyn",
+      "name": "Downtown Brooklyn"
+    },
+    "R718": {
+      "latitude": 35.680176,
+      "longitude": 139.763855,
+      "locale": "ja_JP",
+      "slug": "marunouchi",
+      "name": "Marunouchi"
+    },
+    "R720": {
+      "latitude": 34.0435491,
+      "longitude": -118.2546643,
+      "locale": "en_US",
+      "slug": "towertheatre",
+      "name": "Tower Theatre"
+    },
+    "R724": {
+      "latitude": 40.9647222,
+      "longitude": 29.071944444444,
+      "locale": "tr_TR",
+      "slug": "bagdatcaddesi",
+      "name": "Bağdat Caddesi"
+    },
+    "R728": {
+      "latitude": 13.726822,
+      "longitude": 100.511255,
+      "locale": "th_TH",
+      "slug": "iconsiam",
+      "name": "Iconsiam"
+    },
+    "R733": {
+      "latitude": 13.744892,
+      "longitude": 100.539972,
+      "locale": "th_TH",
+      "slug": "centralworld",
+      "name": "Central World"
+    },
+    "R738": {
+      "latitude": 37.564659,
+      "longitude": 126.982678,
+      "locale": "ko_KR",
+      "slug": "myeongdong",
+      "name": "Myeongdong"
+    },
+    "R740": {
+      "latitude": 19.439993,
+      "longitude": -99.203144,
+      "locale": "es_MX",
+      "slug": "antara",
+      "name": "Antara"
+    },
+    "R742": {
+      "latitude": 3.14227796692266,
+      "longitude": 101.717773733656,
+      "locale": "en_MY",
+      "slug": "exchangetrx",
+      "name": "The Exchange TRX"
+    },
+    "R744": {
+      "latitude": 19.053209,
+      "longitude": 72.849516,
+      "locale": "en_IN",
+      "slug": "bkc",
+      "name": "BKC"
+    },
+    "R746": {
+      "latitude": 32.930392379315,
+      "longitude": -96.819404255932,
+      "locale": "en_US",
+      "slug": "galleriadallas",
+      "name": "Galleria Dallas"
+    },
+    "R747": {
+      "latitude": 37.525,
+      "longitude": 126.92527,
+      "locale": "ko_KR",
+      "slug": "yeouido",
+      "name": "Yeouido"
+    },
+    "R751": {
+      "latitude": 37.512965858126,
+      "longitude": 127.101191657544,
+      "locale": "ko_KR",
+      "slug": "jamsil",
+      "name": "Jamsil"
+    },
+    "R752": {
+      "latitude": 25.78162,
+      "longitude": -80.191812,
+      "locale": "en_US",
+      "slug": "miamiworldcenter",
+      "name": "Miami Worldcenter"
+    },
+    "R753": {
+      "latitude": 40.8638,
+      "longitude": -73.8269,
+      "locale": "en_US",
+      "slug": "themallatbayplaza",
+      "name": "The Mall at Bay Plaza"
+    },
+    "R755": {
+      "latitude": 40.80916,
+      "longitude": -74.06739,
+      "locale": "en_US",
+      "slug": "americandream",
+      "name": "American Dream"
+    },
+    "R756": {
+      "latitude": 28.52877,
+      "longitude": 77.2195,
+      "locale": "en_IN",
+      "slug": "saket",
+      "name": "Saket"
+    },
+    "R757": {
+      "latitude": 19.2218,
+      "longitude": 72.86,
+      "locale": "en_IN",
+      "slug": "borivali",
+      "name": "Borivali"
+    },
+    "R762": {
+      "latitude": 51.481717,
+      "longitude": -0.144469,
+      "locale": "en_GB",
+      "slug": "battersea",
+      "name": "Battersea"
+    },
+    "R763": {
+      "latitude": 42.33469,
+      "longitude": -83.04891,
+      "locale": "en_US",
+      "slug": "downtowndetroit",
+      "name": "Downtown Detroit"
+    },
+    "R764": {
+      "latitude": 37.5551,
+      "longitude": 126.92191,
+      "locale": "ko_KR",
+      "slug": "hongdae",
+      "name": "Hongdae"
+    },
+    "R768": {
+      "latitude": 34.703682,
+      "longitude": 135.495117,
+      "locale": "ja_JP",
+      "slug": "umeda",
+      "name": "Umeda"
+    },
+    "R770": {
+      "latitude": 37.54574,
+      "longitude": 127.224151,
+      "locale": "ko_KR",
+      "slug": "hanam",
+      "name": "Hanam"
+    },
+    "R777": {
+      "latitude": 33.833591,
+      "longitude": -118.350533,
+      "locale": "en_US",
+      "slug": "delamo",
+      "name": "Del Amo"
+    },
+    "R785": {
+      "latitude": 24.2438889,
+      "longitude": 55.7266666666667,
+      "locale": "en_AE",
+      "slug": "aljimimall",
+      "name": "Al Jimi Mall"
+    },
+    "R787": {
+      "latitude": 28.56724,
+      "longitude": 77.32164,
+      "locale": "en_IN",
+      "slug": "noida",
+      "name": "Noida"
+    },
+    "R788": {
+      "latitude": 18.538577,
+      "longitude": 73.907819,
+      "locale": "en_IN",
+      "slug": "koregaonpark",
+      "name": "Koregaon Park"
+    },
+    "R790": {
+      "latitude": 13.07079,
+      "longitude": 77.59069,
+      "locale": "en_IN",
+      "slug": "hebbal",
+      "name": "Hebbal"
+    },
+    "R796": {
+      "latitude": 35.44477,
+      "longitude": -80.8786,
+      "locale": "en_US",
+      "slug": "birkdalevillage",
+      "name": "Birkdale Village"
+    },
+    "R824": {
+      "latitude": 37.33289,
+      "longitude": -122.0052,
+      "locale": "en_US",
+      "slug": "appleparkvisitorcenter",
+      "name": "Apple Park Visitor Center"
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "_comment": "Manual coordinate overrides for stores whose individual retail pages return 404 (Apple has retired the per-country retail microsites for Belgium and Switzerland, even though the stores still exist). Coordinates derived from each store's published street address.",
+  "stores": {
+    "R486": {
+      "latitude": 50.8333,
+      "longitude": 4.3593,
+      "name": "Brussels",
+      "locale": "fr_BE",
+      "slug": "brussels",
+      "source": "manual: Avenue de la Toison d’Or 26/28, 1050 Brussels"
+    },
+    "R159": {
+      "latitude": 47.3727,
+      "longitude": 8.5402,
+      "name": "Rennweg",
+      "locale": "fr_CH",
+      "slug": "rennweg",
+      "source": "manual: Rennweg 43, 8001 Zurich"
+    },
+    "R275": {
+      "latitude": 46.2027,
+      "longitude": 6.1493,
+      "name": "Rue de Rive",
+      "locale": "fr_CH",
+      "slug": "ruederive",
+      "source": "manual: Rue de Rive 4, 1204 Geneva"
+    },
+    "R309": {
+      "latitude": 47.4106,
+      "longitude": 8.5876,
+      "name": "Glattzentrum",
+      "locale": "fr_CH",
+      "slug": "glattzentrum",
+      "source": "manual: Neue Winterthurerstrasse 99, 8301 Glattzentrum bei Wallisellen"
+    },
+    "R439": {
+      "latitude": 47.5559,
+      "longitude": 7.5907,
+      "name": "Freie Strasse",
+      "locale": "fr_CH",
+      "slug": "freiestrasse",
+      "source": "manual: Freie Strasse 47, 4001 Basel"
+    }
+  }
+}

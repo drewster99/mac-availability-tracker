@@ -4,6 +4,12 @@ Each anchor query returns ~12 nearby stores, so one anchor per city gives
 broad coverage in far fewer requests than querying every store individually.
 Designed to stay well under Apple's WAF rate thresholds: 5s global minimum
 gap, 120s cool-off when a 541 response comes back, emphatically polite.
+
+After the anchor sweep, a "straggler" pass directly queries any eligible
+store that still hasn't appeared in any response — typically a few stores
+in regions where the city-anchor heuristic missed (a store that's the only
+one in its city and that no other anchor's nearby-search reached). Iterates
+this pass until no new stores show up.
 """
 from __future__ import annotations
 
@@ -114,6 +120,17 @@ async def _amain(argv: list[str]) -> None:
         default=0,
         help="If > 0, stop after polling this many anchors (smoke tests)",
     )
+    parser.add_argument(
+        "--no-stragglers",
+        action="store_true",
+        help="Skip the second-pass direct-query of stores not reached by any anchor",
+    )
+    parser.add_argument(
+        "--max-straggler-passes",
+        type=int,
+        default=3,
+        help="Cap on follow-up straggler passes (each pass directly queries every still-uncovered store)",
+    )
     args = parser.parse_args(argv)
 
     logging.basicConfig(
@@ -127,6 +144,7 @@ async def _amain(argv: list[str]) -> None:
     with db.connect(args.db) as conn:
         anchor_rows = anchors.pick_anchors(conn, include_locales=include, exclude_locales=exclude)
         sku_rows = list(conn.execute("SELECT * FROM skus"))
+        store_rows = list(conn.execute("SELECT * FROM stores ORDER BY locale, id"))
 
     if not sku_rows:
         raise RuntimeError(
@@ -199,11 +217,97 @@ async def _amain(argv: list[str]) -> None:
                 observed_store_ids.update(_observed_stores_in_latest(args.db, persisted))
 
     log.info(
-        "Done. Snapshots persisted: %d, anchors skipped (already covered): %d, unique stores observed: %d",
+        "Anchor pass done. Snapshots persisted: %d, anchors skipped (already covered): %d, unique stores observed: %d",
         total_persisted,
         skipped_covered,
         len(observed_store_ids),
     )
+
+    if args.no_stragglers:
+        return
+
+    eligible_store_ids = {
+        row["id"]
+        for row in store_rows
+        if row["locale"] not in catalog.UNSUPPORTED_LOCALES
+        and (row["postal_code"] or row["city"])
+        and catalog.LOCALE_TO_REGION.get(row["locale"]) is not None
+        and parts_by_region.get(catalog.LOCALE_TO_REGION.get(row["locale"], ""))
+    }
+    store_by_id = {row["id"]: row for row in store_rows}
+
+    async with AppleShopClient(
+        global_min_gap_seconds=args.global_gap_seconds,
+        region_min_gap_seconds=args.region_gap_seconds,
+        initial_cooloff_seconds=args.cooloff_seconds,
+        rate_file=Path(args.rate_file) if args.rate_file else None,
+    ) as client:
+        for pass_index in range(1, args.max_straggler_passes + 1):
+            uncovered = sorted(eligible_store_ids - observed_store_ids)
+            if not uncovered:
+                log.info("All eligible stores covered — no straggler pass needed")
+                break
+            log.info(
+                "Straggler pass %d/%d: directly querying %d still-uncovered stores",
+                pass_index,
+                args.max_straggler_passes,
+                len(uncovered),
+            )
+            pass_persisted = 0
+            pass_new_observed = 0
+            for store_id in uncovered:
+                store = store_by_id[store_id]
+                locale = store["locale"]
+                region = catalog.LOCALE_TO_REGION[locale]
+                parts = parts_by_region[region]
+                location = store["postal_code"] or store["city"]
+                canary = parts[0]
+                persisted = await _query_one_anchor(
+                    client,
+                    args.db,
+                    anchor_store_id=store_id,
+                    anchor_city=store["city"] or "?",
+                    anchor_locale=locale,
+                    region=region,
+                    location=location,
+                    parts=parts,
+                    canary=canary,
+                    batch_size=args.batch_size,
+                )
+                if persisted > 0:
+                    new_obs = _observed_stores_in_latest(args.db, persisted)
+                    pass_new_observed += len(new_obs - observed_store_ids)
+                    observed_store_ids.update(new_obs)
+                pass_persisted += persisted
+                total_persisted += persisted
+            log.info(
+                "Straggler pass %d: %d snapshots, %d newly observed stores",
+                pass_index,
+                pass_persisted,
+                pass_new_observed,
+            )
+            if pass_new_observed == 0:
+                log.info(
+                    "Straggler pass %d found no new stores; %d stores remain unreachable: %s",
+                    pass_index,
+                    len(uncovered),
+                    sorted(eligible_store_ids - observed_store_ids),
+                )
+                break
+
+    final_uncovered = sorted(eligible_store_ids - observed_store_ids)
+    log.info(
+        "Final coverage: %d / %d eligible stores observed; total snapshots persisted: %d",
+        len(observed_store_ids & eligible_store_ids),
+        len(eligible_store_ids),
+        total_persisted,
+    )
+    if final_uncovered:
+        log.warning(
+            "%d eligible stores remained unreachable: %s",
+            len(final_uncovered),
+            final_uncovered,
+        )
 
 
 def _observed_stores_in_latest(db_path: str, n_snapshots: int) -> set[str]:

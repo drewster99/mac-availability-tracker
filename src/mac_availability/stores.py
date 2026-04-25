@@ -41,6 +41,8 @@ class Store(BaseModel):
     address2: Optional[str] = None
     city: Optional[str] = None
     postal_code: Optional[str] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
     raw: dict = Field(default_factory=dict)
 
 
