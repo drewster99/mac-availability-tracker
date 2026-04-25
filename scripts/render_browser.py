@@ -563,6 +563,10 @@ HTML_TEMPLATE = r"""<!doctype html>
       const av = a.a ? (order[a.a.d] ?? 4) : 5;
       const bv = b.a ? (order[b.a.d] ?? 4) : 5;
       if (av !== bv) return av - bv;
+      const stateCmp = (a.st.state_code || a.st.state_name || '').localeCompare(b.st.state_code || b.st.state_name || '');
+      if (stateCmp !== 0) return stateCmp;
+      const cityCmp = (a.st.city || '').localeCompare(b.st.city || '');
+      if (cityCmp !== 0) return cityCmp;
       return a.st.name.localeCompare(b.st.name);
     });
     for (const { st, a } of rows) {
