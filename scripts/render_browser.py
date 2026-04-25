@@ -346,6 +346,8 @@ HTML_TEMPLATE = r"""<!doctype html>
       chip.addEventListener('click', () => {
         if (state.filters[key].has(val)) state.filters[key].delete(val);
         else state.filters[key].add(val);
+        state.activeSku = null;
+        state.expandedSpecsFor = null;
         rebuildFacets(); renderModels();
       });
       wrap.appendChild(chip);
@@ -748,6 +750,8 @@ HTML_TEMPLATE = r"""<!doctype html>
   $('selectNone').addEventListener('click', () => { state.selectedSkus.clear(); renderModels(); });
   $('resetFilters').addEventListener('click', () => {
     Object.values(state.filters).forEach(s => s.clear());
+    state.activeSku = null;
+    state.expandedSpecsFor = null;
     rebuildFacets(); renderModels();
   });
   $('rollupSel').addEventListener('change', e => {
