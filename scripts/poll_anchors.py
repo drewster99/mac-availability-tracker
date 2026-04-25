@@ -25,7 +25,9 @@ from mac_availability.client import AppleShopClient
 
 log = logging.getLogger("poll_anchors")
 
-DEFAULT_BATCH_SIZE = 50
+DEFAULT_BATCH_SIZE = 16
+"""Apple's pickup-message endpoint silently truncates the parts list at ~20 SKUs
+per request, dropping the alphabetically-later ones. 16 leaves headroom."""
 
 
 def _chunk(seq: list, size: int) -> Iterable[list]:
