@@ -547,11 +547,25 @@ HTML_TEMPLATE = r"""<!doctype html>
       const agg = aggregateForSku(sku.part_number, stores);
       g.avail += agg.avail; g.inelig += agg.inelig; g.unavail += agg.unavail; g.nodata += agg.nodata;
     }
+
+    const banner = document.createElement('div');
+    banner.style.padding = '10px 14px';
+    banner.style.background = '#f5f7ff';
+    banner.style.borderBottom = '1px solid var(--line)';
+    banner.style.fontSize = '12px';
+    banner.style.color = 'var(--ink)';
+    banner.textContent =
+      `${groups.size} group${groups.size === 1 ? '' : 's'} · ${skus.length} SKU${skus.length === 1 ? '' : 's'} · grouped by ${dimensions.join(' + ').replace(/_gb/g, '')}`;
+    if (groups.size === 1) {
+      banner.textContent += ' — try a different roll-up dimension to see more groups, or widen the filters.';
+    }
+    body.appendChild(banner);
+
     const tbl = document.createElement('table');
     tbl.className = 'agg-table';
-    const dimHeaders = dimensions.map(d => `<th>${d}</th>`).join('');
     tbl.innerHTML = `
       <thead><tr>
+        <th></th>
         <th>Group</th>
         <th class="num">SKUs</th>
         <th class="num">Available</th><th class="num">% available</th>
@@ -564,9 +578,13 @@ HTML_TEMPLATE = r"""<!doctype html>
       return { key, g, total, pct };
     });
     rows.sort((a, b) => b.pct - a.pct);
+    let idx = 0;
     for (const { key, g, total, pct } of rows) {
+      const rowId = 'group-' + (idx++);
       const tr = document.createElement('tr');
+      tr.style.cursor = 'pointer';
       tr.innerHTML = `
+        <td style="width:24px;text-align:center;color:var(--muted)" data-toggle="${rowId}">▸</td>
         <td>${rollupKeyLabel(key, dimensions)}</td>
         <td class="num">${g.skus.length}</td>
         <td class="num">${g.avail}</td>
@@ -578,6 +596,57 @@ HTML_TEMPLATE = r"""<!doctype html>
         <td class="num">${g.nodata}</td>
       `;
       tbody.appendChild(tr);
+
+      const expandTr = document.createElement('tr');
+      expandTr.id = rowId;
+      expandTr.style.display = 'none';
+      const expandTd = document.createElement('td');
+      expandTd.colSpan = 8;
+      expandTd.style.padding = '0';
+      expandTd.style.background = '#fafafb';
+      const inner = document.createElement('table');
+      inner.style.width = '100%';
+      inner.style.margin = '0';
+      inner.innerHTML = `<thead><tr>
+          <th style="width:24px"></th>
+          <th>Configuration</th><th>Part</th>
+          <th class="num">Price</th>
+          <th class="num">Available</th><th class="num">% of stores</th>
+        </tr></thead><tbody></tbody>`;
+      const innerBody = inner.querySelector('tbody');
+      g.skus.sort((a, b) => (a.raw_amount || 0) - (b.raw_amount || 0));
+      for (const sku of g.skus) {
+        const skuAgg = aggregateForSku(sku.part_number, stores);
+        const skuTotal = skuAgg.avail + skuAgg.inelig + skuAgg.unavail + skuAgg.nodata;
+        const skuPct = skuTotal ? (100 * skuAgg.avail / skuTotal) : 0;
+        const skuTr = document.createElement('tr');
+        skuTr.style.cursor = 'pointer';
+        skuTr.innerHTML = `
+          <td></td>
+          <td>${familyLabel(sku.family)} · ${skuShortLabel(sku)}</td>
+          <td><code>${sku.part_number}</code></td>
+          <td class="num">${sku.formatted_amount || ''}</td>
+          <td class="num">${skuAgg.avail}</td>
+          <td class="num">${skuPct.toFixed(1)}%
+            <span class="pct-bar"><div style="width:${Math.max(2, skuPct)}%"></div></span>
+          </td>`;
+        skuTr.addEventListener('click', () => {
+          state.activeSku = sku.part_number; state.expandedSpecsFor = sku.part_number;
+          renderModels(); renderRight();
+        });
+        innerBody.appendChild(skuTr);
+      }
+      expandTd.appendChild(inner);
+      expandTr.appendChild(expandTd);
+      tbody.appendChild(expandTr);
+
+      tr.addEventListener('click', () => {
+        const target = document.getElementById(rowId);
+        const isOpen = target.style.display !== 'none';
+        target.style.display = isOpen ? 'none' : '';
+        const tog = tr.querySelector('[data-toggle]');
+        if (tog) tog.textContent = isOpen ? '▸' : '▾';
+      });
     }
     body.appendChild(tbl);
   }
