@@ -16,6 +16,36 @@ from mac_availability.catalog import LOCALE_TO_REGION
 
 log = logging.getLogger("render_browser")
 
+REGION_NAMES: dict[str, str] = {
+    "US": "United States",
+    "CA": "Canada",
+    "MX": "Mexico",
+    "BR": "Brazil",
+    "UK": "United Kingdom",
+    "FR": "France",
+    "DE": "Germany",
+    "IT": "Italy",
+    "ES": "Spain",
+    "NL": "Netherlands",
+    "AT": "Austria",
+    "BE_FR": "Belgium (French)",
+    "BE_NL": "Belgium (Dutch)",
+    "CH_DE": "Switzerland (German)",
+    "CH_FR": "Switzerland (French)",
+    "SE": "Sweden",
+    "TR": "Turkey",
+    "AE": "United Arab Emirates",
+    "IN": "India",
+    "JP": "Japan",
+    "KR": "South Korea",
+    "HK": "Hong Kong",
+    "TW": "Taiwan",
+    "TH": "Thailand",
+    "MY": "Malaysia",
+    "SG": "Singapore",
+    "AU": "Australia",
+}
+
 HTML_TEMPLATE = r"""<!doctype html>
 <html lang="en">
 <head>
@@ -248,8 +278,14 @@ HTML_TEMPLATE = r"""<!doctype html>
     return parts.join(' · ');
   }
 
-  function skusForRegion(region) { return DATA.skus.filter(s => DATA.localeToRegion[s.locale] === region); }
-  function storesForRegion(region) { return DATA.stores.filter(s => DATA.localeToRegion[s.locale] === region); }
+  function skusForRegion(region) {
+    if (region === 'ALL') return DATA.skus.filter(s => DATA.localeToRegion[s.locale]);
+    return DATA.skus.filter(s => DATA.localeToRegion[s.locale] === region);
+  }
+  function storesForRegion(region) {
+    if (region === 'ALL') return DATA.stores.filter(s => DATA.localeToRegion[s.locale]);
+    return DATA.stores.filter(s => DATA.localeToRegion[s.locale] === region);
+  }
 
   function availabilityFor(partNumber, storeId) {
     return DATA.availabilityIndex[partNumber + '\x01' + storeId] || null;
@@ -414,12 +450,12 @@ HTML_TEMPLATE = r"""<!doctype html>
 
     if (state.rollup) {
       $('rightTitle').textContent = 'Roll-up';
-      $('rightSubtitle').textContent = `${visibleSkus.length} models · ${stores.length} stores in ${state.region}`;
+      $('rightSubtitle').textContent = `${visibleSkus.length} models · ${stores.length} stores in ${regionDisplayName(state.region)}`;
       renderRollup(body, visibleSkus, stores, state.rollup.split(','));
       return;
     }
     $('rightTitle').textContent = 'Availability summary';
-    $('rightSubtitle').textContent = `${visibleSkus.length} models · ${stores.length} stores in ${state.region}`;
+    $('rightSubtitle').textContent = `${visibleSkus.length} models · ${stores.length} stores in ${regionDisplayName(state.region)}`;
     renderAggregate(body, visibleSkus, stores);
   }
 
@@ -589,11 +625,21 @@ HTML_TEMPLATE = r"""<!doctype html>
 
   function buildRegionSelector() {
     const select = $('regionSel');
-    const regions = Object.keys(DATA.regionStoreCounts).sort();
+    const totalStores = Object.values(DATA.regionStoreCounts).reduce((a, b) => a + b, 0);
+    const allOpt = document.createElement('option');
+    allOpt.value = 'ALL';
+    allOpt.textContent = `Worldwide — all regions (${totalStores} stores)`;
+    select.appendChild(allOpt);
+    const regions = Object.keys(DATA.regionStoreCounts).sort((a, b) => {
+      const an = (DATA.regionNames || {})[a] || a;
+      const bn = (DATA.regionNames || {})[b] || b;
+      return an.localeCompare(bn);
+    });
     for (const r of regions) {
       const opt = document.createElement('option');
       opt.value = r;
-      opt.textContent = `${r} (${DATA.regionStoreCounts[r]} stores)`;
+      const name = (DATA.regionNames || {})[r] || r;
+      opt.textContent = `${r} — ${name} (${DATA.regionStoreCounts[r]} stores)`;
       if (r === 'US') opt.selected = true;
       select.appendChild(opt);
     }
@@ -609,10 +655,15 @@ HTML_TEMPLATE = r"""<!doctype html>
     updateMeta();
   }
 
+  function regionDisplayName(region) {
+    if (region === 'ALL') return 'Worldwide';
+    return (DATA.regionNames || {})[region] || region;
+  }
+
   function updateMeta() {
     const stores = storesForRegion(state.region);
     const skus = skusForRegion(state.region);
-    $('regionStats').textContent = `${stores.length} stores · ${skus.length} configurations`;
+    $('regionStats').textContent = `${stores.length} stores · ${skus.length} configurations · ${regionDisplayName(state.region)}`;
     $('metaLine').textContent =
       `Snapshot generated ${DATA.generated_at} · ${DATA.totals.stores} stores worldwide · ${DATA.totals.skus} unique part numbers · ${DATA.totals.availability_observations} observations`;
   }
@@ -723,6 +774,7 @@ def build_dataset(db_path: Path) -> dict:
         "availabilityIndex": availability_index,
         "localeToRegion": dict(LOCALE_TO_REGION),
         "regionStoreCounts": region_store_counts,
+        "regionNames": REGION_NAMES,
     }
 
 
