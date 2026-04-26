@@ -15,6 +15,12 @@ Why each variant exists:
 - "uk-region" — repeats with the UK shop variant in case US is hostiler
 - "old-pickup-message" — sanity check: the older endpoint we already use,
   same URL except path is ``/shop/retail/pickup-message``
+- "sec-fetch-headers" — adds the sec-fetch-* and sec-ch-ua client hint headers
+  Chrome sends on real navigations; Akamai sometimes uses these as a signal
+- "tls-impersonate-chrome" — uses ``curl_cffi`` to emit a TLS handshake that
+  matches a real Chrome 120 fingerprint (JA3/JA4); plain Python ``ssl``
+  produces a fingerprint that's distinguishable from any browser, which is
+  exactly what Akamai's bot management screens on
 
 For each variant we print HTTP status, body size, content-type, and the first
 200 chars of the body — so it's obvious whether we got JSON or the
@@ -102,12 +108,73 @@ def build_probes() -> list[Probe]:
             region="UK",
         ),
         Probe(
+            name="sec-fetch-headers (Chrome client-hints)",
+            url=base_us + "&fae=true&pl=true&mts.0=regular&searchNearby=true",
+            headers={
+                **safari_headers,
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+                "sec-ch-ua": '"Chromium";v="124", "Not-A.Brand";v="99"',
+                "sec-ch-ua-mobile": "?0",
+                "sec-ch-ua-platform": '"macOS"',
+                "Sec-Fetch-Dest": "empty",
+                "Sec-Fetch-Mode": "cors",
+                "Sec-Fetch-Site": "same-origin",
+                "Origin": "https://www.apple.com",
+            },
+            warm_get="https://www.apple.com/shop/buy-mac/macbook-pro",
+            region="US",
+        ),
+        Probe(
             name="old-pickup-message (sanity: known-working endpoint)",
             url=f"https://www.apple.com/shop/retail/pickup-message?pl=true&parts.0={encoded_part}&location={ZIP}",
             headers={"Accept": "application/json"},
             region="US",
         ),
     ]
+
+
+async def run_curl_cffi_probe() -> None:
+    """Hit fulfillment-messages using curl_cffi's Chrome TLS impersonation.
+
+    httpx (and Python's stdlib ssl) produce a TLS ClientHello that doesn't
+    match any browser's JA3 fingerprint. Akamai's bot management uses that
+    distinction. ``curl_cffi`` is a Python binding for libcurl-impersonate
+    which emits the byte-for-byte ClientHello of real Chrome/Safari builds.
+    """
+    print("\n=== tls-impersonate-chrome (curl_cffi, JA3 = Chrome 124) ===")
+    try:
+        from curl_cffi import requests as cf_requests
+    except Exception as exc:
+        print(f"curl_cffi import failed: {exc}")
+        return
+
+    encoded_part = quote(PART, safe="")
+    url = (
+        f"https://www.apple.com/shop/fulfillment-messages?fae=true&pl=true"
+        f"&mts.0=regular&parts.0={encoded_part}&location={ZIP}&searchNearby=true"
+    )
+    headers = {
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Referer": "https://www.apple.com/shop/buy-mac/macbook-pro",
+        "X-Requested-With": "XMLHttpRequest",
+    }
+    try:
+        with cf_requests.Session(impersonate="chrome120") as session:
+            warm = session.get("https://www.apple.com/shop/buy-mac/macbook-pro")
+            print(f"Warm-up GET {warm.status_code}; cookies received: {len(session.cookies)}")
+            response = session.get(url, headers=headers)
+    except Exception as exc:
+        print(f"Request failed: {exc}")
+        return
+    body = response.text
+    snippet = body[:200].replace("\n", " ")
+    is_json_ish = body.lstrip().startswith("{")
+    print(
+        f"HTTP {response.status_code}  bytes={len(body)}  "
+        f"content-type={response.headers.get('content-type','?')}  json-ish={is_json_ish}"
+    )
+    print(f"snippet: {snippet}{'…' if len(body) > 200 else ''}")
 
 
 async def run_probe(client: httpx.AsyncClient, probe: Probe) -> None:
@@ -168,6 +235,10 @@ async def main() -> None:
                 await asyncio.sleep(GAP_BETWEEN_REQUESTS_S)
             await run_probe(client, probe)
             client.cookies.clear()
+
+    await asyncio.sleep(GAP_BETWEEN_REQUESTS_S)
+    await run_curl_cffi_probe()
+
     print("\n--- done ---")
     print("If you see HTTP 200 with a JSON body that contains stores or deliveryMessage,")
     print("that variant is the path forward. If everything is HTTP 541 with the 'Page Not Found'")
