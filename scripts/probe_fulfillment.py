@@ -21,6 +21,11 @@ Why each variant exists:
   matches a real Chrome 120 fingerprint (JA3/JA4); plain Python ``ssl``
   produces a fingerprint that's distinguishable from any browser, which is
   exactly what Akamai's bot management screens on
+- "post-empty" / "post-json" — try POST instead of GET, with both an empty
+  body and the parts/location encoded as a JSON object
+- "alternate-host-store" / "alternate-host-secure" — repeat the request
+  against ``store.apple.com`` and ``secure.store.apple.com`` (the legacy
+  store hostnames that still resolve and proxy to apple.com)
 
 For each variant we print HTTP status, body size, content-type, and the first
 200 chars of the body — so it's obvious whether we got JSON or the
@@ -54,6 +59,8 @@ class Probe:
     headers: dict = field(default_factory=dict)
     warm_get: str | None = None
     region: str = ""
+    method: str = "GET"
+    json_body: dict | None = None
 
 
 def build_probes() -> list[Probe]:
@@ -125,6 +132,26 @@ def build_probes() -> list[Probe]:
             region="US",
         ),
         Probe(
+            name="post-json (POST with JSON body)",
+            url="https://www.apple.com/shop/fulfillment-messages?pl=true&searchNearby=true",
+            headers={**safari_headers, "Content-Type": "application/json"},
+            method="POST",
+            json_body={"parts": [PART], "location": ZIP},
+            region="US",
+        ),
+        Probe(
+            name="alternate-host-store (legacy store.apple.com)",
+            url=f"https://store.apple.com/shop/fulfillment-messages?pl=true&parts.0={encoded_part}&location={ZIP}",
+            headers=safari_headers,
+            region="US",
+        ),
+        Probe(
+            name="alternate-host-secure (secure.store.apple.com)",
+            url=f"https://secure.store.apple.com/shop/fulfillment-messages?pl=true&parts.0={encoded_part}&location={ZIP}",
+            headers=safari_headers,
+            region="US",
+        ),
+        Probe(
             name="old-pickup-message (sanity: known-working endpoint)",
             url=f"https://www.apple.com/shop/retail/pickup-message?pl=true&parts.0={encoded_part}&location={ZIP}",
             headers={"Accept": "application/json"},
@@ -193,7 +220,10 @@ async def run_probe(client: httpx.AsyncClient, probe: Probe) -> None:
             print(f"Warm-up failed: {exc}")
 
     try:
-        response = await client.get(probe.url, headers=probe.headers)
+        if probe.method == "POST":
+            response = await client.post(probe.url, headers=probe.headers, json=probe.json_body)
+        else:
+            response = await client.get(probe.url, headers=probe.headers)
     except Exception as exc:
         print(f"Request failed: {exc}")
         return
