@@ -8,5 +8,6 @@ __pycache__/
 /data/rate.json
 /data/shield_cookies.json
 /data/bto_capture*.json
+/data/bto_dom.json
 .claude/
 .DS_Store

@@ -9,7 +9,12 @@ Track Mac product availability and prices across every Apple retail store, world
 3. Polls Apple's `pickup-message` endpoint to record per-store, per-SKU pickup availability.
 4. Renders an interactive Plotly heatmap of SKU × Store availability.
 
-Build-to-order configurations are out of scope — only Apple's preconfigured SKUs (which carry stable part numbers) are tracked.
+Preconfigured SKUs (stable part numbers, ~991 of them) are crawled automatically.
+Build-to-order configs require a one-time recording step — Apple doesn't
+expose BTO part numbers as URL-addressable identifiers, so ``scripts/record_bto.py``
+opens a real browser, you click through every config you care about, and the
+recorder captures every Z-prefixed part number Apple mints into ``bto_skus``.
+After that, ``scripts/poll_bto.py`` polls them like any other SKU.
 
 ## Quick start
 
@@ -31,6 +36,12 @@ open data/heatmap.html
 # Render the interactive browser (filter by family, chip, RAM, storage; ETAs, buyability)
 .venv/bin/python scripts/render_browser.py
 open data/browser.html
+
+# Track build-to-order configs (M4 Max 16/40 Mac Studio, custom RAM/storage iMac, etc.)
+# Step 1 — open a real browser, click through every config you want tracked, then close
+.venv/bin/python scripts/record_bto.py --family mac-studio --locale en_US
+# Step 2 — poll delivery ETAs / buyability for every recorded BTO part number
+.venv/bin/python scripts/poll_bto.py
 ```
 
 The polling client first runs a real Chromium browser via Playwright + Stealth

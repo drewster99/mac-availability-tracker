@@ -96,6 +96,26 @@ CREATE TABLE IF NOT EXISTS delivery_rows (
     FOREIGN KEY (snapshot_id) REFERENCES availability_snapshots(id)
 );
 
+CREATE TABLE IF NOT EXISTS bto_skus (
+    part_number     TEXT NOT NULL,
+    family          TEXT NOT NULL,
+    locale          TEXT NOT NULL,
+    chip            TEXT,
+    cpu_cores       INTEGER,
+    gpu_cores       INTEGER,
+    memory_gb       INTEGER,
+    storage_gb      INTEGER,
+    price_string    TEXT,
+    raw_amount      REAL,
+    currency        TEXT,
+    config_summary  TEXT,
+    discovered_at   TEXT NOT NULL,
+    last_seen_at    TEXT NOT NULL,
+    last_observed_buyable INTEGER,
+    raw_json        TEXT,
+    PRIMARY KEY (part_number, locale)
+);
+
 CREATE INDEX IF NOT EXISTS idx_avail_part_time
   ON availability_snapshots(observed_at DESC);
 
@@ -104,6 +124,9 @@ CREATE INDEX IF NOT EXISTS idx_avail_rows_part
 
 CREATE INDEX IF NOT EXISTS idx_delivery_rows_part
   ON delivery_rows(part_number);
+
+CREATE INDEX IF NOT EXISTS idx_bto_family_locale
+  ON bto_skus(family, locale);
 """
 
 
@@ -364,6 +387,73 @@ def insert_snapshot(conn: sqlite3.Connection, snapshot: AvailabilitySnapshot) ->
         )
     conn.commit()
     return snapshot_id
+
+
+def upsert_bto_sku(
+    conn: sqlite3.Connection,
+    *,
+    part_number: str,
+    locale: str,
+    family: str,
+    chip: Optional[str] = None,
+    cpu_cores: Optional[int] = None,
+    gpu_cores: Optional[int] = None,
+    memory_gb: Optional[int] = None,
+    storage_gb: Optional[int] = None,
+    price_string: Optional[str] = None,
+    raw_amount: Optional[float] = None,
+    currency: Optional[str] = None,
+    config_summary: Optional[str] = None,
+    last_observed_buyable: Optional[bool] = None,
+    raw_json: Optional[str] = None,
+    observed_at: str,
+) -> None:
+    """Insert or update a build-to-order SKU, preserving discovered_at on update.
+
+    A BTO SKU is identified by Apple's allocated part number (typically Z-prefixed)
+    + locale. last_observed_buyable lets the next sweep know whether to bother
+    re-polling (a SKU that returns COMMIT_CODE_NOT_BUYABLE for several runs is
+    likely retired and worth re-minting).
+    """
+    existing = conn.execute(
+        "SELECT discovered_at FROM bto_skus WHERE part_number = ? AND locale = ?",
+        (part_number, locale),
+    ).fetchone()
+    discovered_at = existing["discovered_at"] if existing else observed_at
+    conn.execute(
+        """
+        INSERT OR REPLACE INTO bto_skus
+            (part_number, family, locale, chip, cpu_cores, gpu_cores,
+             memory_gb, storage_gb, price_string, raw_amount, currency,
+             config_summary, discovered_at, last_seen_at,
+             last_observed_buyable, raw_json)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        (
+            part_number,
+            family,
+            locale,
+            chip,
+            cpu_cores,
+            gpu_cores,
+            memory_gb,
+            storage_gb,
+            price_string,
+            raw_amount,
+            currency,
+            config_summary,
+            discovered_at,
+            observed_at,
+            None if last_observed_buyable is None else int(last_observed_buyable),
+            raw_json,
+        ),
+    )
+    conn.commit()
+
+
+def all_bto_skus(conn: sqlite3.Connection) -> list[sqlite3.Row]:
+    """Return every recorded BTO SKU, including ones marked not-buyable."""
+    return list(conn.execute("SELECT * FROM bto_skus ORDER BY family, locale, part_number"))
 
 
 def latest_delivery_per_part(conn: sqlite3.Connection) -> list[sqlite3.Row]:
