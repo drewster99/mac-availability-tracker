@@ -16,6 +16,7 @@ Build-to-order configurations are out of scope — only Apple's preconfigured SK
 ```bash
 python3 -m venv .venv
 .venv/bin/pip install -e .
+.venv/bin/playwright install chromium   # used to bootstrap Apple's SHIELD cookies
 
 # Build the catalog (stores + SKUs across all supported locales)
 .venv/bin/python scripts/refresh_catalog.py --all-locales
@@ -26,7 +27,17 @@ python3 -m venv .venv
 # Render the heatmap
 .venv/bin/python scripts/render_heatmap.py
 open data/heatmap.html
+
+# Render the interactive browser (filter by family, chip, RAM, storage; ETAs, buyability)
+.venv/bin/python scripts/render_browser.py
+open data/browser.html
 ```
+
+The polling client first runs a real Chromium browser via Playwright + Stealth
+to clear Apple's SHIELD bot-detection layer, harvests its cookies into
+``data/shield_cookies.json``, then replays them with plain ``httpx`` for
+cheap subsequent calls. Cookies are refreshed automatically when a 541
+response indicates they've expired.
 
 ## Politeness
 

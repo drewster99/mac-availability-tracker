@@ -127,6 +127,10 @@ HTML_TEMPLATE = r"""<!doctype html>
   .pill.ineligible { background: rgba(227,169,54,0.2); color: #876310; }
   .pill.unavailable { background: rgba(196,60,60,0.18); color: #8c2828; }
   .pill.nodata { background: #ebebef; color: var(--muted); }
+  .ship-badge { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .ship-badge.fast { color: #1c7d4a; }
+  .ship-badge.slow { color: #876310; }
+  .ship-badge.blocked { color: #8c2828; }
 
   .specs { padding: 12px 14px; background: #fafafb; border-top: 1px solid var(--line); display: none; }
   .specs.visible { display: block; }
@@ -293,6 +297,47 @@ HTML_TEMPLATE = r"""<!doctype html>
     return DATA.availabilityIndex[partNumber + '\x01' + storeId] || null;
   }
 
+  function stripHtml(s) {
+    if (!s) return s;
+    // Apple ships sticky messages with inline HTML (<span class="bold">...</span>).
+    // We render with textContent and want the prose, not the markup.
+    return String(s).replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+  }
+
+  function deliveryFor(partNumber, region) {
+    if (region === 'ALL') {
+      // Pick any region's delivery row — typically the US one is most informative.
+      const candidates = ['US', 'CA', 'UK', 'DE', 'JP', 'AU'];
+      for (const r of candidates) {
+        const v = DATA.deliveryIndex[partNumber + '\x01' + r];
+        if (v) return v;
+      }
+      return null;
+    }
+    return DATA.deliveryIndex[partNumber + '\x01' + region] || null;
+  }
+
+  function deliveryBadge(d) {
+    if (!d) return null;
+    if (d.b === 0) {
+      return { cls: 'ship-badge blocked', text: 'Not currently buyable' + (d.cr && d.cr !== 'OK' ? ` (${d.cr})` : '') };
+    }
+    const date = d.d || '';
+    const cost = d.c || '';
+    const cls = (() => {
+      if (!date) return '';
+      const lower = date.toLowerCase();
+      if (lower.includes('today') || lower.includes('tomorrow') || lower.startsWith('within')) return 'fast';
+      if (/[–-]/.test(date) || lower.includes('week')) return 'slow';
+      return '';
+    })();
+    const parts = [];
+    if (date) parts.push(date);
+    if (cost) parts.push(cost);
+    if (!parts.length) return null;
+    return { cls: 'ship-badge ' + cls, text: parts.join(' · ') };
+  }
+
   function pillClass(status) {
     if (status === 'available') return 'pill available';
     if (status === 'ineligible') return 'pill ineligible';
@@ -396,6 +441,13 @@ HTML_TEMPLATE = r"""<!doctype html>
       const m = document.createElement('div'); m.className = 'sku-meta';
       m.textContent = `${familyLabel(sku.family)} · ${sku.part_number}`;
       mid.appendChild(t); mid.appendChild(m);
+      const badge = deliveryBadge(deliveryFor(sku.part_number, state.region));
+      if (badge) {
+        const b = document.createElement('div');
+        b.className = badge.cls;
+        b.textContent = badge.text;
+        mid.appendChild(b);
+      }
       const price = document.createElement('div'); price.className = 'sku-price';
       price.textContent = sku.formatted_amount || '';
 
@@ -416,6 +468,15 @@ HTML_TEMPLATE = r"""<!doctype html>
       ];
       const dims = sku.dimensions || {};
       for (const [k, v] of Object.entries(dims)) rows.push(['dim/' + k, v]);
+      const deliv = deliveryFor(sku.part_number, state.region);
+      if (deliv) {
+        if (deliv.d) rows.push(['Delivery', `${deliv.d}${deliv.c ? ' · ' + deliv.c : ''}${deliv.n ? ' (' + deliv.n + ')' : ''}`]);
+        if (deliv.ob) rows.push(['Order by', deliv.ob]);
+        if (deliv.b !== null && deliv.b !== undefined) rows.push(['Buyable', deliv.b ? 'yes' : `no${deliv.cr ? ' (' + deliv.cr + ')' : ''}`]);
+        if (deliv.cc) rows.push(['Commit code', deliv.cc]);
+        if (deliv.ss) rows.push(['Ship-to-home', stripHtml(deliv.ss)]);
+        if (deliv.si) rows.push(['Same-day', stripHtml(deliv.si)]);
+      }
       for (const [k, v] of rows) {
         const dt = document.createElement('dt'); dt.textContent = k;
         const dd = document.createElement('dd'); dd.style.margin = 0; dd.textContent = v;
@@ -739,7 +800,7 @@ HTML_TEMPLATE = r"""<!doctype html>
     const skus = skusForRegion(state.region);
     $('regionStats').textContent = `${stores.length} stores · ${skus.length} configurations · ${regionDisplayName(state.region)}`;
     $('metaLine').textContent =
-      `Snapshot generated ${DATA.generated_at} · ${DATA.totals.stores} stores worldwide · ${DATA.totals.skus} unique part numbers · ${DATA.totals.availability_observations} observations`;
+      `Snapshot generated ${DATA.generated_at} · ${DATA.totals.stores} stores worldwide · ${DATA.totals.skus} unique part numbers · ${DATA.totals.availability_observations} pickup observations · ${DATA.totals.delivery_observations || 0} delivery observations`;
   }
 
   buildRegionSelector();
@@ -846,6 +907,41 @@ def build_dataset(db_path: Path) -> dict:
             continue
         region_store_counts[region] = region_store_counts.get(region, 0) + 1
 
+    delivery_index: dict[str, dict] = {}
+    for row in conn.execute(
+        """
+        WITH ranked AS (
+            SELECT
+                d.part_number, d.delivery_date, d.delivery_cost, d.delivery_display,
+                d.encoded_date, d.order_by_cutoff, d.is_buyable, d.commit_code,
+                d.commit_reason, d.idl_eligible, d.sticky_sth, d.sticky_idl,
+                s.region, s.observed_at,
+                ROW_NUMBER() OVER (
+                    PARTITION BY d.part_number, s.region
+                    ORDER BY s.observed_at DESC
+                ) AS rn
+            FROM delivery_rows d
+            JOIN availability_snapshots s ON s.id = d.snapshot_id
+        )
+        SELECT * FROM ranked WHERE rn = 1
+        """
+    ):
+        key = f"{row['part_number']}\x01{row['region']}"
+        delivery_index[key] = {
+            "d": row["delivery_date"],
+            "c": row["delivery_cost"],
+            "n": row["delivery_display"],
+            "e": row["encoded_date"],
+            "ob": row["order_by_cutoff"],
+            "b": row["is_buyable"],
+            "cc": row["commit_code"],
+            "cr": row["commit_reason"],
+            "i": row["idl_eligible"],
+            "ss": row["sticky_sth"],
+            "si": row["sticky_idl"],
+            "t": row["observed_at"],
+        }
+
     conn.close()
 
     return {
@@ -854,10 +950,12 @@ def build_dataset(db_path: Path) -> dict:
             "stores": len(stores),
             "skus": len(skus),
             "availability_observations": len(availability_index),
+            "delivery_observations": len(delivery_index),
         },
         "stores": stores,
         "skus": skus,
         "availabilityIndex": availability_index,
+        "deliveryIndex": delivery_index,
         "localeToRegion": dict(LOCALE_TO_REGION),
         "regionStoreCounts": region_store_counts,
         "regionNames": REGION_NAMES,

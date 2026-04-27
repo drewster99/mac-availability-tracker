@@ -19,7 +19,7 @@ import logging
 from pathlib import Path
 from typing import Iterable, Optional
 
-from mac_availability import anchors, availability, catalog, db
+from mac_availability import anchors, availability, catalog, db, shield
 from mac_availability.client import AppleShopClient
 
 
@@ -178,12 +178,23 @@ async def _amain(argv: list[str]) -> None:
     total_persisted = 0
     skipped_covered = 0
     observed_store_ids: set[str] = set()
+
+    session = await shield.aget_session()
+
+    async def refresh_shield(_client: AppleShopClient, _url: str, _status: int) -> None:
+        log.warning("Re-bootstrapping SHIELD cookies after rate-limit response")
+        new_session = await shield.aget_session(force_refresh=True)
+        _client.set_cookies(new_session.cookies)
+
     async with AppleShopClient(
         global_min_gap_seconds=args.global_gap_seconds,
         region_min_gap_seconds=args.region_gap_seconds,
         initial_cooloff_seconds=args.cooloff_seconds,
         rate_file=Path(args.rate_file) if args.rate_file else None,
+        default_user_agent=session.user_agent,
+        default_cookies=session.cookies,
     ) as client:
+        client.set_rate_limit_callback(refresh_shield)
         for anchor in anchor_rows:
             locale = anchor["locale"]
             anchor_id = anchor["id"]
@@ -243,7 +254,10 @@ async def _amain(argv: list[str]) -> None:
         region_min_gap_seconds=args.region_gap_seconds,
         initial_cooloff_seconds=args.cooloff_seconds,
         rate_file=Path(args.rate_file) if args.rate_file else None,
+        default_user_agent=session.user_agent,
+        default_cookies=session.cookies,
     ) as client:
+        client.set_rate_limit_callback(refresh_shield)
         for pass_index in range(1, args.max_straggler_passes + 1):
             uncovered = sorted(eligible_store_ids - observed_store_ids)
             if not uncovered:

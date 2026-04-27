@@ -10,6 +10,8 @@ dependencies = [
     "plotly>=5.20",
     "pandas>=2.2",
     "python-dotenv>=1.0",
+    "playwright>=1.45",
+    "playwright-stealth>=2.0",
 ]
 
 [build-system]

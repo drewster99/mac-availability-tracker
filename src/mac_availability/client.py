@@ -26,9 +26,17 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
+from typing import Awaitable, Callable
+
 import httpx
 
 log = logging.getLogger(__name__)
+
+RateLimitCallback = Callable[["AppleShopClient", str, int], Awaitable[None]]
+"""Async callback invoked when a 541/429 fires — passed (client, url, status).
+
+The callback runs after the cool-off is set but before the request is retried;
+the typical use is to refresh SHIELD cookies and call ``client.set_cookies``."""
 
 
 APPLE_SOFT_RATE_LIMIT = 541
@@ -113,6 +121,8 @@ class AppleShopClient:
         gap_growth_factor: float = 1.5,
         max_global_gap_seconds: float = 30.0,
         rate_file: Optional[Path] = None,
+        default_user_agent: Optional[str] = None,
+        default_cookies: Optional[dict[str, str]] = None,
     ) -> None:
         self._region_min_gap_seconds = region_min_gap_seconds
         self._jitter_fraction = jitter_fraction
@@ -145,10 +155,15 @@ class AppleShopClient:
         self._limiters_lock = asyncio.Lock()
         self._cooloff_until: float = 0.0
         self._cooloff_lock = asyncio.Lock()
+        self._default_user_agent = default_user_agent
+        self._on_rate_limit: Optional[RateLimitCallback] = None
+        self._on_rate_limit_lock = asyncio.Lock()
+        self._on_rate_limit_in_flight = False
         self._client = httpx.AsyncClient(
             timeout=timeout_seconds,
             follow_redirects=True,
             http2=False,
+            cookies=default_cookies or {},
         )
 
     async def __aenter__(self) -> "AppleShopClient":
@@ -227,6 +242,52 @@ class AppleShopClient:
                     except Exception as exc:
                         log.warning("Failed to persist rate file %s: %s", self._rate_file, exc)
 
+    REFRESH_COOLOFF_FLOOR_SECONDS = 30.0
+    """Minimum cool-off held while the rate-limit callback runs.
+
+    The callback typically re-bootstraps SHIELD via Playwright (~15 s). If
+    the server-supplied Retry-After is shorter than this, other coroutines
+    would exit the cool-off and fire requests with stale cookies before the
+    refresh completes. Holding the floor prevents that race.
+    """
+
+    async def _invoke_rate_limit_callback(self, url: str, status: int) -> None:
+        """Run the registered hook at most once per concurrent cool-off event.
+
+        Many in-flight coroutines may all observe a 541 in quick succession;
+        we only want to refresh once. While the callback runs, the cool-off
+        is held to a floor so other coroutines don't fire requests with
+        stale cookies before the refresh completes.
+        """
+        async with self._on_rate_limit_lock:
+            if self._on_rate_limit_in_flight or self._on_rate_limit is None:
+                return
+            self._on_rate_limit_in_flight = True
+            callback = self._on_rate_limit
+
+        # Hold the cool-off floor across the callback's lifetime so concurrent
+        # coroutines don't beat it to the next request with stale cookies.
+        async with self._cooloff_lock:
+            now = asyncio.get_event_loop().time()
+            floor_until = now + self.REFRESH_COOLOFF_FLOOR_SECONDS
+            if floor_until > self._cooloff_until:
+                self._cooloff_until = floor_until
+                log.info(
+                    "Holding cool-off +%.0fs while rate-limit callback runs",
+                    self.REFRESH_COOLOFF_FLOOR_SECONDS,
+                )
+
+        try:
+            await callback(self, url, status)
+        except Exception as exc:
+            log.error(
+                "Rate-limit callback failed: %s — next request will likely 541 again",
+                exc,
+            )
+        finally:
+            async with self._on_rate_limit_lock:
+                self._on_rate_limit_in_flight = False
+
     async def _limiter_for(self, region: str) -> RegionLimiter:
         async with self._limiters_lock:
             limiter = self._limiters.get(region)
@@ -238,6 +299,26 @@ class AppleShopClient:
                 self._limiters[region] = limiter
             return limiter
 
+    def set_cookies(self, cookies: dict[str, str]) -> None:
+        """Replace the cookie jar shared by all requests on this client.
+
+        Used to plug in fresh SHIELD cookies after a re-bootstrap so that the
+        next requests get past Apple's bot-detection edge.
+        """
+        self._client.cookies.clear()
+        for name, value in cookies.items():
+            self._client.cookies.set(name, value, domain=".apple.com")
+
+    def set_rate_limit_callback(self, callback: Optional[RateLimitCallback]) -> None:
+        """Register an async hook that runs once per cool-off event.
+
+        The callback is invoked at most once per cool-off (concurrent 541s
+        coalesce). It runs *after* the cool-off has been set but *before* the
+        retry, so it can refresh cookies that the next attempt will use. Pass
+        ``None`` to clear the hook.
+        """
+        self._on_rate_limit = callback
+
     async def get(
         self,
         url: str,
@@ -245,6 +326,7 @@ class AppleShopClient:
         region: str = "global",
         accept: str = "text/html",
         referer: Optional[str] = None,
+        extra_headers: Optional[dict[str, str]] = None,
     ) -> httpx.Response:
         """Fetch ``url`` with politeness controls, retrying transient failures.
 
@@ -255,8 +337,12 @@ class AppleShopClient:
         """
         limiter = await self._limiter_for(region)
         headers: dict[str, str] = {"Accept": accept}
+        if self._default_user_agent is not None:
+            headers["User-Agent"] = self._default_user_agent
         if referer is not None:
             headers["Referer"] = referer
+        if extra_headers:
+            headers.update(extra_headers)
 
         attempt = 0
         backoff_seconds = 2.0
@@ -292,6 +378,8 @@ class AppleShopClient:
                 if is_rate_limit:
                     retry_after_hint = _parse_retry_after(response.headers.get("Retry-After"))
                     await self._trigger_cooloff(retry_after_hint)
+                    if self._on_rate_limit is not None:
+                        await self._invoke_rate_limit_callback(url, response.status_code)
                 log.warning(
                     "HTTP %d for %s (attempt %d/%d), backing off %.1fs",
                     response.status_code,

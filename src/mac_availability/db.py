@@ -78,11 +78,32 @@ CREATE TABLE IF NOT EXISTS availability_rows (
     FOREIGN KEY (snapshot_id) REFERENCES availability_snapshots(id)
 );
 
+CREATE TABLE IF NOT EXISTS delivery_rows (
+    snapshot_id          INTEGER NOT NULL,
+    part_number          TEXT NOT NULL,
+    delivery_date        TEXT,
+    delivery_cost        TEXT,
+    delivery_display     TEXT,
+    encoded_date         TEXT,
+    order_by_cutoff      TEXT,
+    is_buyable           INTEGER,
+    commit_code          TEXT,
+    commit_reason        TEXT,
+    idl_eligible         INTEGER,
+    sticky_sth           TEXT,
+    sticky_idl           TEXT,
+    PRIMARY KEY (snapshot_id, part_number),
+    FOREIGN KEY (snapshot_id) REFERENCES availability_snapshots(id)
+);
+
 CREATE INDEX IF NOT EXISTS idx_avail_part_time
   ON availability_snapshots(observed_at DESC);
 
 CREATE INDEX IF NOT EXISTS idx_avail_rows_part
   ON availability_rows(part_number, store_id);
+
+CREATE INDEX IF NOT EXISTS idx_delivery_rows_part
+  ON delivery_rows(part_number);
 """
 
 
@@ -311,8 +332,78 @@ def insert_snapshot(conn: sqlite3.Connection, snapshot: AvailabilitySnapshot) ->
             """,
             rows,
         )
+    delivery_rows = [
+        (
+            snapshot_id,
+            d.part_number,
+            d.delivery_date,
+            d.delivery_cost,
+            d.delivery_display,
+            d.encoded_date,
+            d.order_by_cutoff,
+            None if d.is_buyable is None else int(d.is_buyable),
+            d.commit_code,
+            d.commit_reason,
+            None if d.idl_eligible is None else int(d.idl_eligible),
+            d.sticky_sth,
+            d.sticky_idl,
+        )
+        for d in snapshot.deliveries
+    ]
+    if delivery_rows:
+        conn.executemany(
+            """
+            INSERT OR REPLACE INTO delivery_rows
+                (snapshot_id, part_number, delivery_date, delivery_cost,
+                 delivery_display, encoded_date, order_by_cutoff,
+                 is_buyable, commit_code, commit_reason, idl_eligible,
+                 sticky_sth, sticky_idl)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            delivery_rows,
+        )
     conn.commit()
     return snapshot_id
+
+
+def latest_delivery_per_part(conn: sqlite3.Connection) -> list[sqlite3.Row]:
+    """For each (part_number, region), return the most recent delivery row.
+
+    A part is queried from many ZIPs across a sweep; we pick the most recent
+    observation per (part_number, region). Caller can filter by region.
+    """
+    return list(
+        conn.execute(
+            """
+            WITH ranked AS (
+                SELECT
+                    d.part_number       AS part_number,
+                    d.delivery_date     AS delivery_date,
+                    d.delivery_cost     AS delivery_cost,
+                    d.delivery_display  AS delivery_display,
+                    d.encoded_date      AS encoded_date,
+                    d.order_by_cutoff   AS order_by_cutoff,
+                    d.is_buyable        AS is_buyable,
+                    d.commit_code       AS commit_code,
+                    d.commit_reason     AS commit_reason,
+                    d.idl_eligible      AS idl_eligible,
+                    d.sticky_sth        AS sticky_sth,
+                    d.sticky_idl        AS sticky_idl,
+                    s.observed_at       AS observed_at,
+                    s.region            AS region,
+                    s.location          AS location,
+                    ROW_NUMBER() OVER (
+                        PARTITION BY d.part_number, s.region
+                        ORDER BY s.observed_at DESC
+                    ) AS rn
+                FROM delivery_rows d
+                JOIN availability_snapshots s ON s.id = d.snapshot_id
+            )
+            SELECT * FROM ranked WHERE rn = 1
+            ORDER BY part_number, region
+            """
+        )
+    )
 
 
 def latest_availability_per_part_store(
