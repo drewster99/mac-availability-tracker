@@ -127,6 +127,7 @@ HTML_TEMPLATE = r"""<!doctype html>
   .pill.ineligible { background: rgba(227,169,54,0.2); color: #876310; }
   .pill.unavailable { background: rgba(196,60,60,0.18); color: #8c2828; }
   .pill.nodata { background: #ebebef; color: var(--muted); }
+  .pill.bto-pill { background: rgba(0,113,227,0.16); color: #054ba8; font-size: 10px; letter-spacing: 0.04em; }
   .ship-badge { font-size: 11px; color: var(--muted); margin-top: 2px; }
   .ship-badge.fast { color: #1c7d4a; }
   .ship-badge.slow { color: #876310; }
@@ -170,6 +171,9 @@ HTML_TEMPLATE = r"""<!doctype html>
         <div class="facet"><h3>Storage</h3><div class="chip-row" id="facetStorage"></div></div>
         <div class="facet"><h3>CPU cores</h3><div class="chip-row" id="facetCpu"></div></div>
         <div class="facet"><h3>GPU cores</h3><div class="chip-row" id="facetGpu"></div></div>
+        <div class="facet"><h3>Buyability</h3><div class="chip-row" id="facetBuyability"></div></div>
+        <div class="facet"><h3>Ship speed</h3><div class="chip-row" id="facetShipSpeed"></div></div>
+        <div class="facet"><h3>SKU type</h3><div class="chip-row" id="facetSkuType"></div></div>
       </div>
       <div style="margin-top: 8px"><button class="chip" id="resetFilters" type="button">Reset filters</button></div>
     </fieldset>
@@ -234,6 +238,9 @@ HTML_TEMPLATE = r"""<!doctype html>
       storage_gb: new Set(),
       cpu_cores: new Set(),
       gpu_cores: new Set(),
+      buyability: new Set(),
+      ship_speed: new Set(),
+      sku_type: new Set(),
     },
     selectedSkus: new Set(),
     expandedSpecsFor: null,
@@ -349,6 +356,25 @@ HTML_TEMPLATE = r"""<!doctype html>
   // --- facet machinery -------------------------------------------------------
   function regionalSkus() { return skusForRegion(state.region); }
 
+  function buyabilityKey(sku) {
+    const d = deliveryFor(sku.part_number, state.region);
+    if (!d) return 'unknown';
+    if (d.b === 0) return 'discontinued';
+    if (d.b === 1) return 'buyable';
+    return 'unknown';
+  }
+
+  function shipSpeedKey(sku) {
+    const d = deliveryFor(sku.part_number, state.region);
+    if (!d || !d.d) return 'unknown';
+    const lower = String(d.d).toLowerCase();
+    if (lower.includes('today') || lower.startsWith('within')) return 'same-day';
+    if (lower.includes('tomorrow')) return 'tomorrow';
+    if (/[–-]/.test(d.d) || lower.includes('week')) return 'long-lead';
+    if (/\d/.test(d.d)) return 'days';  // e.g. "Apr 30"
+    return 'unknown';
+  }
+
   function applyFilters(skus) {
     const f = state.filters;
     return skus.filter(s => {
@@ -358,6 +384,9 @@ HTML_TEMPLATE = r"""<!doctype html>
       if (f.storage_gb.size && !f.storage_gb.has(String(s.storage_gb || '__none__'))) return false;
       if (f.cpu_cores.size && !f.cpu_cores.has(String(s.cpu_cores || '__none__'))) return false;
       if (f.gpu_cores.size && !f.gpu_cores.has(String(s.gpu_cores || '__none__'))) return false;
+      if (f.buyability.size && !f.buyability.has(buyabilityKey(s))) return false;
+      if (f.ship_speed.size && !f.ship_speed.has(shipSpeedKey(s))) return false;
+      if (f.sku_type.size && !f.sku_type.has(s.is_bto ? 'bto' : 'preconfigured')) return false;
       return true;
     });
   }
@@ -399,6 +428,10 @@ HTML_TEMPLATE = r"""<!doctype html>
     }
   }
 
+  const BUYABILITY_LABELS = {buyable: 'buyable', discontinued: 'discontinued', unknown: 'unknown'};
+  const SHIP_LABELS = {'same-day': 'today / 2-hr', tomorrow: 'tomorrow', days: 'this week', 'long-lead': 'long lead', unknown: 'unknown'};
+  const SKU_TYPE_LABELS = {preconfigured: 'preconfigured', bto: 'build-to-order'};
+
   function rebuildFacets() {
     buildFacet('facetFamily', 'family', s => s.family, v => familyLabel(v));
     buildFacet('facetChip', 'chip', s => s.chip, v => chipLabel(v));
@@ -406,6 +439,9 @@ HTML_TEMPLATE = r"""<!doctype html>
     buildFacet('facetStorage', 'storage_gb', s => s.storage_gb, v => storageLabel(Number(v)));
     buildFacet('facetCpu', 'cpu_cores', s => s.cpu_cores, v => v + ' core');
     buildFacet('facetGpu', 'gpu_cores', s => s.gpu_cores, v => v + ' core');
+    buildFacet('facetBuyability', 'buyability', s => buyabilityKey(s), v => BUYABILITY_LABELS[v] || v);
+    buildFacet('facetShipSpeed', 'ship_speed', s => shipSpeedKey(s), v => SHIP_LABELS[v] || v);
+    buildFacet('facetSkuType', 'sku_type', s => s.is_bto ? 'bto' : 'preconfigured', v => SKU_TYPE_LABELS[v] || v);
   }
 
   // --- model list ------------------------------------------------------------
@@ -438,6 +474,13 @@ HTML_TEMPLATE = r"""<!doctype html>
       const mid = document.createElement('div');
       const t = document.createElement('div'); t.className = 'sku-title';
       t.textContent = skuShortLabel(sku);
+      if (sku.is_bto) {
+        const tag = document.createElement('span');
+        tag.className = 'pill bto-pill';
+        tag.textContent = 'BTO';
+        tag.style.marginLeft = '6px';
+        t.appendChild(tag);
+      }
       const m = document.createElement('div'); m.className = 'sku-meta';
       m.textContent = `${familyLabel(sku.family)} · ${sku.part_number}`;
       mid.appendChild(t); mid.appendChild(m);
@@ -468,6 +511,8 @@ HTML_TEMPLATE = r"""<!doctype html>
       ];
       const dims = sku.dimensions || {};
       for (const [k, v] of Object.entries(dims)) rows.push(['dim/' + k, v]);
+      if (sku.is_bto && sku.config_summary) rows.push(['BTO summary', sku.config_summary]);
+      if (sku.is_bto) rows.push(['Type', 'Build-to-order (Z-prefix)']);
       const deliv = deliveryFor(sku.part_number, state.region);
       if (deliv) {
         if (deliv.d) rows.push(['Delivery', `${deliv.d}${deliv.c ? ' · ' + deliv.c : ''}${deliv.n ? ' (' + deliv.n + ')' : ''}`]);
@@ -800,7 +845,7 @@ HTML_TEMPLATE = r"""<!doctype html>
     const skus = skusForRegion(state.region);
     $('regionStats').textContent = `${stores.length} stores · ${skus.length} configurations · ${regionDisplayName(state.region)}`;
     $('metaLine').textContent =
-      `Snapshot generated ${DATA.generated_at} · ${DATA.totals.stores} stores worldwide · ${DATA.totals.skus} unique part numbers · ${DATA.totals.availability_observations} pickup observations · ${DATA.totals.delivery_observations || 0} delivery observations`;
+      `Snapshot generated ${DATA.generated_at} · ${DATA.totals.stores} stores · ${DATA.totals.skus} part numbers (${DATA.totals.preconfigured_skus || DATA.totals.skus} preconfigured + ${DATA.totals.bto_skus || 0} BTO) · ${DATA.totals.availability_observations} pickup obs · ${DATA.totals.delivery_observations || 0} delivery obs`;
   }
 
   buildRegionSelector();
@@ -872,6 +917,34 @@ def build_dataset(db_path: Path) -> dict:
                 "storage_gb": row["storage_gb"],
                 "slug": row["slug"],
                 "dimensions": json.loads(row["dimensions_json"]) if row["dimensions_json"] else {},
+                "is_bto": False,
+            }
+        )
+
+    # Merge in BTO SKUs (build-to-order configs recorded via scripts/record_bto.py).
+    for row in conn.execute(
+        "SELECT * FROM bto_skus ORDER BY family, raw_amount, part_number"
+    ):
+        if row["part_number"] in seen_parts:
+            continue
+        seen_parts.add(row["part_number"])
+        skus.append(
+            {
+                "part_number": row["part_number"],
+                "family": row["family"],
+                "raw_amount": row["raw_amount"],
+                "formatted_amount": row["price_string"],
+                "currency": row["currency"],
+                "locale": row["locale"],
+                "chip": row["chip"],
+                "cpu_cores": row["cpu_cores"],
+                "gpu_cores": row["gpu_cores"],
+                "memory_gb": row["memory_gb"],
+                "storage_gb": row["storage_gb"],
+                "slug": None,
+                "dimensions": {},
+                "is_bto": True,
+                "config_summary": row["config_summary"],
             }
         )
 
@@ -944,11 +1017,14 @@ def build_dataset(db_path: Path) -> dict:
 
     conn.close()
 
+    bto_count = sum(1 for s in skus if s.get("is_bto"))
     return {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "totals": {
             "stores": len(stores),
             "skus": len(skus),
+            "preconfigured_skus": len(skus) - bto_count,
+            "bto_skus": bto_count,
             "availability_observations": len(availability_index),
             "delivery_observations": len(delivery_index),
         },
